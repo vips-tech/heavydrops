@@ -30,43 +30,36 @@ const Session = {
 
     updateNav: async () => {
         const user = await Session.getUser();
-        // Target specifically the right-side auth container
         const authContainer = document.querySelector('.nav-auth-channel');
         if (!authContainer) return;
 
         let html = '';
 
         if (user) {
-            html += `<a href="/wallet" class="nav-item">Wallet</a>`;
-
-            // Logic for "Book a Visit" is context dependent (active blocks), 
-            // but for global header we can show "Intent Path" if relevant or keep it clean.
-            // Requirement: "Book a Visit (if blocked design exists)" -> This requires fetching state.
-            // For MVP simplicity in header, we can link to Intent Path if authenticated.
-
             if (user.role === 'admin') {
-                html += `<a href="/admin" class="nav-item highlight">Admin</a>`;
+                html += `<a href="/admin.html" class="nav-item">ADMIN</a>`;
             } else if (user.role === 'seller') {
-                html += `<a href="/seller-dashboard" class="nav-item highlight">Dashboard</a>`;
+                html += `<a href="/seller-dashboard.html" class="nav-item">DASHBOARD</a>`;
             } else {
-                // Buyer
-                html += `<a href="/profile/likes" class="nav-item">Profile</a>`;
+                // Buyer - show liked and wallet
+                html += `<a href="/profile/likes.html" class="nav-item">LIKED</a>`;
+                html += `<a href="/wallet.html" class="nav-item">WALLET</a>`;
             }
 
-            html += `<a href="#" onclick="Session.logout()" class="nav-item">Logout</a>`;
+            html += `<a href="#" onclick="Session.logout()" class="nav-item">LOGOUT</a>`;
         } else {
-            // Seller login must NOT mix with buyer login publicly in nav as per requirement "Seller login must NOT mix"
-            // But usually a generic Login leads to role selection or separate link.
-            // Requirement: "Login / Profile"
-            html += `<a href="/login" class="nav-item">Login</a>`;
+            html += `<a href="/login.html" class="nav-item">LOGIN</a>`;
         }
 
         authContainer.innerHTML = html;
 
-        // Also highlight active center link
+        // Highlight active link
         const currentPath = window.location.pathname;
-        document.querySelectorAll('.nav-center a').forEach(link => {
-            if (link.getAttribute('href') === currentPath) link.classList.add('active');
+        document.querySelectorAll('.nav-center a, .nav-auth-channel a').forEach(link => {
+            const href = link.getAttribute('href');
+            if (href && href !== '#' && (href === currentPath || currentPath.startsWith(href))) {
+                link.classList.add('active');
+            }
         });
     },
 
@@ -77,5 +70,7 @@ const Session = {
 };
 
 // Auto-run on load
-document.addEventListener('DOMContentLoaded', Session.updateNav);
+document.addEventListener('DOMContentLoaded', () => {
+    Session.updateNav();
+});
 window.Session = Session;

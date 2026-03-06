@@ -11,6 +11,8 @@
         rel="stylesheet">
     <link rel="stylesheet" href="/css/design-system.css">
     <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/mobile-nav.css">
+    <script src="/js/session.js"></script>
     <style>
         .hero-banner {
             background: var(--color-noir);
@@ -39,6 +41,13 @@
             display: flex;
             gap: 20px;
             align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-bar span {
+            font-weight: 500;
+            margin-right: auto;
+            /* Push filters to the right or new line on mobile */
         }
 
         select {
@@ -46,6 +55,36 @@
             border: 1px solid var(--color-gray-soft);
             border-radius: var(--radius-sm);
             font-family: var(--font-body);
+            flex: 1 1 auto;
+            min-width: 120px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-banner {
+                padding: 60px 0;
+                margin-bottom: 30px;
+            }
+
+            .filter-bar {
+                padding: 16px;
+                gap: 12px;
+            }
+
+            .filter-bar span {
+                width: 100%;
+                /* Take full width on mobile */
+                margin-bottom: 4px;
+            }
+
+            select {
+                flex: 1 1 100%;
+                /* Each select takes full line on mobile if needed, or splits if possible */
+            }
+
+            .design-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
         }
     </style>
 </head>
@@ -56,15 +95,12 @@
         <div class="nav-left">
             <a href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
                 <img src="/assets/logo.png" alt="Heavy Drops">
-                <span
-                    style="font-family: 'Outfit'; font-weight: 600; font-size: 1.2rem; color: #1a1a1a; letter-spacing: -0.02em;">HEAVY
-                    DROPS</span>
+                <span style="font-family: 'Outfit'; font-weight: 600; font-size: 1.2rem; color: #1a1a1a; letter-spacing: -0.02em;">HEAVY DROPS</span>
             </a>
         </div>
         <div class="nav-center">
-            <a href="/">Home</a>
-            <a href="/collection">Discover</a>
-            <a href="/profile/likes">Liked</a>
+            <a href="/" class="active">HOME</a>
+            <a href="/collection.html">DISCOVER</a>
         </div>
         <div class="nav-right">
             <div class="nav-auth-channel">
@@ -72,14 +108,6 @@
             </div>
         </div>
     </nav>
-
-
-
-
-
-
-
-
 
     <header class="hero-banner">
         <div class="container animate-entrance">
@@ -232,13 +260,6 @@
         init();
     </script>
 
-
-
-
-
-
-
-
     <footer class="std-footer">
         <div class="container">
             <div class="footer-grid">
@@ -284,7 +305,7 @@
         </div>
     </footer>
 
-    <script src="/js/session.js"></script>
+
 </body>
 
 </html>

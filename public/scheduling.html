@@ -11,6 +11,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="/css/design-system.css">
     <link rel="stylesheet" href="/css/components.css">
+    <script src="/js/session.js"></script>
     <style>
         .scheduling-layout {
             max-width: 600px;
@@ -54,6 +55,9 @@
 <body>
 
     <nav class="std-nav">
+        <button class="mobile-menu-btn" aria-label="Toggle menu"><svg viewBox="0 0 24 24">
+                <path d="M3 12h18M3 6h18M3 18h18" />
+            </svg></button>
         <div class="nav-left">
             <a href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
                 <img src="/assets/logo.png" alt="Heavy Drops">
@@ -86,19 +90,38 @@
         <p style="opacity: 0.8; margin-bottom: 30px;">Select a preferred showroom visit slot for your active design
             block. The seller will confirm your bridge shortly.</p>
 
-        <label style="font-weight: 600; display: block; margin-bottom: 10px;">Select Date</label>
-        <input type="date" id="visitDate"
-            style="width: 100%; padding: 12px; border: 1px solid var(--color-gray-soft); border-radius: var(--radius-sm); margin-bottom: 30px;">
-
-        <label style="font-weight: 600; display: block; margin-bottom: 10px;">Preferred Slot</label>
-        <div class="slot-grid" id="slotGrid">
-            <div class="slot-pill" onclick="selectSlot(this, '11:00 AM')">11:00 AM - 12:00 PM</div>
-            <div class="slot-pill" onclick="selectSlot(this, '01:00 PM')">01:00 PM - 02:00 PM</div>
-            <div class="slot-pill" onclick="selectSlot(this, '03:00 PM')">03:00 PM - 04:00 PM</div>
-            <div class="slot-pill" onclick="selectSlot(this, '05:00 PM')">05:00 PM - 06:00 PM</div>
+        <div id="selectionArea"
+            style="display: none; margin-bottom: 30px; padding: 20px; background: var(--color-linen); border-radius: var(--radius-sm);">
+            <label style="font-weight: 600; display: block; margin-bottom: 10px;">Select Design to Visit</label>
+            <select id="designSelector"
+                style="width: 100%; padding: 12px; border: 1px solid var(--color-gray-soft); border-radius: var(--radius-sm);">
+                <!-- Populated by JS -->
+            </select>
         </div>
 
-        <button class="btn-primary" style="width: 100%;" id="bookBtn">Confirm Appointment</button>
+        <div id="bookingForm">
+            <label style="font-weight: 600; display: block; margin-bottom: 10px;">Select Date</label>
+            <input type="date" id="visitDate"
+                style="width: 100%; padding: 12px; border: 1px solid var(--color-gray-soft); border-radius: var(--radius-sm); margin-bottom: 30px;">
+
+            <label style="font-weight: 600; display: block; margin-bottom: 10px;">Preferred Slot</label>
+            <div class="slot-grid" id="slotGrid">
+                <div class="slot-pill" onclick="selectSlot(this, '11:00 AM')">11:00 AM - 12:00 PM</div>
+                <div class="slot-pill" onclick="selectSlot(this, '01:00 PM')">01:00 PM - 02:00 PM</div>
+                <div class="slot-pill" onclick="selectSlot(this, '03:00 PM')">03:00 PM - 04:00 PM</div>
+                <div class="slot-pill" onclick="selectSlot(this, '05:00 PM')">05:00 PM - 06:00 PM</div>
+            </div>
+
+            <button class="btn-primary" style="width: 100%;" id="bookBtn">Confirm Appointment</button>
+        </div>
+
+        <div id="noBlocksArea" style="display: none; text-align: center; padding: 40px 0;">
+            <p style="opacity: 0.6; margin-bottom: 20px;">You have no active design blocks. Please block a design first.
+            </p>
+            <a href="/collection" class="btn-primary" style="display: inline-block; text-decoration: none;">Browse
+                Collection</a>
+        </div>
+
         <p style="margin-top: 20px; font-size: 0.75rem; opacity: 0.6; text-align: center; line-height: 1.4;">
             Appointments are facilitated for scheduling purposes. Heavy Drops is not liable for seller performance,
             product quality, or outcomes of physical visits.
@@ -108,12 +131,61 @@
     <script>
         let selectedTime = null;
         const urlParams = new URLSearchParams(window.location.search);
-        const blockId = urlParams.get('block_id');
-        const sellerId = urlParams.get('seller_id');
+        let activeBlockId = blockId;
+        let activeSellerId = sellerId;
 
-        if (!Session.isAuthenticated()) {
-            window.location.href = `/login.html?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`;
+        async function initScheduling() {
+            if (typeof Session === 'undefined') {
+                setTimeout(initScheduling, 50);
+                return;
+            }
+
+            if (!Session.isAuthenticated()) {
+                window.location.href = `/login.html?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`;
+                return;
+            }
+
+            // If params are missing, fetch active blocks
+            if (!activeBlockId || !activeSellerId) {
+                try {
+                    const res = await fetch('/api/blocks/me/active', {
+                        headers: { 'Authorization': `Bearer ${Session.getToken()}` }
+                    });
+                    const blocks = await res.json();
+
+                    if (blocks.length === 0) {
+                        document.getElementById('bookingForm').style.display = 'none';
+                        document.getElementById('noBlocksArea').style.display = 'block';
+                    } else if (blocks.length === 1) {
+                        activeBlockId = blocks[0].block_id;
+                        activeSellerId = blocks[0].seller_id;
+                        document.getElementById('selectionArea').style.display = 'block';
+                        document.getElementById('designSelector').innerHTML = `<option value="${blocks[0].block_id}|${blocks[0].seller_id}">${blocks[0].title} (${blocks[0].category})</option>`;
+                        document.getElementById('designSelector').disabled = true;
+                    } else {
+                        document.getElementById('selectionArea').style.display = 'block';
+                        document.getElementById('designSelector').innerHTML = blocks.map(b => `
+                            <option value="${b.block_id}|${b.seller_id}">${b.title} (${b.category})</option>
+                        `).join('');
+
+                        // Set first one as active initially
+                        const [bid, sid] = document.getElementById('designSelector').value.split('|');
+                        activeBlockId = bid;
+                        activeSellerId = sid;
+
+                        document.getElementById('designSelector').onchange = (e) => {
+                            const [bid, sid] = e.target.value.split('|');
+                            activeBlockId = bid;
+                            activeSellerId = sid;
+                        };
+                    }
+                } catch (err) {
+                    console.error('Failed to fetch active blocks', err);
+                }
+            }
         }
+        initScheduling();
+
 
 
         function selectSlot(el, time) {
@@ -144,10 +216,11 @@
                     },
                     body: JSON.stringify({
                         user_id: user.user_id,
-                        block_id: blockId,
-                        seller_id: sellerId,
+                        block_id: activeBlockId,
+                        seller_id: activeSellerId,
                         appointment_time: `${date} ${selectedTime}`
                     })
+
                 });
                 const data = await response.json();
 
@@ -215,7 +288,7 @@
         </div>
     </footer>
 
-    <script src="/js/session.js"></script>
+
 </body>
 
 </html>

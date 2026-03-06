@@ -89,6 +89,9 @@ def get_curated_designs():
                 enriched_designs.append(d_dict)
 
             filtered = enriched_designs
+            # Remove designs without images
+            filtered = [d for d in filtered if d['primary_image_url']]
+            
             if min_price:
                 filtered = [d for d in filtered if d['total_price'] >= float(min_price)]
             if max_price:

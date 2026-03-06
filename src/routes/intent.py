@@ -8,6 +8,25 @@ from src.middleware.maintenance_mode import maintenance_gate
 
 intent_bp = Blueprint('intent', __name__)
 
+@intent_bp.route('/me/active', methods=['GET'])
+@verify_token
+def get_my_active_blocks():
+    try:
+        user_id = g.user.get('id')
+        with get_db() as db:
+            blocks = db.execute('''
+                SELECT b.*, d.category, d.purity, d.seller_id, d.title
+                FROM blocks b
+                JOIN designs d ON b.design_id = d.design_id
+                WHERE b.user_id = ? AND b.status = 'active'
+            ''', (user_id,)).fetchall()
+            
+            return jsonify([dict(b) for b in blocks])
+    except Exception as e:
+        print('[INTENT] Error getting active blocks:', e)
+        return jsonify({'error': 'Failed to fetch active blocks'}), 500
+
+
 @intent_bp.route('/', methods=['POST'])
 @verify_token
 # @intent_limiter()
@@ -96,6 +115,7 @@ def get_block_status(design_id):
             if block['user_id'] == user_id:
                 return jsonify({
                     'status': 'blocked_by_me',
+                    'block_id': block['block_id'],
                     'expiry_time': block['expiry_time']
                 })
 

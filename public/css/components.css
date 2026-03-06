@@ -6,9 +6,93 @@
 /* --- PHASE 3: CARD STANDARDIZATION --- */
 .design-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 40px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
     padding-bottom: 80px;
+}
+
+@media (max-width: 768px) {
+    .design-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding-bottom: 40px;
+    }
+
+    .design-card__content,
+    .card-content {
+        padding: 8px !important;
+    }
+
+    .design-card__title,
+    .card-title {
+        font-size: 0.85rem !important;
+        margin-bottom: 4px !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .card-price {
+        font-size: 0.95rem !important;
+        margin-bottom: 0 !important;
+    }
+
+    .tag-pill {
+        font-size: 0.55rem;
+        padding: 4px 8px;
+        top: 8px;
+        left: 8px;
+    }
+
+    .card-like-btn {
+        width: 28px;
+        height: 28px;
+        top: 8px;
+        right: 8px;
+    }
+
+    .card-like-btn svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    /* Hide extra info to minimize card height on mobile */
+    .design-card__specs,
+    .transparency-breakdown .price-item:not(.price-item--total),
+    .btn-block,
+    .seller-info,
+    .seller-info-inline,
+    .card-social,
+    .card-category {
+        display: none !important;
+    }
+
+    .transparency-breakdown {
+        border-top: none !important;
+        padding-top: 0 !important;
+        margin-top: auto !important;
+    }
+
+    .price-item--total {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        margin-top: 8px !important;
+    }
+
+    .price-item--total span:first-child {
+        font-size: 0.8rem !important;
+        line-height: 1.1 !important;
+        color: var(--color-gray-dark) !important;
+        opacity: 0.8 !important;
+    }
+
+    .price-item--total span:last-child {
+        font-size: 1.15rem !important;
+        font-weight: 700 !important;
+        color: var(--color-noir) !important;
+        white-space: nowrap !important;
+    }
 }
 
 .design-card {

@@ -35,12 +35,63 @@ def get_liked_designs():
     try:
         user_id = g.user.get('id')
         with get_db() as db:
+            rates = db.execute('SELECT * FROM gold_rates ORDER BY updated_at DESC').fetchall()
+            rate_map = {'22K': 6200, '24K': 6800}
+            for r in rates:
+                if r['purity'] not in rate_map or r == rates[0]:
+                     rate_map[r['purity']] = float(r['rate_per_gram'])
+
+            first_images = db.execute('''
+                SELECT design_id, MIN(media_id) as first_media_id 
+                FROM design_media 
+                WHERE shot_type = 'master' AND status = 'approved' 
+                GROUP BY design_id
+            ''').fetchall()
+
+            image_map = {}
+            for img in first_images:
+                media = db.execute('SELECT uri FROM design_media WHERE media_id = ?', (img['first_media_id'],)).fetchone()
+                if media:
+                    image_map[img['design_id']] = media['uri']
+
             liked_designs = db.execute('''
-                SELECT d.* FROM likes l
+                SELECT d.*, s.business_name, s.city, s.trust_score
+                FROM likes l
                 JOIN designs d ON l.design_id = d.design_id
+                JOIN sellers s ON d.seller_id = s.seller_id
                 WHERE l.user_id = ?
             ''', (user_id,)).fetchall()
-            return jsonify([dict(d) for d in liked_designs])
+
+            enriched_designs = []
+            for design in liked_designs:
+                current_rate = rate_map.get(design['purity'], rate_map.get('22K', 6200))
+                gold_value = design['weight'] * current_rate
+                subtotal = gold_value + design['making_charge_snapshot']
+                gst = subtotal * 0.03
+                total_price = subtotal + gst
+
+                d_dict = dict(design)
+                d_dict.update({
+                    'name': f"{design['purity']} Gold {design['category']}",
+                    'seller_name': design['business_name'],
+                    'views_count': design['view_count'],
+                    'occasion': design['occasion_tag'],
+                    'making_charge': design['making_charge_snapshot'],
+                    'gold_rate': current_rate,
+                    'current_gold_rate': current_rate,
+                    'gold_value': gold_value,
+                    'total_price': total_price,
+                    'total_price_display': total_price,
+                    'gst': gst,
+                    'primary_image_url': image_map.get(design['design_id']),
+                    'master_image': image_map.get(design['design_id'])
+                })
+                enriched_designs.append(d_dict)
+
+            # Remove designs without images
+            filtered = [d for d in enriched_designs if d['primary_image_url']]
+
+            return jsonify(filtered)
     except Exception as e:
         print('Error in getLikedDesigns:', e)
         return jsonify({'error': 'Failed to fetch likes'}), 500

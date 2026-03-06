@@ -72,31 +72,36 @@
 
 <body>
 
-<nav class="std-nav">
-    <div class="nav-left">
-        <a href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
-            <img src="/assets/logo.png" alt="Heavy Drops">
-            <span style="font-family: 'Outfit'; font-weight: 600; font-size: 1.2rem; color: #1a1a1a; letter-spacing: -0.02em;">HEAVY DROPS</span>
-        </a>
-    </div>
-    <div class="nav-center">
-        <a href="/">Home</a>
-        <a href="/collection">Discover</a>
-        <a href="/profile/likes">Liked</a>
-    </div>
-    <div class="nav-right">
-        <div class="nav-auth-channel">
-            <!-- Populated by session.js -->
+    <nav class="std-nav">
+        <button class="mobile-menu-btn" aria-label="Toggle menu"><svg viewBox="0 0 24 24">
+                <path d="M3 12h18M3 6h18M3 18h18" />
+            </svg></button>
+        <div class="nav-left">
+            <a href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+                <img src="/assets/logo.png" alt="Heavy Drops">
+                <span
+                    style="font-family: 'Outfit'; font-weight: 600; font-size: 1.2rem; color: #1a1a1a; letter-spacing: -0.02em;">HEAVY
+                    DROPS</span>
+            </a>
         </div>
-    </div>
-</nav>
+        <div class="nav-center">
+            <a href="/">Home</a>
+            <a href="/collection">Discover</a>
+            <a href="/profile/likes">Liked</a>
+        </div>
+        <div class="nav-right">
+            <div class="nav-auth-channel">
+                <!-- Populated by session.js -->
+            </div>
+        </div>
+    </nav>
 
 
 
 
 
-    
-    
+
+
 
     <main class="container detail-layout" id="detailRoot">
         <p>Initializing high-resolution discovery...</p>
@@ -157,20 +162,20 @@
                 }
 
                 const isAuth = Session.isAuthenticated();
-                
+
                 // Fetch design data (public)
                 const designRes = await fetch(`/api/designs/${designId}`);
-                
+
                 if (!designRes.ok) throw new Error('Design not found');
-                
+
                 const design = await designRes.json();
 
                 // Fetch block status only if authenticated
                 let blockStatus = { status: 'available' };
                 if (isAuth) {
                     try {
-                        const statusRes = await fetch(`/api/blocks/status/${designId}`, { 
-                            headers: { 'Authorization': `Bearer ${Session.getToken()}` } 
+                        const statusRes = await fetch(`/api/blocks/status/${designId}`, {
+                            headers: { 'Authorization': `Bearer ${Session.getToken()}` }
                         });
                         if (statusRes.ok) {
                             blockStatus = await statusRes.json();
@@ -231,8 +236,7 @@
                                 ${isBlocked ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Design Blocked' : 'Block This Design'}
                             </button>
                             <button class="btn-primary btn-outline" id="secondaryCTA" style="width: 100%; py: 18px; border-color: var(--color-gold); color: var(--color-gold); background: transparent;"
-                                onclick="window.location.href='/intent-path?id=${designId}'" 
-                                ${!isBlocked ? 'disabled style="opacity: 0.3; cursor: not-allowed; border-color: #ccc; color: #ccc;"' : ''}>
+                                onclick="goToScheduling()">
                                 Book Store Visit
                             </button>
                             ${isBlocked ? `<p style="text-align: center; font-size: 0.8rem; opacity: 0.6;">Reserved until ${new Date(blockStatus.expiry_time).toLocaleString()}</p>` : ''}
@@ -240,10 +244,19 @@
                     </div>
                 `;
 
+                // Add redirection function for scheduling
+                window.goToScheduling = () => {
+                    const params = new URLSearchParams();
+                    if (blockStatus?.block_id) params.set('block_id', blockStatus.block_id);
+                    if (design?.seller_id) params.set('seller_id', design.seller_id);
+                    window.location.href = `/intent-path?${params.toString()}`;
+                };
+
+
                 if (isAuth && !isBlocked) {
                     try {
-                        const statusRes = await fetch(`/api/likes/status/${designId}`, { 
-                            headers: { 'Authorization': `Bearer ${Session.getToken()}` } 
+                        const statusRes = await fetch(`/api/likes/status/${designId}`, {
+                            headers: { 'Authorization': `Bearer ${Session.getToken()}` }
                         });
                         if (statusRes.ok) {
                             const statusData = await statusRes.json();
@@ -309,8 +322,6 @@
             setTimeout(initDetailPage, 100);
         }
     </script>
-    
-    
 
 
 
@@ -318,50 +329,52 @@
 
 
 
-<footer class="std-footer">
-    <div class="container">
-        <div class="footer-grid">
-            <div class="footer-col">
-                <h4>Platform</h4>
-                <ul>
-                    <li><a href="/collection">Discover</a></li>
-                    <li><a href="/how-it-works">How It Works</a></li>
-                    <li><a href="/problem">Problem We Solve</a></li>
-                    <li><a href="/philosophy">Philosophy</a></li>
-                    <li><a href="/about">About Us</a></li>
-                </ul>
+
+
+    <footer class="std-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="/collection">Discover</a></li>
+                        <li><a href="/how-it-works">How It Works</a></li>
+                        <li><a href="/problem">Problem We Solve</a></li>
+                        <li><a href="/philosophy">Philosophy</a></li>
+                        <li><a href="/about">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal Protection</h4>
+                    <ul>
+                        <li><a href="/terms">Terms & Conditions</a></li>
+                        <li><a href="/wallet-policy">Wallet Policy</a></li>
+                        <li><a href="/seller-agreement">Seller Agreement</a></li>
+                        <li><a href="/terms#privacy">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Partners</h4>
+                    <ul>
+                        <li><a href="/seller-register.html">Become a Seller</a></li>
+                        <li><a href="/seller-login">Partner Portal</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:concierge@heavydrops.com">concierge@heavydrops.com</a></li>
+                        <li><span style="opacity: 0.6; font-size: 0.9rem;">Chennai Only</span></li>
+                        <li><span style="opacity: 0.6; font-size: 0.9rem;">+91 9999 8888 77</span></li>
+                    </ul>
+                </div>
             </div>
-            <div class="footer-col">
-                <h4>Legal Protection</h4>
-                <ul>
-                    <li><a href="/terms">Terms & Conditions</a></li>
-                    <li><a href="/wallet-policy">Wallet Policy</a></li>
-                    <li><a href="/seller-agreement">Seller Agreement</a></li>
-                    <li><a href="/terms#privacy">Privacy Policy</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Partners</h4>
-                <ul>
-                    <li><a href="/seller-register.html">Become a Seller</a></li>
-                    <li><a href="/seller-login">Partner Portal</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Contact</h4>
-                <ul>
-                    <li><a href="mailto:concierge@heavydrops.com">concierge@heavydrops.com</a></li>
-                    <li><span style="opacity: 0.6; font-size: 0.9rem;">Chennai Only</span></li>
-                    <li><span style="opacity: 0.6; font-size: 0.9rem;">+91 9999 8888 77</span></li>
-                </ul>
+            <div class="footer-bottom">
+                <span>&copy; 2026 Heavy Drops Intent Network. All rights reserved.</span>
+                <span>Est. Chennai</span>
             </div>
         </div>
-        <div class="footer-bottom">
-            <span>&copy; 2026 Heavy Drops Intent Network. All rights reserved.</span>
-            <span>Est. Chennai</span>
-        </div>
-    </div>
-</footer>
+    </footer>
 
 </body>
 

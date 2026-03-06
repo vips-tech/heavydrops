@@ -7,9 +7,12 @@
     <title>My Hearted Collection — Heavy Drops</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="/css/design-system.css">
     <link rel="stylesheet" href="/css/components.css">
+    <script src="/js/session.js"></script>
     <style>
         body {
             background: var(--color-linen);
@@ -328,7 +331,7 @@
             display: flex;
             justify-content: center;
         }
-        
+
         .empty-icon svg {
             color: var(--color-gray-dark);
         }
@@ -364,7 +367,9 @@
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         @media (max-width: 1200px) {
@@ -375,7 +380,8 @@
 
         @media (max-width: 768px) {
             .likes-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
             }
 
             .likes-stats {
@@ -391,10 +397,15 @@
 
 <body>
     <nav class="std-nav">
+        <button class="mobile-menu-btn" aria-label="Toggle menu"><svg viewBox="0 0 24 24">
+                <path d="M3 12h18M3 6h18M3 18h18" />
+            </svg></button>
         <div class="nav-left">
             <a href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
                 <img src="/assets/logo.png" alt="Heavy Drops">
-                <span style="font-family: 'Outfit'; font-weight: 600; font-size: 1.2rem; color: #1a1a1a; letter-spacing: -0.02em;">HEAVY DROPS</span>
+                <span
+                    style="font-family: 'Outfit'; font-weight: 600; font-size: 1.2rem; color: #1a1a1a; letter-spacing: -0.02em;">HEAVY
+                    DROPS</span>
             </a>
         </div>
         <div class="nav-center">
@@ -411,10 +422,15 @@
 
     <header class="likes-header">
         <div class="container">
-            <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.7; font-weight: 600;">Curated Interests</span>
-            <h1 style="font-family: var(--font-heading); font-size: 3.5rem; font-weight: 800; margin: 16px 0 12px; letter-spacing: -0.02em;">My Hearted Collection</h1>
-            <p style="font-size: 1.1rem; opacity: 0.8; max-width: 600px; margin: 0 auto;">Your personally curated selection of masterwork jewelry. Each piece represents your unique taste and intent.</p>
-            
+            <span
+                style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.7; font-weight: 600;">Curated
+                Interests</span>
+            <h1
+                style="font-family: var(--font-heading); font-size: 3.5rem; font-weight: 800; margin: 16px 0 12px; letter-spacing: -0.02em;">
+                My Hearted Collection</h1>
+            <p style="font-size: 1.1rem; opacity: 0.8; max-width: 600px; margin: 0 auto;">Your personally curated
+                selection of masterwork jewelry. Each piece represents your unique taste and intent.</p>
+
             <div class="likes-stats">
                 <div class="stat-item">
                     <span class="stat-value" id="totalLikes">0</span>
@@ -448,7 +464,7 @@
             if (typeof Session === 'undefined') {
                 await new Promise(resolve => setTimeout(resolve, 200));
             }
-            
+
             if (typeof Session === 'undefined' || !Session.isAuthenticated()) {
                 window.location.href = '/login?redirect=/profile/likes';
                 return;
@@ -459,11 +475,11 @@
                 const response = await fetch('/api/likes/me', {
                     headers: { 'Authorization': `Bearer ${Session.getToken()}` }
                 });
-                
+
                 if (!response.ok) {
                     throw new Error('Failed to fetch likes');
                 }
-                
+
                 const designs = await response.json();
 
                 if (designs.length === 0) {
@@ -495,7 +511,7 @@
                 grid.innerHTML = designs.map(design => {
                     const goldValue = design.weight * design.gold_rate_snapshot;
                     const makingCharge = design.making_charge_snapshot;
-                    
+
                     return `
                     <article class="liked-card" onclick="navigateToDesign(event, ${design.design_id})">
                         <button class="card-like-btn liked" onclick="unlikeDesign(event, ${design.design_id})" aria-label="Unlike">
@@ -505,10 +521,10 @@
                         </button>
                         <div class="card-image-wrapper">
                             <span class="tag-pill">${design.category}${design.occasion_tag ? ' · ' + design.occasion_tag : ''}</span>
-                            ${design.primary_image_url ? 
-                                `<img src="${design.primary_image_url}" alt="${design.category}" onerror="this.outerHTML='<div class=\\'image-placeholder\\'>Image unavailable</div>'">` :
-                                `<div class="image-placeholder">Image unavailable</div>`
-                            }
+                            ${design.primary_image_url ?
+                            `<img src="${design.primary_image_url}" alt="${design.category}" onerror="this.outerHTML='<div class=\\'image-placeholder\\'>Image unavailable</div>'">` :
+                            `<div class="image-placeholder">Image unavailable</div>`
+                        }
                         </div>
                         
                         <div class="card-content">
@@ -556,15 +572,15 @@
 
         async function unlikeDesign(event, designId) {
             event.stopPropagation();
-            
+
             if (!confirm('Remove this design from your collection?')) return;
 
             try {
                 const response = await fetch('/api/likes/toggle', {
                     method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json', 
-                        'Authorization': `Bearer ${Session.getToken()}` 
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${Session.getToken()}`
                     },
                     body: JSON.stringify({ design_id: designId })
                 });
@@ -583,7 +599,7 @@
             // Redirect to design page where they can block it
             window.location.href = `/design/${designId}#block`;
         }
-        
+
         // Initialize - wait for DOM and Session to be ready
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => {

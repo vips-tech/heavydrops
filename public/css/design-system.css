@@ -88,15 +88,16 @@ img {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 0;
-  background: var(--color-ivory);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 20px 40px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   position: sticky;
   top: 0;
   z-index: 1000;
   width: 100%;
-  padding-left: 40px;
-  padding-right: 40px;
+  transition: all 0.3s ease;
 }
 
 .nav-left a {
@@ -118,11 +119,12 @@ img {
 }
 
 .nav-center a {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  opacity: 0.6;
+  letter-spacing: 0.08em;
+  opacity: 0.5;
   font-weight: 500;
+  transition: opacity 0.2s ease;
 }
 
 .nav-center a:hover,
@@ -139,14 +141,35 @@ img {
 
 .nav-auth-channel {
   display: flex;
-  gap: 20px;
-  font-size: 0.9rem;
+  gap: 24px;
+  font-size: 0.85rem;
   align-items: center;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.nav-auth-channel a,
+.nav-auth-channel .nav-item {
+  opacity: 0.5;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.nav-auth-channel a:hover,
+.nav-auth-channel .nav-item:hover {
+  opacity: 1;
 }
 
 .nav-item.highlight {
   color: var(--color-gold);
   font-weight: 600;
+}
+
+.mobile-auth-link {
+  display: none !important;
 }
 
 /* --- PHASE 2 & 6: FOOTER STANDARDIZATION --- */
@@ -246,33 +269,113 @@ img {
 
   .footer-grid {
     grid-template-columns: 1fr 1fr;
+    gap: 30px;
   }
 }
 
+/* Mobile Navigation Base Styles */
+.mobile-menu-btn {
+  display: none; /* Hidden by default on desktop */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 1001;
+}
+
+.mobile-menu-btn svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--color-noir);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  transition: all 0.3s ease;
+}
+
+/* --- MOBILE SPECIFIC FIXES --- */
 @media (max-width: 768px) {
+  :root {
+    --spacing-section: 40px;
+  }
+
+  /* Typography Scaling */
+  .editorial-title {
+    font-size: 2rem;
+  }
+
+  /* Layout Spacing */
+  .container {
+    padding: 0 16px;
+  }
+
+  /* Standard Navbar */
   .std-nav {
-    padding: 15px 20px;
+    padding: 12px 16px;
     flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .nav-left {
+    flex: 0 0 auto;
   }
 
   .nav-center {
-    display: none;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex: 1 1 auto;
   }
 
-  /* Hidden on mobile for MVP stabilization */
+  .nav-center a {
+    font-size: 0.75rem;
+    padding: 8px 0;
+  }
+
+  .nav-right {
+    display: flex;
+    flex: 0 0 auto;
+  }
+
+  .nav-auth-channel {
+    gap: 16px;
+    font-size: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .nav-left img {
+    height: 24px;
+  }
+
+  .nav-left span {
+    font-size: 0.9rem !important;
+  }
+
+  /* Buttons */
+  .btn-primary {
+    padding: 12px 20px;
+    width: 100%;
+    font-size: 0.9rem;
+  }
+
+  /* Footer */
+  .std-footer {
+    padding: 40px 0 30px;
+    margin-top: 60px;
+  }
 
   .footer-grid {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 32px;
+    margin-bottom: 40px;
   }
 
   .footer-bottom {
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
     text-align: center;
-  }
-
-  .container {
-    padding: 0 20px;
+    padding-top: 20px;
   }
 }
