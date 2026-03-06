@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heavy Drops — Storefront Hub</title>
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <style>
+        body {
+            padding-top: 0;
+        }
+        
+        .seller-header {
+            background: var(--color-noir);
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--color-gold);
+        }
+
+        .seller-header h1 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .seller-header h1 img {
+            height: 32px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        .seller-header .logout-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .seller-header .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--color-gold);
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .stat-card {
+            background: var(--color-ivory);
+            padding: 25px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--color-gray-soft);
+            margin-bottom: 20px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--color-gray-soft);
+        }
+
+        .status-pill {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .pill-active {
+            background: #e6f9ed;
+            color: #1e7d32;
+        }
+
+        .pill-requested {
+            background: #fff4e5;
+            color: #b76e00;
+        }
+
+        .pill-attended {
+            background: #e6f9ed;
+            color: #1e7d32;
+        }
+
+        .pill-no_show {
+            background: #ffebee;
+            color: #d12424;
+        }
+
+        .pill-cancelled {
+            background: #f5f5f5;
+            color: #757575;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="seller-header">
+        <h1>HEAVY DROPS — Seller Dashboard
+        </h1>
+        <button class="logout-btn" onclick="Session.logout()">Logout</button>
+    </div>
+
+    <main class="container">
+        <div class="dashboard-grid">
+            <aside>
+                <h3 style="margin-bottom: 20px;">Operational Metrics</h3>
+                <div class="stat-card">
+                    <span style="opacity: 0.6; font-size: 0.8rem;">Total Design Views</span>
+                    <div style="font-size: 2rem; font-weight: 600;" id="totalViewsCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <span style="opacity: 0.6; font-size: 0.8rem;">Total Design Likes</span>
+                    <div style="font-size: 2rem; font-weight: 600;" id="totalLikesCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <span style="opacity: 0.6; font-size: 0.8rem;">Active Blocks</span>
+                    <div style="font-size: 2rem; font-weight: 600;" id="activeBlocksCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <span style="opacity: 0.6; font-size: 0.8rem;">Pending Visits</span>
+                    <div style="font-size: 2rem; font-weight: 600;" id="pendingVisitsCount">0</div>
+                </div>
+            </aside>
+
+            <section>
+                <h2 class="editorial-title" style="margin-bottom: 30px;">Operational Control</h2>
+
+                <h4 style="margin-bottom: 15px;">Upcoming Showroom Visits</h4>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Buyer ID</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="appointmentList"></tbody>
+                </table>
+
+                <h4 style="margin-top: 40px; margin-bottom: 15px;">Active Intent Blocks</h4>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Design</th>
+                            <th>Start Time</th>
+                            <th>Expiry</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="blockList"></tbody>
+                </table>
+
+                <h4 style="margin-top: 40px; margin-bottom: 15px;">Design Performance (Engagement)</h4>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Design ID</th>
+                            <th>Category</th>
+                            <th>Views</th>
+                            <th>Likes</th>
+                            <th>Blocks</th>
+                            <th>Photography</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="performanceList"></tbody>
+                </table>
+            </section>
+        </div>
+
+        <!-- Controlled Upload Modal -->
+        <div id="uploadModal" class="modal-backdrop" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center;">
+            <div style="background:white; padding:40px; border-radius:8px; max-width:500px; width:90%;">
+                <h3 id="modalTitle">Photography Standards Upload</h3>
+                <p style="font-size: 0.8rem; opacity: 0.6; margin-bottom: 20px;">Support for Master, Close-up, and Worn shots. JPG/PNG/WebP only (Max 10MB).</p>
+                <form id="uploadForm" onsubmit="handleUpload(event)">
+                    <input type="hidden" id="uploadDesignId">
+                    <div style="margin-bottom: 15px;">
+                        <label style="display:block; font-size: 0.75rem; margin-bottom: 5px;">Shot Type</label>
+                        <select id="shotType" style="width:100%; padding:10px; border:1px solid #ddd;">
+                            <option value="master">Master Shot (Essential for listing)</option>
+                            <option value="closeup">Close-up Detail</option>
+                            <option value="worn">Worn / Scale Reference</option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display:block; font-size: 0.75rem; margin-bottom: 5px;">Select Image</label>
+                        <input type="file" id="imageFiles" accept="image/jpeg,image/png,image/webp" required style="width:100%;">
+                    </div>
+                    <div style="display:flex; justify-content:flex-end; gap:10px;">
+                        <button type="button" onclick="closeModal()" style="background:none; border:none; cursor:pointer; opacity:0.6;">Cancel</button>
+                        <button type="submit" class="btn-primary" style="padding:10px 20px;">Upload for Review</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        async function loadDashboard() {
+            // Wait for Session to be available
+            if (typeof Session === 'undefined') {
+                setTimeout(loadDashboard, 50);
+                return;
+            }
+
+            const user = await Session.getUser();
+            if (!user) return window.location.href = '/login.html';
+
+            try {
+                // Fetch Current Seller Profile
+                const meRes = await fetch('/api/sellers/me', {
+                    headers: { 'Authorization': `Bearer ${Session.getToken()}` }
+                });
+                if (!meRes.ok) {
+                    const err = await meRes.json();
+                    document.body.innerHTML = `<div class="container" style="margin-top:100px; text-align:center;"><h2>Access Restricted</h2><p>${err.error}</p><a href="/">Back to Home</a></div>`;
+                    return;
+                }
+                const seller = await meRes.json();
+                const sellerId = seller.seller_id;
+
+                // Fetch Core Metrics & Activity
+                const res = await fetch(`/api/sellers/dashboard/${sellerId}`, {
+                    headers: { 'Authorization': `Bearer ${Session.getToken()}` }
+                });
+                const data = await res.json();
+
+                document.getElementById('totalViewsCount').innerText = data.metrics.total_views;
+                document.getElementById('totalLikesCount').innerText = data.metrics.total_likes;
+                document.getElementById('activeBlocksCount').innerText = data.metrics.total_active_intent;
+                document.getElementById('pendingVisitsCount').innerText = data.metrics.pending_appointments;
+
+                const apptGrid = document.getElementById('appointmentList');
+                apptGrid.innerHTML = data.appointments.map(a => {
+                    const isSelectable = a.status === 'requested' || a.status === 'confirmed';
+                    return `
+                    <tr>
+                        <td>${a.phone}</td>
+                        <td>${new Date(a.appointment_time).toLocaleString()}</td>
+                        <td><span class="status-pill pill-${a.status}">${a.status}</span></td>
+                        <td>
+                            ${isSelectable ? `
+                                <button onclick="markOutcome(${a.appointment_id}, 'attended')" style="background: #1e7d32; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">Attended</button>
+                                <button onclick="markOutcome(${a.appointment_id}, 'no-show')" style="background: #d12424; color: white; border: none; padding: 5px 10px; cursor: pointer; margin-left: 5px; border-radius: 4px;">No-Show</button>
+                            ` : '<span style="opacity: 0.5;">-</span>'}
+                        </td>
+                    </tr>
+                `}).join('');
+
+                const blockGrid = document.getElementById('blockList');
+                blockGrid.innerHTML = data.blocks.map(b => `
+                    <tr>
+                        <td>${b.purity} Gold ${b.category}</td>
+                        <td style="font-size: 0.85rem;">${new Date(b.created_at).toLocaleString()}</td>
+                        <td style="font-size: 0.85rem;">${new Date(b.expiry_time).toLocaleString()}</td>
+                        <td><span class="status-pill pill-active">${b.status}</span></td>
+                    </tr>
+                `).join('');
+
+                // Fetch Design Performance
+                const perfRes = await fetch(`/api/sellers/performance/${sellerId}`, {
+                    headers: { 'Authorization': `Bearer ${Session.getToken()}` }
+                });
+                const perfData = await perfRes.json();
+
+                const perfGrid = document.getElementById('performanceList');
+                perfGrid.innerHTML = perfData.map(p => `
+                    <tr>
+                        <td>#${p.design_id}</td>
+                        <td>${p.category}</td>
+                        <td>${p.view_count}</td>
+                        <td>${p.likes}</td>
+                        <td>${p.blocks}</td>
+                        <td><span class="status-pill pill-${p.availability_status}">${p.availability_status}</span></td>
+                        <td>
+                            <button onclick="openUploadModal(${p.design_id})" style="background:none; border:1px solid var(--color-gold); color:var(--color-gold); padding:4px 8px; font-size:0.7rem; cursor:pointer; border-radius:4px;">Add Photography</button>
+                        </td>
+                    </tr>
+                `).join('');
+
+            } catch (e) {
+                console.error('Dashboard load failed', e);
+            }
+        }
+
+        async function markOutcome(id, outcome) {
+            if (!confirm(`Mark visit as ${outcome}?`)) return;
+            const res = await fetch(`/api/sellers/appointments/${id}/outcome`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${Session.getToken()}`
+                },
+                body: JSON.stringify({ outcome })
+            });
+            if (res.ok) {
+                alert('Outcome recorded.');
+                loadDashboard();
+            }
+        }
+
+        function openUploadModal(designId) {
+            document.getElementById('uploadDesignId').value = designId;
+            document.getElementById('uploadModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('uploadModal').style.display = 'none';
+        }
+
+        async function handleUpload(e) {
+            e.preventDefault();
+            const designId = document.getElementById('uploadDesignId').value;
+            const shotType = document.getElementById('shotType').value;
+            const fileInput = document.getElementById('imageFiles');
+            
+            const formData = new FormData();
+            formData.append('shot_type', shotType);
+            for (let i = 0; i < fileInput.files.length; i++) {
+                formData.append('images', fileInput.files[i]);
+            }
+
+            try {
+                const res = await fetch(`/api/sellers/designs/${designId}/media`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${Session.getToken()}`
+                    },
+                    body: formData
+                });
+
+                if (res.ok) {
+                    alert('Photography submitted for admin review.');
+                    closeModal();
+                    loadDashboard();
+                } else {
+                    const err = await res.json();
+                    alert(`Upload Failed: ${err.error}`);
+                }
+            } catch (err) {
+                alert('Infrastructure error during upload.');
+            }
+        }
+
+        loadDashboard();
+    </script>
+
+
+
+
+
+
+
+<footer class="std-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="/collection">Discover</a></li>
+                    <li><a href="/how-it-works">How It Works</a></li>
+                    <li><a href="/problem">Problem We Solve</a></li>
+                    <li><a href="/philosophy">Philosophy</a></li>
+                    <li><a href="/about">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal Protection</h4>
+                <ul>
+                    <li><a href="/terms">Terms & Conditions</a></li>
+                    <li><a href="/wallet-policy">Wallet Policy</a></li>
+                    <li><a href="/seller-agreement">Seller Agreement</a></li>
+                    <li><a href="/terms#privacy">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Partners</h4>
+                <ul>
+                    <li><a href="/seller-register.html">Become a Seller</a></li>
+                    <li><a href="/seller-login">Partner Portal</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="mailto:concierge@heavydrops.com">concierge@heavydrops.com</a></li>
+                    <li><span style="opacity: 0.6; font-size: 0.9rem;">Chennai Only</span></li>
+                    <li><span style="opacity: 0.6; font-size: 0.9rem;">+91 9999 8888 77</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 Heavy Drops Intent Network. All rights reserved.</span>
+            <span>Est. Chennai</span>
+        </div>
+    </div>
+</footer>
+
+<script src="/js/session.js"></script>
+</body>
+
+</html>

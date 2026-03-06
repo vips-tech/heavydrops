@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heavy Drops — Secure Checkout Simulation</title>
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <style>
+        .checkout-container {
+            max-width: 500px;
+            margin: 100px auto;
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: var(--color-gold);
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body style="background: var(--color-gray-soft);">
+
+<nav class="std-nav">
+    <div class="nav-left">
+        <a href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+            <img src="/assets/logo.png" alt="Heavy Drops">
+            <span style="font-family: 'Outfit'; font-weight: 600; font-size: 1.2rem; color: #1a1a1a; letter-spacing: -0.02em;">HEAVY DROPS</span>
+        </a>
+    </div>
+    <div class="nav-center">
+        <a href="/">Home</a>
+        <a href="/collection">Discover</a>
+        <a href="/profile/likes">Liked</a>
+    </div>
+    <div class="nav-right">
+        <div class="nav-auth-channel">
+            <!-- Populated by session.js -->
+        </div>
+    </div>
+</nav>
+
+
+
+
+    <div class="checkout-container animate-entrance">
+        <h2 class="editorial-title">Secure Intent Payment</h2>
+        <p style="opacity: 0.6; margin-bottom: 30px;">Processing block commitment for Design #<span
+                id="designId">--</span></p>
+
+        <div id="processingUI">
+            <div class="spinner"></div>
+            <p>Verifying transaction with issuing bank...</p>
+        </div>
+
+        <div id="actionUI" style="display: none;">
+            <div
+                style="background: #e6f9ed; padding: 20px; border-radius: 8px; margin-bottom: 20px; color: #1e7d32; font-weight: 600;">
+                AUTHENTICATION SUCCESSFUL
+            </div>
+            <button class="btn-primary btn-block" onclick="completePayment()">Complete Signature & Block</button>
+            <p style="margin-top: 15px; font-size: 0.8rem; color: #d12424; cursor: pointer;"
+                onclick="window.history.back()">Cancel Transaction</p>
+        </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const designId = urlParams.get('design_id');
+        document.getElementById('designId').innerText = designId;
+
+        setTimeout(() => {
+            document.getElementById('processingUI').style.display = 'none';
+            document.getElementById('actionUI').style.display = 'block';
+        }, 2000);
+
+        async function completePayment() {
+            const btn = event.target;
+            btn.innerText = 'Transmitting Ledger Data...';
+            btn.disabled = true;
+
+            try {
+                // In a real system, the gateway would call the webhook. 
+                // Here, we simulate the redirect to the success callback.
+                const response = await fetch('/api/pay/callback', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${Session.getToken()}`
+                    },
+                    body: JSON.stringify({
+                        design_id: designId,
+                        transaction_id: 'TXN_' + Math.floor(Math.random() * 1000000),
+                        status: 'success'
+                    })
+                });
+
+                if (response.ok) {
+                    alert('Signature Verified. Design Blocked.');
+                    window.location.href = '/wallet.html';
+                } else {
+                    alert('Gateway Transmission Error');
+                    window.history.back();
+                }
+            } catch (e) {
+                alert('Connection failure at Gateway');
+                window.history.back();
+            }
+        }
+    </script>
+
+
+
+
+
+
+
+<footer class="std-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="/collection">Discover</a></li>
+                    <li><a href="/how-it-works">How It Works</a></li>
+                    <li><a href="/problem">Problem We Solve</a></li>
+                    <li><a href="/philosophy">Philosophy</a></li>
+                    <li><a href="/about">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal Protection</h4>
+                <ul>
+                    <li><a href="/terms">Terms & Conditions</a></li>
+                    <li><a href="/wallet-policy">Wallet Policy</a></li>
+                    <li><a href="/seller-agreement">Seller Agreement</a></li>
+                    <li><a href="/terms#privacy">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Partners</h4>
+                <ul>
+                    <li><a href="/seller-register.html">Become a Seller</a></li>
+                    <li><a href="/seller-login">Partner Portal</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="mailto:concierge@heavydrops.com">concierge@heavydrops.com</a></li>
+                    <li><span style="opacity: 0.6; font-size: 0.9rem;">Chennai Only</span></li>
+                    <li><span style="opacity: 0.6; font-size: 0.9rem;">+91 9999 8888 77</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 Heavy Drops Intent Network. All rights reserved.</span>
+            <span>Est. Chennai</span>
+        </div>
+    </div>
+</footer>
+
+<script src="/js/session.js"></script>
+</body>
+
+</html>

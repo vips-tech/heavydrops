@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heavy Drops — Jewellery Discovery Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <style>
+        .hero-banner {
+            background: var(--color-noir);
+            color: var(--color-ivory);
+            padding: 120px 0;
+            text-align: center;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 60px;
+        }
+
+        .design-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 40px;
+            padding-bottom: 80px;
+        }
+
+        .filter-bar {
+            background: var(--color-ivory);
+            padding: 20px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-soft);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        select {
+            padding: 10px;
+            border: 1px solid var(--color-gray-soft);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="std-nav">
+        <div class="nav-left">
+            <a href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+                <img src="/assets/logo.png" alt="Heavy Drops">
+                <span
+                    style="font-family: 'Outfit'; font-weight: 600; font-size: 1.2rem; color: #1a1a1a; letter-spacing: -0.02em;">HEAVY
+                    DROPS</span>
+            </a>
+        </div>
+        <div class="nav-center">
+            <a href="/">Home</a>
+            <a href="/collection">Discover</a>
+            <a href="/profile/likes">Liked</a>
+        </div>
+        <div class="nav-right">
+            <div class="nav-auth-channel">
+                <!-- Populated by session.js -->
+            </div>
+        </div>
+    </nav>
+
+
+
+
+
+
+
+
+
+    <header class="hero-banner">
+        <div class="container animate-entrance">
+            <h1 class="editorial-title" style="color: white;">Crafted with Intent</h1>
+            <p style="font-size: 1.25rem; max-width: 600px; margin: 0 auto; opacity: 0.9; color: white;">
+                Explore curated designs from India's master jewellers. Currently serving <span id="pilotCity"
+                    class="gold-accent-text">India</span>.
+            </p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="filter-bar">
+            <span>Filter by:</span>
+            <select id="categoryFilter" onchange="fetchDesigns()">
+                <option value="">All Categories</option>
+                <option value="Necklace">Necklaces</option>
+                <option value="Rings">Rings</option>
+                <option value="Bangle">Bangles</option>
+            </select>
+            <select id="budgetFilter" onchange="fetchDesigns()">
+                <option value="">All Budgets</option>
+                <option value="50010">Under ₹50k</option>
+                <option value="100000">Under ₹1L</option>
+                <option value="300000">Under ₹3L</option>
+            </select>
+            <select id="weightFilter" onchange="fetchDesigns()">
+                <option value="">Any Weight</option>
+                <option value="10">Under 10g</option>
+                <option value="30">Under 30g</option>
+                <option value="50">Under 50g</option>
+            </select>
+        </div>
+
+        <div class="design-grid" id="designGrid">
+            <!-- Dynamically populated -->
+        </div>
+    </main>
+
+
+
+    <script>
+        let systemConfig = {};
+
+        async function init() {
+            try {
+                const configResp = await fetch('/api/health/config');
+                systemConfig = await configResp.json();
+
+                if (systemConfig.pilot_mode) {
+                    document.getElementById('pilotCity').innerText = systemConfig.constraints.RESTRICTED_CITY;
+                }
+            } catch (e) { console.error('Config fetch failed'); }
+
+            fetchDesigns();
+        }
+
+        async function fetchDesigns() {
+            const grid = document.getElementById('designGrid');
+            const category = document.getElementById('categoryFilter').value;
+            const maxPrice = document.getElementById('budgetFilter').value;
+            const weight = document.getElementById('weightFilter').value;
+
+            let url = '/api/designs?';
+            if (category) url += `category=${category}&`;
+            if (maxPrice) url += `max_price=${maxPrice}&`;
+            if (weight) url += `weight=${weight}&`;
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const designs = await response.json();
+
+                if (designs.length === 0) {
+                    grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; opacity: 0.6;">No designs match your criteria.</p>';
+                    return;
+                }
+
+                let userLikes = [];
+                if (Session.isAuthenticated()) {
+                    const likesRes = await fetch('/api/likes/me', {
+                        headers: { 'Authorization': `Bearer ${Session.getToken()}` }
+                    });
+                    if (likesRes.ok) userLikes = (await likesRes.json()).map(l => l.design_id);
+                }
+
+                grid.innerHTML = designs.map(design => {
+                    const isLiked = userLikes.includes(design.design_id);
+                    return `
+                    <div class="design-card" onclick="window.location.href='/design/${design.design_id}'" style="cursor: pointer;">
+                        <button class="card-like-btn ${isLiked ? 'active' : ''}" onclick="toggleLike(event, ${design.design_id}, this)">
+                            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </button>
+                        <div class="design-card__media">
+                            ${design.master_image ?
+                            `<img src="${design.master_image}" alt="Jewellery Design" onerror="this.outerHTML='<div class=\\'image-placeholder\\'>Image unavailable</div>'">` :
+                            `<div class="image-placeholder">Image unavailable</div>`
+                        }
+                        </div>
+                        <div class="design-card__content">
+                            <span class="tag-pill">${design.category} | ${design.occasion_tag || 'Masterwork'}</span>
+                            <h3 class="design-card__title">${design.purity} Gold ${design.category}</h3>
+                            <div class="design-card__specs">
+                                <span>${design.weight}g</span>
+                                <span>·</span>
+                                <span style="color: var(--color-gold);">${design.business_name}</span>
+                            </div>
+                            
+                            <div class="transparency-breakdown">
+                                <div class="price-item"><span>Reference Value</span> <span>₹${Math.round(design.gold_value).toLocaleString()}</span></div>
+                                <div class="price-item"><span>Crafting + Tax</span> <span>₹${Math.round(design.making_charge_snapshot + (design.gst || 0)).toLocaleString()}</span></div>
+                                <div class="price-item price-item--total"><span>Final Snapshot</span> <span>₹${Math.round(design.total_price_display).toLocaleString()}</span></div>
+                            </div>
+
+                            <button class="btn-primary btn-block" style="margin-top: 20px;">View Full Details</button>
+                        </div>
+                    </div>
+                `}).join('');
+            } catch (error) {
+                console.error("Discovery Fetch Error:", error);
+                grid.innerHTML = '<p>Failed to load curated designs...</p>';
+            }
+        }
+
+        async function toggleLike(event, design_id, btn) {
+            event.stopPropagation();
+            if (!Session.isAuthenticated()) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/likes/toggle', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${Session.getToken()}`
+                    },
+                    body: JSON.stringify({ design_id })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    btn.classList.toggle('active', data.liked);
+                }
+            } catch (e) {
+                console.error('Like toggle failed');
+            }
+        }
+
+        init();
+    </script>
+
+
+
+
+
+
+
+
+    <footer class="std-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="/collection">Discover</a></li>
+                        <li><a href="/how-it-works">How It Works</a></li>
+                        <li><a href="/problem">Problem We Solve</a></li>
+                        <li><a href="/philosophy">Philosophy</a></li>
+                        <li><a href="/about">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal Protection</h4>
+                    <ul>
+                        <li><a href="/terms">Terms & Conditions</a></li>
+                        <li><a href="/wallet-policy">Wallet Policy</a></li>
+                        <li><a href="/seller-agreement">Seller Agreement</a></li>
+                        <li><a href="/terms#privacy">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Partners</h4>
+                    <ul>
+                        <li><a href="/seller-register.html">Become a Seller</a></li>
+                        <li><a href="/seller-login">Partner Portal</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:concierge@heavydrops.com">concierge@heavydrops.com</a></li>
+                        <li><span style="opacity: 0.6; font-size: 0.9rem;">Chennai Only</span></li>
+                        <li><span style="opacity: 0.6; font-size: 0.9rem;">+91 9999 8888 77</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 Heavy Drops Intent Network. All rights reserved.</span>
+                <span>Est. Chennai</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/session.js"></script>
+</body>
+
+</html>

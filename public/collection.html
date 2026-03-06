@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heavy Drops — Jewellery Discovery Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <style>
+        :root {
+            --sidebar-width: 280px;
+        }
+
+        .discovery-layout {
+            display: flex;
+            gap: 60px;
+            margin-top: 40px;
+            position: relative;
+        }
+
+        /* Sticky LEFT PANEL */
+        .filter-panel {
+            width: var(--sidebar-width);
+            flex-shrink: 0;
+            position: sticky;
+            top: 100px;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+            border-right: 1px solid var(--color-gray-soft);
+            padding-right: 30px;
+        }
+
+        .filter-group {
+            margin-bottom: 40px;
+        }
+
+        .filter-group h4 {
+            font-family: var(--font-heading);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        .filter-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            color: var(--color-noir);
+            opacity: 0.7;
+            transition: all 0.2s;
+        }
+
+        .filter-option:hover,
+        .filter-option.active {
+            opacity: 1;
+            color: var(--color-gold);
+        }
+
+        .range-slider-container {
+            margin-top: 10px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--color-gold);
+        }
+
+        .range-values {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            margin-top: 8px;
+            opacity: 0.6;
+        }
+
+        /* RIGHT PANEL - DESIGN GRID */
+        .grid-panel {
+            flex-grow: 1;
+        }
+
+        .design-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .design-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .design-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-media {
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            overflow: hidden;
+            background: #f8f8f8;
+            position: relative;
+        }
+
+        .card-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            color: #999;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+        }
+
+        .design-card:hover .card-media img {
+            transform: scale(1.08);
+        }
+
+        .tag-pill {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 6px 12px;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            border-radius: 4px;
+            font-weight: 700;
+            color: var(--color-noir);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+        }
+
+        .card-like-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            transition: all 0.2s ease;
+        }
+
+        .card-like-btn:hover {
+            transform: scale(1.1);
+            background: white;
+        }
+
+        .card-like-btn svg {
+            width: 20px;
+            height: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .card-like-btn.liked svg {
+            fill: #e74c3c;
+            stroke: #e74c3c;
+        }
+
+        .card-details {
+            padding: 20px;
+        }
+
+        .card-details h3 {
+            font-family: var(--font-heading);
+            font-size: 1.15rem;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+            font-weight: 600;
+            color: var(--color-noir);
+            line-height: 1.3;
+        }
+
+        .seller-info {
+            font-size: 0.85rem;
+            color: var(--color-gray-dark);
+            margin-bottom: 16px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .seller-info span {
+            opacity: 0.7;
+        }
+
+        .card-price {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--color-noir);
+            font-weight: 700;
+            margin-bottom: 14px;
+            letter-spacing: -0.02em;
+        }
+
+        .card-social {
+            display: flex;
+            gap: 20px;
+            font-size: 0.8rem;
+            color: var(--color-gray-dark);
+            padding-top: 12px;
+            border-top: 1px solid var(--color-gray-soft);
+        }
+
+        .card-social span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            opacity: 0.6;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1200px) {
+            .design-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .discovery-layout {
+                flex-direction: column;
+            }
+
+            .filter-panel {
+                width: 100%;
+                position: relative;
+                top: 0;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--color-gray-soft);
+                padding-right: 0;
+                margin-bottom: 40px;
+            }
+
+            .filter-group {
+                display: inline-block;
+                margin-right: 40px;
+                vertical-align: top;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .design-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-group {
+                display: block;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="std-nav">
+        <div class="nav-left">
+            <a href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+                <img src="/assets/logo.png" alt="Heavy Drops">
+                <span
+                    style="font-family: 'Outfit'; font-weight: 600; font-size: 1.2rem; color: #1a1a1a; letter-spacing: -0.02em;">HEAVY
+                    DROPS</span>
+            </a>
+        </div>
+        <div class="nav-center">
+            <a href="/">Home</a>
+            <a href="/collection">Discover</a>
+            <a href="/profile/likes">Liked</a>
+        </div>
+        <div class="nav-right">
+            <div class="nav-auth-channel">
+                <!-- Populated by session.js -->
+            </div>
+        </div>
+    </nav>
+
+
+
+
+
+
+
+
+    <header class="hero-banner"
+        style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=2000&auto=format&fit=crop');">
+        <div class="container animate-entrance">
+            <span class="editorial-tag">Intent Infrastructure</span>
+            <h1 class="editorial-title lustre-gold">The Discovery Grid</h1>
+            <p style="opacity: 0.8; max-width: 600px; margin: 0 auto;">Curation from verified partners. Snapshot prices
+                guaranteed for 48 hours.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="discovery-layout">
+            <!-- LEFT PANEL: FILTERS -->
+            <aside class="filter-panel">
+                <div class="filter-group">
+                    <h4>Category</h4>
+                    <div class="filter-options" id="categoryOptions">
+                        <div class="filter-option active" onclick="setFilter('category', '')">All Designs</div>
+                        <div class="filter-option" onclick="setFilter('category', 'Necklace')">Necklaces</div>
+                        <div class="filter-option" onclick="setFilter('category', 'Rings')">Rings</div>
+                        <div class="filter-option" onclick="setFilter('category', 'Bangle')">Bangles</div>
+                        <div class="filter-option" onclick="setFilter('category', 'Earrings')">Earrings</div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h4>Occasion</h4>
+                    <div class="filter-options" id="occasionOptions">
+                        <div class="filter-option active" onclick="setFilter('occasion', '')">All Occasions</div>
+                        <div class="filter-option" onclick="setFilter('occasion', 'Wedding')">Wedding</div>
+                        <div class="filter-option" onclick="setFilter('occasion', 'Engagement')">Engagement</div>
+                        <div class="filter-option" onclick="setFilter('occasion', 'Festive')">Festive</div>
+                        <div class="filter-option" onclick="setFilter('occasion', 'Daily Wear')">Daily Wear</div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h4>Budget</h4>
+                    <div class="range-slider-container">
+                        <input type="range" id="priceRange" min="10000" max="1000000" step="5001" value="1000000"
+                            oninput="updateBudgetLabel(this.value)" onchange="fetchDesigns()">
+                        <div class="range-values">
+                            <span>₹10k</span>
+                            <span id="budgetLabel">₹10.0L</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h4>Weight (Grams)</h4>
+                    <div class="range-slider-container">
+                        <input type="range" id="weightRange" min="0" max="100" step="1" value="100"
+                            oninput="updateWeightLabel(this.value)" onchange="fetchDesigns()">
+                        <div class="range-values">
+                            <span>0g</span>
+                            <span id="weightLabel">Under 100g</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- RIGHT PANEL: GRID -->
+            <section class="grid-panel">
+                <div class="design-grid" id="designGrid">
+                    <!-- Cards populated here -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        let currentFilters = {
+            category: '',
+            occasion: '',
+            max_price: 1000000,
+            max_weight: 100
+        };
+
+        let userLikes = new Set();
+
+        // Load user's likes on page load
+        async function loadUserLikes() {
+            // Check if Session is defined and user is authenticated
+            if (typeof Session === 'undefined' || !Session.isAuthenticated()) return;
+
+            try {
+                const response = await fetch('/api/likes/me', {
+                    headers: { 'Authorization': `Bearer ${Session.getToken()}` }
+                });
+                if (response.ok) {
+                    const likes = await response.json();
+                    userLikes = new Set(likes.map(l => l.design_id));
+                }
+            } catch (e) {
+                console.error('Failed to load likes:', e);
+            }
+        }
+
+        function setFilter(key, value) {
+            currentFilters[key] = value;
+
+            // Update UI state
+            const options = document.querySelectorAll(`#${key}Options .filter-option`);
+            options.forEach(opt => {
+                if (opt.innerText.toLowerCase().includes(value.toLowerCase()) || (value === '' && opt.innerText.includes('All'))) {
+                    opt.classList.add('active');
+                } else {
+                    opt.classList.remove('active');
+                }
+            });
+
+            fetchDesigns();
+        }
+
+        function updateBudgetLabel(val) {
+            const formatted = val >= 100000 ? `₹${(val / 100000).toFixed(1)}L` : `₹${(val / 1000).toFixed(0)}k`;
+            document.getElementById('budgetLabel').innerText = formatted;
+            currentFilters.max_price = val;
+        }
+
+        function updateWeightLabel(val) {
+            document.getElementById('weightLabel').innerText = `Under ${val}g`;
+            currentFilters.max_weight = val;
+        }
+
+        async function fetchDesigns() {
+            const grid = document.getElementById('designGrid');
+            grid.innerHTML = '<div style="grid-column: 1/-1; padding: 60px 0; text-align: center; opacity: 0.5;">Loading designs...</div>';
+
+            let query = Object.entries(currentFilters)
+                .filter(([_, v]) => v !== '')
+                .map(([k, v]) => `${k}=${v}`)
+                .join('&');
+
+            try {
+                const response = await fetch(`/api/designs?${query}`);
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch designs');
+                }
+
+                const designs = await response.json();
+
+                if (designs.length === 0) {
+                    grid.innerHTML = '<div style="grid-column: 1/-1; padding: 100px 0; text-align: center; opacity: 0.5; font-size: 1.1rem;">No designs found matching your selection.</div>';
+                    return;
+                }
+
+                grid.innerHTML = designs.map(d => {
+                    const isLiked = userLikes.has(d.design_id);
+                    return `
+                    <article class="design-card" onclick="navigateToDesign(event, ${d.design_id})">
+                        <button class="card-like-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike(event, ${d.design_id}, this)" aria-label="Like design">
+                            <svg viewBox="0 0 24 24" fill="${isLiked ? '#e74c3c' : 'none'}" stroke="${isLiked ? '#e74c3c' : 'currentColor'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </button>
+                        <div class="card-media">
+                            <span class="tag-pill">${d.category}${d.occasion ? ' · ' + d.occasion : ''}</span>
+                            ${d.primary_image_url ?
+                            `<img src="${d.primary_image_url}" alt="${d.name}" onerror="this.outerHTML='<div class=\\'image-placeholder\\'>Image unavailable</div>'">` :
+                            `<div class="image-placeholder">Image unavailable</div>`
+                        }
+                        </div>
+                        <div class="card-details">
+                            <h3>${d.name || `${d.purity} Gold ${d.category}`}</h3>
+                            <div class="seller-info">
+                                <span>${d.seller_name}</span>
+                                <span>·</span>
+                                <span>${d.purity}</span>
+                                <span>·</span>
+                                <span>${d.weight}g</span>
+                            </div>
+                            <div class="card-price">₹${Math.round(d.total_price).toLocaleString('en-IN')}</div>
+                            <div class="card-social">
+                                <span>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                    ${d.likes_count || 0}
+                                </span>
+                                <span>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                    ${d.view_count || 0}
+                                </span>
+                            </div>
+                        </div>
+                    </article>
+                `}).join('');
+            } catch (e) {
+                console.error('Failed to fetch designs:', e);
+                grid.innerHTML = '<div style="grid-column: 1/-1; padding: 100px 0; text-align: center; opacity: 0.5;">Connection failure. Please refresh the page.</div>';
+            }
+        }
+
+        function navigateToDesign(event, designId) {
+            // Don't navigate if clicking on like button
+            if (event.target.closest('.card-like-btn')) return;
+            window.location.href = `/design/${designId}`;
+        }
+
+        async function toggleLike(event, designId, btn) {
+            event.stopPropagation();
+            event.preventDefault();
+
+            // Check if Session is defined
+            if (typeof Session === 'undefined' || !Session.isAuthenticated()) {
+                window.location.href = `/login?redirect=${encodeURIComponent(window.location.pathname)}`;
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/likes/toggle', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${Session.getToken()}`
+                    },
+                    body: JSON.stringify({ design_id: designId })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const svg = btn.querySelector('svg');
+
+                    if (data.liked) {
+                        btn.classList.add('liked');
+                        svg.setAttribute('fill', '#e74c3c');
+                        svg.setAttribute('stroke', '#e74c3c');
+                        userLikes.add(designId);
+                    } else {
+                        btn.classList.remove('liked');
+                        svg.setAttribute('fill', 'none');
+                        svg.setAttribute('stroke', 'currentColor');
+                        userLikes.delete(designId);
+                    }
+
+                    // Update like count in the card
+                    const card = btn.closest('.design-card');
+                    const likeCountSpan = card.querySelector('.card-social span:first-child');
+                    const currentCount = parseInt(likeCountSpan.textContent.trim().split(' ').pop()) || 0;
+                    const newCount = data.liked ? currentCount + 1 : Math.max(0, currentCount - 1);
+                    likeCountSpan.innerHTML = `
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        ${newCount}
+                    `;
+                } else if (response.status === 401) {
+                    window.location.href = `/login?redirect=${encodeURIComponent(window.location.pathname)}`;
+                }
+            } catch (error) {
+                console.error('Failed to toggle like:', error);
+            }
+        }
+
+        // Initialize - wait for DOM and Session to be ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+
+        async function init() {
+            // Wait a bit for session.js to load
+            await new Promise(resolve => setTimeout(resolve, 100));
+            await loadUserLikes();
+            await fetchDesigns();
+        }
+    </script>
+
+
+
+
+
+
+
+    <footer class="std-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="/collection">Discover</a></li>
+                        <li><a href="/how-it-works">How It Works</a></li>
+                        <li><a href="/problem">Problem We Solve</a></li>
+                        <li><a href="/philosophy">Philosophy</a></li>
+                        <li><a href="/about">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal Protection</h4>
+                    <ul>
+                        <li><a href="/terms">Terms & Conditions</a></li>
+                        <li><a href="/wallet-policy">Wallet Policy</a></li>
+                        <li><a href="/seller-agreement">Seller Agreement</a></li>
+                        <li><a href="/terms#privacy">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Partners</h4>
+                    <ul>
+                        <li><a href="/seller-register.html">Become a Seller</a></li>
+                        <li><a href="/seller-login">Partner Portal</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:concierge@heavydrops.com">concierge@heavydrops.com</a></li>
+                        <li><span style="opacity: 0.6; font-size: 0.9rem;">Chennai Only</span></li>
+                        <li><span style="opacity: 0.6; font-size: 0.9rem;">+91 9999 8888 77</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 Heavy Drops Intent Network. All rights reserved.</span>
+                <span>Est. Chennai</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/session.js"></script>
+</body>
+</body>
+
+</html>

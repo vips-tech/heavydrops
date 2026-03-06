@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heavy Drops — Jewellery Discovery Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <script src="/js/session.js"></script>
+    <style>
+        .detail-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            padding: 80px 0;
+        }
+
+        .image-gallery {
+            position: sticky;
+            top: 40px;
+        }
+
+        .main-img {
+            width: 100%;
+            aspect-ratio: 4/5;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .price-card {
+            background: var(--color-ivory);
+            padding: 32px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-gray-soft);
+            margin-top: 30px;
+        }
+
+        .like-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--color-gray-soft);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .like-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: var(--color-noir);
+            stroke-width: 2px;
+        }
+
+        .like-btn.active svg {
+            fill: #d12424;
+            stroke: #d12424;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="std-nav">
+    <div class="nav-left">
+        <a href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+            <img src="/assets/logo.png" alt="Heavy Drops">
+            <span style="font-family: 'Outfit'; font-weight: 600; font-size: 1.2rem; color: #1a1a1a; letter-spacing: -0.02em;">HEAVY DROPS</span>
+        </a>
+    </div>
+    <div class="nav-center">
+        <a href="/">Home</a>
+        <a href="/collection">Discover</a>
+        <a href="/profile/likes">Liked</a>
+    </div>
+    <div class="nav-right">
+        <div class="nav-auth-channel">
+            <!-- Populated by session.js -->
+        </div>
+    </div>
+</nav>
+
+
+
+
+
+    
+    
+
+    <main class="container detail-layout" id="detailRoot">
+        <p>Initializing high-resolution discovery...</p>
+    </main>
+
+    <!-- Gallery Viewer Modal -->
+    <div id="galleryViewer" class="modal-overlay" style="background: rgba(0,0,0,0.95);">
+        <span onclick="closeGallery()"
+            style="position: absolute; top: 30px; right: 30px; color: white; cursor: pointer; font-size: 2rem;">&times;</span>
+        <div style="width: 90%; height: 90%; display: flex; align-items: center; justify-content: center;">
+            <img id="viewerImg" src="" style="max-width: 100%; max-height: 100%; object-fit: contain; cursor: zoom-in;"
+                onclick="toggleZoom(this)">
+        </div>
+    </div>
+
+    <!-- Intent Confirmation Modal -->
+    <div class="modal-overlay" id="intentModal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 20px; font-family: var(--font-heading);">Signal Serious Intent?</h2>
+            <p style="margin-bottom: 20px; opacity: 0.8; line-height: 1.6;">
+                By "Blocking" this design, you are signaling serious purchase intent.
+                <br><br>
+                • ₹500 will be deducted from your intent wallet.<br>
+                • This design will be reserved for you for 48 hours.<br>
+                • You agree to visit the showroom within this window.
+            </p>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn-primary" style="flex: 1;" id="confirmBlock">Yes, Block Design</button>
+                <button class="btn-primary" style="flex: 1; background: var(--color-gray-dark);"
+                    onclick="closeModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Wait for Session to be available
+        function initDetailPage() {
+            const urlParams = new URLSearchParams(window.location.search);
+            let designId = urlParams.get('id');
+
+            if (!designId) {
+                const paths = window.location.pathname.split('/');
+                const idFromPath = paths[paths.length - 1];
+                if (!isNaN(idFromPath)) designId = idFromPath;
+            }
+
+            window.designId = designId;
+            fetchDetail();
+        }
+
+        async function fetchDetail() {
+            const designId = window.designId;
+            const root = document.getElementById('detailRoot');
+            try {
+                // Check if Session is available
+                if (typeof Session === 'undefined') {
+                    throw new Error('Session is not defined');
+                }
+
+                const isAuth = Session.isAuthenticated();
+                
+                // Fetch design data (public)
+                const designRes = await fetch(`/api/designs/${designId}`);
+                
+                if (!designRes.ok) throw new Error('Design not found');
+                
+                const design = await designRes.json();
+
+                // Fetch block status only if authenticated
+                let blockStatus = { status: 'available' };
+                if (isAuth) {
+                    try {
+                        const statusRes = await fetch(`/api/blocks/status/${designId}`, { 
+                            headers: { 'Authorization': `Bearer ${Session.getToken()}` } 
+                        });
+                        if (statusRes.ok) {
+                            blockStatus = await statusRes.json();
+                        }
+                    } catch (e) {
+                        console.log('Could not fetch block status:', e);
+                    }
+                }
+
+                const masterImg = design.media.find(m => m.shot_type === 'master')?.uri || 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=600&fit=crop';
+                const thumbnails = design.media.map(m => `<img src="${m.uri}" class="thumb" onclick="swapMain('${m.uri}')" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 1px solid var(--color-gray-soft);">`).join('');
+
+                let isBlocked = (blockStatus.status === 'blocked_by_me');
+
+                root.innerHTML = `
+                    <div class="image-section">
+                        <div class="gallery-container" style="position: sticky; top: 40px;">
+                            <img id="mainHeroImg" class="main-img" src="${masterImg}" alt="${design.category}" style="cursor: zoom-in;" onclick="openGallery('${masterImg}')">
+                            <div class="thumbnails" style="display: flex; gap: 10px; margin-top: 15px;">${thumbnails}</div>
+                            <p style="margin-top: 30px; font-size: 0.8rem; opacity: 0.4; text-align: center;">Verified Photography Audit: Platform Core</p>
+                        </div>
+                    </div>
+
+                    <div class="decision-section">
+                        <section class="identity">
+                            <span class="editorial-tag">Certified Masterwork</span>
+                            <h1 class="editorial-title" style="margin: 10px 0 20px;">${design.purity} Gold ${design.category}</h1>
+                            <p style="opacity: 0.8; line-height: 1.6; margin-bottom: 20px;">A masterfully crafted piece by ${design.business_name}. This design represents the finest ${design.purity} gold artistry in ${design.city}.</p>
+                            <a href="/seller-profile/${design.seller_id}" style="color: var(--color-gold); font-weight: 600; text-decoration: none; font-size: 0.9rem;">VIEW SELLER PROFILE →</a>
+                        </section>
+
+                        <section class="spec-tiles" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 40px 0;">
+                            <div class="spec-tile" style="background: var(--color-linen); padding: 20px; border-radius: 8px;">
+                                <span style="display: block; font-size: 0.7rem; text-transform: uppercase; opacity: 0.6; margin-bottom: 5px;">Purity</span>
+                                <strong>${design.purity}</strong>
+                            </div>
+                            <div class="spec-tile" style="background: var(--color-linen); padding: 20px; border-radius: 8px;">
+                                <span style="display: block; font-size: 0.7rem; text-transform: uppercase; opacity: 0.6; margin-bottom: 5px;">Weight</span>
+                                <strong>${design.weight}g</strong>
+                            </div>
+                        </section>
+
+                        <div class="price-module" style="background: #f8f8f8; padding: 30px; border-radius: 8px; border: 1px solid var(--color-gray-soft);">
+                            <h3 style="margin-bottom: 20px; font-size: 1rem; text-transform: uppercase;">Transparent Price Breakdown</h3>
+                            <div class="price-item"><span>Live Gold Value (${design.weight}g @ ₹${design.current_gold_rate}/g)</span> <span>₹${design.price_breakdown.gold_value.toLocaleString()}</span></div>
+                            <div class="price-item"><span>Making Charge (Seller Defined)</span> <span>₹${design.price_breakdown.making_charge.toLocaleString()}</span></div>
+                            <div class="price-item"><span>GST (3%)</span> <span>₹${design.price_breakdown.gst.toLocaleString()}</span></div>
+                            <div class="price-item price-item--total" style="border-top: 1px solid #ddd; padding-top: 20px; margin-top: 15px;">
+                                <strong>TOTAL ESTIMATE</strong> <strong>₹${design.price_breakdown.total.toLocaleString()}</strong>
+                            </div>
+                            <p style="font-size: 0.75rem; opacity: 0.6; margin-top: 15px; font-style: italic;">
+                                “Price calculated based on today's gold rate. Final price confirmed at store.”
+                            </p>
+                        </div>
+
+                        <div class="actions" style="margin-top: 40px; display: flex; flex-direction: column; gap: 15px;">
+                            <button class="btn-primary" id="mainCTA" style="width: 100%; py: 18px; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="${isBlocked ? 'null' : 'openModal()'}" ${isBlocked ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>
+                                ${isBlocked ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Design Blocked' : 'Block This Design'}
+                            </button>
+                            <button class="btn-primary btn-outline" id="secondaryCTA" style="width: 100%; py: 18px; border-color: var(--color-gold); color: var(--color-gold); background: transparent;"
+                                onclick="window.location.href='/intent-path?id=${designId}'" 
+                                ${!isBlocked ? 'disabled style="opacity: 0.3; cursor: not-allowed; border-color: #ccc; color: #ccc;"' : ''}>
+                                Book Store Visit
+                            </button>
+                            ${isBlocked ? `<p style="text-align: center; font-size: 0.8rem; opacity: 0.6;">Reserved until ${new Date(blockStatus.expiry_time).toLocaleString()}</p>` : ''}
+                        </div>
+                    </div>
+                `;
+
+                if (isAuth && !isBlocked) {
+                    try {
+                        const statusRes = await fetch(`/api/likes/status/${designId}`, { 
+                            headers: { 'Authorization': `Bearer ${Session.getToken()}` } 
+                        });
+                        if (statusRes.ok) {
+                            const statusData = await statusRes.json();
+                            if (statusData.liked) document.getElementById('likeBtnDetail')?.classList.add('active');
+                        }
+                    } catch (e) {
+                        console.log('Could not fetch like status:', e);
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading design:', error);
+                root.innerHTML = `<p style="text-align: center; padding: 100px;">Error loading curated details: ${error.message}</p>`;
+            }
+        }
+
+        function swapMain(uri) { document.getElementById('mainHeroImg').src = uri; }
+        function openGallery(uri) {
+            const v = document.getElementById('galleryViewer');
+            document.getElementById('viewerImg').src = uri;
+            v.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeGallery() {
+            document.getElementById('galleryViewer').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        function toggleZoom(img) {
+            if (img.style.cursor === 'zoom-in') {
+                img.style.maxHeight = 'none'; img.style.maxWidth = 'none';
+                img.style.cursor = 'zoom-out';
+            } else {
+                img.style.maxHeight = '100%'; img.style.maxWidth = '100%';
+                img.style.cursor = 'zoom-in';
+            }
+        }
+
+        function openModal() { document.getElementById('intentModal').classList.add('active'); }
+        function closeModal() { document.getElementById('intentModal').classList.remove('active'); }
+
+        document.getElementById('confirmBlock').onclick = async () => {
+            if (!Session.isAuthenticated()) {
+                window.location.href = `/login.html?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`;
+                return;
+            }
+            try {
+                const payRes = await fetch('/api/pay/initiate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${Session.getToken()}` },
+                    body: JSON.stringify({ design_id: window.designId })
+                });
+                const payData = await payRes.json();
+                if (!payRes.ok) throw new Error(payData.error);
+                window.location.href = payData.gateway_sim_url;
+            } catch (err) { alert('Action failed: ' + err.message); }
+        };
+
+        // Initialize when DOM and Session are ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(initDetailPage, 100);
+            });
+        } else {
+            setTimeout(initDetailPage, 100);
+        }
+    </script>
+    
+    
+
+
+
+
+
+
+
+<footer class="std-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="/collection">Discover</a></li>
+                    <li><a href="/how-it-works">How It Works</a></li>
+                    <li><a href="/problem">Problem We Solve</a></li>
+                    <li><a href="/philosophy">Philosophy</a></li>
+                    <li><a href="/about">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal Protection</h4>
+                <ul>
+                    <li><a href="/terms">Terms & Conditions</a></li>
+                    <li><a href="/wallet-policy">Wallet Policy</a></li>
+                    <li><a href="/seller-agreement">Seller Agreement</a></li>
+                    <li><a href="/terms#privacy">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Partners</h4>
+                <ul>
+                    <li><a href="/seller-register.html">Become a Seller</a></li>
+                    <li><a href="/seller-login">Partner Portal</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="mailto:concierge@heavydrops.com">concierge@heavydrops.com</a></li>
+                    <li><span style="opacity: 0.6; font-size: 0.9rem;">Chennai Only</span></li>
+                    <li><span style="opacity: 0.6; font-size: 0.9rem;">+91 9999 8888 77</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 Heavy Drops Intent Network. All rights reserved.</span>
+            <span>Est. Chennai</span>
+        </div>
+    </div>
+</footer>
+
+</body>
+
+</html>

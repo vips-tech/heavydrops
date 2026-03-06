@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heavy Drops — Jewellery Discovery Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <style>
+        .scheduling-layout {
+            max-width: 600px;
+            margin: 80px auto;
+            background: var(--color-ivory);
+            padding: 40px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .slot-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .slot-pill {
+            padding: 15px;
+            border: 1px solid var(--color-gray-soft);
+            border-radius: var(--radius-sm);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .slot-pill:hover {
+            border-color: var(--color-gold);
+            background: var(--color-linen);
+        }
+
+        .slot-pill.selected {
+            background: var(--color-gold);
+            color: var(--color-noir);
+            border-color: var(--color-gold);
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="std-nav">
+        <div class="nav-left">
+            <a href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+                <img src="/assets/logo.png" alt="Heavy Drops">
+                <span
+                    style="font-family: 'Outfit'; font-weight: 600; font-size: 1.2rem; color: #1a1a1a; letter-spacing: -0.02em;">HEAVY
+                    DROPS</span>
+            </a>
+        </div>
+        <div class="nav-center">
+            <a href="/">Home</a>
+            <a href="/collection">Discover</a>
+            <a href="/profile/likes">Liked</a>
+        </div>
+        <div class="nav-right">
+            <div class="nav-auth-channel">
+                <!-- Populated by session.js -->
+            </div>
+        </div>
+    </nav>
+
+
+
+
+
+
+
+
+    <main class="scheduling-layout container animate-entrance">
+        <h2 class="editorial-title" style="font-size: 2rem;">Physical Bridge</h2>
+        <p style="opacity: 0.8; margin-bottom: 30px;">Select a preferred showroom visit slot for your active design
+            block. The seller will confirm your bridge shortly.</p>
+
+        <label style="font-weight: 600; display: block; margin-bottom: 10px;">Select Date</label>
+        <input type="date" id="visitDate"
+            style="width: 100%; padding: 12px; border: 1px solid var(--color-gray-soft); border-radius: var(--radius-sm); margin-bottom: 30px;">
+
+        <label style="font-weight: 600; display: block; margin-bottom: 10px;">Preferred Slot</label>
+        <div class="slot-grid" id="slotGrid">
+            <div class="slot-pill" onclick="selectSlot(this, '11:00 AM')">11:00 AM - 12:00 PM</div>
+            <div class="slot-pill" onclick="selectSlot(this, '01:00 PM')">01:00 PM - 02:00 PM</div>
+            <div class="slot-pill" onclick="selectSlot(this, '03:00 PM')">03:00 PM - 04:00 PM</div>
+            <div class="slot-pill" onclick="selectSlot(this, '05:00 PM')">05:00 PM - 06:00 PM</div>
+        </div>
+
+        <button class="btn-primary" style="width: 100%;" id="bookBtn">Confirm Appointment</button>
+        <p style="margin-top: 20px; font-size: 0.75rem; opacity: 0.6; text-align: center; line-height: 1.4;">
+            Appointments are facilitated for scheduling purposes. Heavy Drops is not liable for seller performance,
+            product quality, or outcomes of physical visits.
+        </p>
+    </main>
+
+    <script>
+        let selectedTime = null;
+        const urlParams = new URLSearchParams(window.location.search);
+        const blockId = urlParams.get('block_id');
+        const sellerId = urlParams.get('seller_id');
+
+        if (!Session.isAuthenticated()) {
+            window.location.href = `/login.html?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`;
+        }
+
+
+        function selectSlot(el, time) {
+            document.querySelectorAll('.slot-pill').forEach(p => p.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedTime = time;
+        }
+
+        document.getElementById('bookBtn').onclick = async () => {
+            const user = await Session.getUser();
+            if (!user) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            const date = document.getElementById('visitDate').value;
+            if (!date || !selectedTime) {
+                alert('Please select date and time slot.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/appointments', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${Session.getToken()}`
+                    },
+                    body: JSON.stringify({
+                        user_id: user.user_id,
+                        block_id: blockId,
+                        seller_id: sellerId,
+                        appointment_time: `${date} ${selectedTime}`
+                    })
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('Bridge Requested! Check your wallet for updates.');
+                    window.location.href = '/wallet.html';
+                } else {
+                    alert('Error: ' + data.error);
+                }
+            } catch (err) {
+                alert('Failed to connect to physical bridge.');
+            }
+        };
+    </script>
+
+
+
+
+
+
+
+
+    <footer class="std-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="/collection">Discover</a></li>
+                        <li><a href="/how-it-works">How It Works</a></li>
+                        <li><a href="/problem">Problem We Solve</a></li>
+                        <li><a href="/philosophy">Philosophy</a></li>
+                        <li><a href="/about">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal Protection</h4>
+                    <ul>
+                        <li><a href="/terms">Terms & Conditions</a></li>
+                        <li><a href="/wallet-policy">Wallet Policy</a></li>
+                        <li><a href="/seller-agreement">Seller Agreement</a></li>
+                        <li><a href="/terms#privacy">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Partners</h4>
+                    <ul>
+                        <li><a href="/seller-register.html">Become a Seller</a></li>
+                        <li><a href="/seller-login">Partner Portal</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:concierge@heavydrops.com">concierge@heavydrops.com</a></li>
+                        <li><span style="opacity: 0.6; font-size: 0.9rem;">Chennai Only</span></li>
+                        <li><span style="opacity: 0.6; font-size: 0.9rem;">+91 9999 8888 77</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 Heavy Drops Intent Network. All rights reserved.</span>
+                <span>Est. Chennai</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/session.js"></script>
+</body>
+
+</html>

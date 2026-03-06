@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heavy Drops — Seller Profile</title>
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <style>
+        .seller-hero {
+            background: var(--color-noir);
+            color: var(--color-ivory);
+            padding: 80px 0;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .seller-meta {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .design-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="std-nav">
+    <div class="nav-left">
+        <a href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+            <img src="/assets/logo.png" alt="Heavy Drops">
+            <span style="font-family: 'Outfit'; font-weight: 600; font-size: 1.2rem; color: #1a1a1a; letter-spacing: -0.02em;">HEAVY DROPS</span>
+        </a>
+    </div>
+    <div class="nav-center">
+        <a href="/">Home</a>
+        <a href="/collection">Discover</a>
+        <a href="/profile/likes">Liked</a>
+    </div>
+    <div class="nav-right">
+        <div class="nav-auth-channel">
+            <!-- Populated by session.js -->
+        </div>
+    </div>
+</nav>
+
+
+
+
+    
+    
+
+    <div class="seller-hero">
+        <div class="container animate-entrance">
+            <span class="editorial-tag" style="color: var(--color-gold);">Platform Verified Partner</span>
+            <h1 class="editorial-title lustre-gold" id="sellerName" style="font-size: 3.5rem;">Loading Brand...</h1>
+            <p id="brandStory"
+                style="max-width: 700px; margin: 20px auto; opacity: 0.8; line-height: 1.8; font-style: italic;">
+                "Crafting heritage through masterwork gold artistry."</p>
+            <div class="seller-meta">
+                <span id="sellerCity">Location: --</span>
+                <span id="sellerTrust" style="color: var(--color-gold); font-weight: 600;">Trust Score: --%</span>
+            </div>
+        </div>
+    </div>
+
+    <main class="container">
+        <h2 style="margin-bottom: 40px;">Curated Collection</h2>
+        <div class="design-grid" id="sellerGrid"></div>
+    </main>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        let sellerId = urlParams.get('id');
+
+        // Clean Route Fallback: Check if ID is in path (/seller/123)
+        if (!sellerId) {
+            const paths = window.location.pathname.split('/');
+            const idFromPath = paths[paths.length - 1];
+            if (!isNaN(idFromPath)) sellerId = idFromPath;
+        }
+
+        async function fetchSeller() {
+            try {
+                const response = await fetch(`/api/sellers/profile/${sellerId}`);
+                const data = await response.json();
+
+                document.getElementById('sellerName').innerText = data.business_name;
+                document.getElementById('sellerCity').innerText = `Location: ${data.city}`;
+                document.getElementById('sellerTrust').innerText = `Trust Score: ${data.trust_score}%`;
+
+                const grid = document.getElementById('sellerGrid');
+                grid.innerHTML = data.collection.map(design => `
+                    <div class="design-card">
+                        <img class="design-card__media" src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=400&fit=crop">
+                        <div class="design-card__content">
+                            <h3 class="design-card__title">${design.purity} Gold ${design.category}</h3>
+                            <p>wt: ${design.weight}g</p>
+                            <button class="btn-primary btn-block" onclick="window.location.href='/detail.html?id=${design.design_id}'">View Design</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                console.error('Failed to load seller');
+            }
+        }
+        fetchSeller();
+    </script>
+    
+
+
+
+
+
+
+
+<footer class="std-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="/collection">Discover</a></li>
+                    <li><a href="/how-it-works">How It Works</a></li>
+                    <li><a href="/problem">Problem We Solve</a></li>
+                    <li><a href="/philosophy">Philosophy</a></li>
+                    <li><a href="/about">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal Protection</h4>
+                <ul>
+                    <li><a href="/terms">Terms & Conditions</a></li>
+                    <li><a href="/wallet-policy">Wallet Policy</a></li>
+                    <li><a href="/seller-agreement">Seller Agreement</a></li>
+                    <li><a href="/terms#privacy">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Partners</h4>
+                <ul>
+                    <li><a href="/seller-register.html">Become a Seller</a></li>
+                    <li><a href="/seller-login">Partner Portal</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="mailto:concierge@heavydrops.com">concierge@heavydrops.com</a></li>
+                    <li><span style="opacity: 0.6; font-size: 0.9rem;">Chennai Only</span></li>
+                    <li><span style="opacity: 0.6; font-size: 0.9rem;">+91 9999 8888 77</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 Heavy Drops Intent Network. All rights reserved.</span>
+            <span>Est. Chennai</span>
+        </div>
+    </div>
+</footer>
+
+<script src="/js/session.js"></script>
+</body>
+
+</html>

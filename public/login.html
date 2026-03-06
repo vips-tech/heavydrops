@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — Heavy Drops</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Outfit:wght@500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <style>
+        body {
+            background: var(--color-linen);
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .login-container {
+            min-height: calc(100vh - 300px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+        }
+
+        .login-card {
+            background: white;
+            padding: 60px 48px;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+        }
+
+        .login-logo {
+            height: 80px;
+            margin-bottom: 24px;
+        }
+
+        .brand-name {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--color-noir);
+            margin-bottom: 40px;
+            letter-spacing: -0.02em;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 10px;
+            color: var(--color-noir);
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--color-clay);
+            border-radius: 4px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: all 0.2s;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            border-color: var(--color-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: var(--color-noir);
+            color: white;
+            padding: 16px;
+            border: none;
+            border-radius: 4px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-gray-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .role-selector {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .role-selector button {
+            flex: 1;
+            padding: 12px;
+            background: var(--color-gray-soft);
+            color: var(--color-noir);
+            border: 2px solid transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .role-selector button.active {
+            background: var(--color-noir);
+            color: white;
+            border-color: var(--color-noir);
+        }
+
+        .role-selector button:hover {
+            border-color: var(--color-gold);
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: var(--color-gray-dark);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            font-size: 0.7rem;
+            color: var(--color-gray-dark);
+            opacity: 0.6;
+            text-align: center;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .animate-entrance {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="std-nav">
+    <div class="nav-left">
+        <a href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+            <img src="/assets/logo.png" alt="Heavy Drops">
+            <span style="font-family: 'Outfit'; font-weight: 600; font-size: 1.2rem; color: #1a1a1a; letter-spacing: -0.02em;">HEAVY DROPS</span>
+        </a>
+    </div>
+    <div class="nav-center">
+        <a href="/">Home</a>
+        <a href="/collection">Discover</a>
+        <a href="/profile/likes">Liked</a>
+    </div>
+    <div class="nav-right">
+        <div class="nav-auth-channel">
+            <!-- Populated by session.js -->
+        </div>
+    </div>
+</nav>
+
+<div class="login-container">
+    <div class="login-card animate-entrance">
+        <h2 style="font-family: 'Outfit', sans-serif; font-size: 2rem; font-weight: 600; margin-bottom: 16px; color: var(--color-noir);">Authenticated Access</h2>
+        <p class="subtitle">
+            Heavy Drops is a stateful intent network. Access is restricted to verified users via OTP.
+        </p>
+
+        <div class="role-selector">
+            <button type="button" id="btnBuyer" class="active" onclick="setRole('buyer')">Buyer</button>
+            <button type="button" id="btnSeller" onclick="setRole('seller')">Seller</button>
+            <button type="button" id="btnAdmin" onclick="setRole('admin')">Admin</button>
+        </div>
+
+        <!-- OTP Form for Buyer/Seller -->
+        <form id="otpForm" style="display: block;">
+            <div id="phoneSection">
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="text" id="phone" placeholder="+91 00000 00000" required>
+                </div>
+                <button type="button" class="btn-primary" onclick="requestOTP()">Request Access Code</button>
+            </div>
+
+            <div id="verifySection" style="display: none;">
+                <div class="form-group">
+                    <label>Verification Code</label>
+                    <input type="text" id="otp" placeholder="Enter 6-digit code" maxlength="6" required>
+                </div>
+                <button type="button" class="btn-primary" onclick="verifyOTP()">Verify & Enter</button>
+                <p style="margin-top: 20px; font-size: 0.85rem; color: var(--color-gray-dark); text-align: center;">
+                    OTP sent to your mobile number
+                </p>
+            </div>
+        </form>
+
+        <!-- Admin Credential Form -->
+        <form id="adminForm" style="display: none;">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="adminUsername" placeholder="Enter admin username" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="adminPassword" placeholder="Enter admin password" required>
+            </div>
+            <button type="button" class="btn-primary" onclick="adminLogin()">Admin Login</button>
+            <p style="margin-top: 20px; font-size: 0.85rem; color: var(--color-gray-dark); text-align: center;">
+                Default: admin / admin
+            </p>
+        </form>
+
+        <p class="footer-note">
+            Protected Discovery Node — Access Restricted to Verified Partners
+        </p>
+    </div>
+</div>
+    
+    <script>
+        let selectedRole = 'buyer';
+
+        function setRole(role) {
+            selectedRole = role;
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.role-selector button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Add active class to selected button
+            document.getElementById('btn' + role.charAt(0).toUpperCase() + role.slice(1)).classList.add('active');
+            
+            // Show/hide appropriate form
+            if (role === 'admin') {
+                document.getElementById('otpForm').style.display = 'none';
+                document.getElementById('adminForm').style.display = 'block';
+            } else {
+                document.getElementById('otpForm').style.display = 'block';
+                document.getElementById('adminForm').style.display = 'none';
+                // Reset OTP form
+                document.getElementById('phoneSection').style.display = 'block';
+                document.getElementById('verifySection').style.display = 'none';
+            }
+        }
+
+        // Auto-select based on entry path
+        if (window.location.pathname === '/seller-login') {
+            setRole('seller');
+        } else if (window.location.pathname === '/admin-login') {
+            setRole('admin');
+        }
+
+        async function requestOTP() {
+            const phone = document.getElementById('phone').value;
+            
+            if (!phone || phone.trim() === '') {
+                alert('Please enter a phone number.');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/auth/request-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone })
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    document.getElementById('phoneSection').style.display = 'none';
+                    document.getElementById('verifySection').style.display = 'block';
+                    
+                    // Show success message
+                    alert(`OTP sent to ${phone}. Please check your mobile.`);
+                } else {
+                    const error = await res.json();
+                    alert(error.error || 'Failed to send OTP.');
+                }
+            } catch (err) {
+                console.error('Error requesting OTP:', err);
+                alert('Network error. Please try again.');
+            }
+        }
+
+        async function verifyOTP() {
+            const phone = document.getElementById('phone').value;
+            const code = document.getElementById('otp').value;
+
+            if (!code || code.trim() === '') {
+                alert('Please enter the verification code.');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/auth/verify-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone, code })
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    
+                    // Store token
+                    if (typeof Session !== 'undefined' && Session.setToken) {
+                        Session.setToken(data.token);
+                    } else {
+                        localStorage.setItem('auth_token', data.token);
+                    }
+
+                    // Redirect based on role
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const redirectPath = urlParams.get('redirect');
+
+                    if (redirectPath) {
+                        window.location.href = decodeURIComponent(redirectPath);
+                    } else if (data.role === 'admin') {
+                        window.location.href = '/admin';
+                    } else if (selectedRole === 'seller' || data.role === 'seller') {
+                        window.location.href = '/seller-dashboard';
+                    } else {
+                        // Regular buyers go to home page
+                        window.location.href = '/';
+                    }
+                } else {
+                    const error = await res.json();
+                    alert(error.error || 'Invalid OTP code.');
+                }
+            } catch (err) {
+                console.error('Error verifying OTP:', err);
+                alert('Network error. Please try again.');
+            }
+        }
+
+        async function adminLogin() {
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+
+            if (!username || !password) {
+                alert('Please enter both username and password.');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/auth/admin-login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    
+                    // Store token
+                    if (typeof Session !== 'undefined' && Session.setToken) {
+                        Session.setToken(data.token);
+                    } else {
+                        localStorage.setItem('auth_token', data.token);
+                    }
+
+                    // Redirect to admin dashboard
+                    window.location.href = '/admin';
+                } else {
+                    const error = await res.json();
+                    alert(error.error || 'Invalid admin credentials.');
+                }
+            } catch (err) {
+                console.error('Error during admin login:', err);
+                alert('Network error. Please try again.');
+            }
+        }
+
+        // Allow Enter key to submit
+        document.getElementById('phone').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                requestOTP();
+            }
+        });
+
+        document.getElementById('otp').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                verifyOTP();
+            }
+        });
+
+        document.getElementById('adminUsername').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                document.getElementById('adminPassword').focus();
+            }
+        });
+
+        document.getElementById('adminPassword').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                adminLogin();
+            }
+        });
+    </script>
+    
+
+
+
+
+
+
+
+<footer class="std-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="/collection">Discover</a></li>
+                    <li><a href="/how-it-works">How It Works</a></li>
+                    <li><a href="/problem">Problem We Solve</a></li>
+                    <li><a href="/philosophy">Philosophy</a></li>
+                    <li><a href="/about">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal Protection</h4>
+                <ul>
+                    <li><a href="/terms">Terms & Conditions</a></li>
+                    <li><a href="/wallet-policy">Wallet Policy</a></li>
+                    <li><a href="/seller-agreement">Seller Agreement</a></li>
+                    <li><a href="/terms#privacy">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Partners</h4>
+                <ul>
+                    <li><a href="/seller-register.html">Become a Seller</a></li>
+                    <li><a href="/seller-login">Partner Portal</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="mailto:concierge@heavydrops.com">concierge@heavydrops.com</a></li>
+                    <li><span style="opacity: 0.6; font-size: 0.9rem;">Chennai Only</span></li>
+                    <li><span style="opacity: 0.6; font-size: 0.9rem;">+91 9999 8888 77</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 Heavy Drops Intent Network. All rights reserved.</span>
+            <span>Est. Chennai</span>
+        </div>
+    </div>
+</footer>
+
+<script src="/js/session.js"></script>
+</body>
+
+</html>

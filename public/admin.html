@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heavy Drops — Master Governance Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <script src="/js/session.js"></script>
+    <style>
+        .admin-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+
+        .admin-header {
+            grid-column: 1 / -1;
+            background: var(--color-noir);
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--color-gold);
+        }
+
+        .admin-header h1 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .admin-header h1 img {
+            height: 32px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        .admin-header .logout-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .admin-header .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--color-gold);
+        }
+
+        .sidebar {
+            background: var(--color-noir);
+            color: var(--color-ivory);
+            padding: 40px 20px;
+        }
+
+        .sidebar-nav a {
+            display: block;
+            color: var(--color-ivory);
+            text-decoration: none;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .main-content {
+            padding: 60px;
+            background: var(--color-gray-soft);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--color-ivory);
+            padding: 24px;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .data-table {
+            width: 100%;
+            background: var(--color-ivory);
+            border-radius: var(--radius-sm);
+            border-collapse: collapse;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .data-table th,
+        .data-table td {
+            text-align: left;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--color-gray-soft);
+        }
+
+        .data-table th {
+            background: var(--color-noir);
+            color: var(--color-ivory);
+            font-weight: 500;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge--pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge--approved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge--rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        // Immediate protection - runs before page renders
+        (function() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = '/login?error=admin_access_required';
+            }
+        })();
+    </script>
+
+    <div class="admin-layout">
+        <div class="admin-header">
+            <h1>HEAVY DROPS — Admin Panel
+            </h1>
+            <button class="logout-btn" onclick="Session.logout()">Logout</button>
+        </div>
+        
+        <aside class="sidebar">
+            <div class="sidebar-nav">
+                <a href="#" class="nav-item active" onclick="showTab('audit', event); return false;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                        <circle cx="12" cy="13" r="4"/>
+                    </svg>
+                    Audit Hub
+                </a>
+                <a href="#" class="nav-item" onclick="showTab('sellers', event); return false;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                    Sellers
+                </a>
+                <a href="#" class="nav-item" onclick="showTab('users', event); return false;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                    User Base
+                </a>
+                <a href="#" class="nav-item" onclick="showTab('monitoring', event); return false;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                        <line x1="8" y1="21" x2="16" y2="21"/>
+                        <line x1="12" y1="17" x2="12" y2="21"/>
+                    </svg>
+                    Monitoring
+                </a>
+                <a href="#" class="nav-item" onclick="showTab('violations', event); return false;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="8" x2="12" y2="12"/>
+                        <line x1="12" y1="16" x2="12.01" y2="16"/>
+                    </svg>
+                    Violations
+                </a>
+                <a href="#" class="nav-item" onclick="showTab('wallets', event); return false;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                        <line x1="1" y1="10" x2="23" y2="10"/>
+                    </svg>
+                    Wallets
+                </a>
+                <a href="#" class="nav-item" onclick="showTab('gold', event); return false;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                        <polyline points="17 6 23 6 23 12"/>
+                    </svg>
+                    Gold Rate
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header style="margin-bottom: 40px; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1 id="tabTitle">Photography Audit Hub</h1>
+                    <p id="tabDesc" style="opacity: 0.6;">Review and standardize curated listings before live
+                        deployment.</p>
+                </div>
+                <div id="statsSummary" style="text-align: right; font-weight: 600; color: var(--color-gold);">
+                    PLATFORM: LIVE
+                </div>
+            </header>
+
+            <div class="stats-grid" id="statsGrid">
+                <!-- Data populated from /api/admin/stats -->
+            </div>
+
+            <!-- Tab: Curation Audit -->
+            <section id="tab-audit" class="content-tab">
+                <header class="editorial-header" style="padding: 40px 0; text-align: left;">
+                    <h1 class="editorial-title" style="font-size: 2rem;">Visual Photography Audit</h1>
+                    <p style="opacity: 0.6;">Verify listing quality before public release.</p>
+                </header>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Preview</th>
+                            <th>Design</th>
+                            <th>Seller</th>
+                            <th>Purity</th>
+                            <th>Audit Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="auditQueue"></tbody>
+                </table>
+
+                <header class="editorial-header" style="padding: 40px 0; text-align: left;">
+                    <h1 class="editorial-title" style="font-size: 2rem;">Pending Media Audit</h1>
+                    <p style="opacity: 0.6;">Review individual multi-shot photography.</p>
+                </header>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Preview</th>
+                            <th>Shot Type</th>
+                            <th>Seller</th>
+                            <th>Category</th>
+                            <th>Review Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="mediaAuditQueue"></tbody>
+                </table>
+            </section>
+
+            <!-- Tab: Sellers -->
+            <div id="tab-sellers" class="content-tab" style="display: none;">
+                <div
+                    style="background: var(--color-ivory); padding: 30px; border-radius: var(--radius-sm); margin-bottom: 30px;">
+                    <h3 style="margin-bottom: 20px;">Pending Jeweller Applications</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Brand</th>
+                                <th>City</th>
+                                <th>Email</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="applicantList"></tbody>
+                    </table>
+                </div>
+
+                <div style="background: var(--color-ivory); padding: 30px; border-radius: var(--radius-sm);">
+                    <h3 style="margin-bottom: 20px;">Active Partner Network</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Brand</th>
+                                <th>City</th>
+                                <th>Trust</th>
+                                <th>Status</th>
+                                <th>Governance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sellerList"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tab: Users -->
+            <div id="tab-users" class="content-tab" style="display: none;">
+                <header class="editorial-header" style="padding: 20px 0; text-align: left;">
+                    <h2 style="font-size: 1.5rem;">User Governance</h2>
+                    <p style="opacity: 0.6;">Manage roles, strikes, and access restrictions.</p>
+                </header>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Phone</th>
+                            <th>Role</th>
+                            <th>Strikes</th>
+                            <th>Wallet</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userList"></tbody>
+                </table>
+            </div>
+
+            <!-- Tab: Monitoring -->
+            <div id="tab-monitoring" class="content-tab" style="display: none;">
+                <header class="editorial-header" style="padding: 20px 0; text-align: left;">
+                    <h2 style="font-size: 1.5rem;">Operational Monitoring</h2>
+                    <p style="opacity: 0.6;">Pattern analysis for blocks and appointments.</p>
+                </header>
+                <div
+                    style="background: var(--color-ivory); padding: 30px; border-radius: var(--radius-sm); margin-bottom: 30px;">
+                    <h4 style="margin-bottom: 15px;">Global Appointment Log</h4>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Buyer</th>
+                                <th>Seller</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                                <th>Block State</th>
+                            </tr>
+                        </thead>
+                        <tbody id="appointmentLog"></tbody>
+                    </table>
+                </div>
+                <div style="background: var(--color-ivory); padding: 30px; border-radius: var(--radius-sm);">
+                    <h4 style="margin-bottom: 15px;">Permanent Violation History</h4>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Entity ID</th>
+                                <th>Type</th>
+                                <th>Level</th>
+                                <th>Reason</th>
+                                <th>Timestamp</th>
+                            </tr>
+                        </thead>
+                        <tbody id="violationHistory"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tab: Violations -->
+            <div id="tab-violations" class="content-tab" style="display: none;">
+                <div style="background: var(--color-ivory); padding: 30px; border-radius: var(--radius-sm);">
+                    <h3 style="margin-bottom: 20px;">Issue Violation Signal</h3>
+                    <div style="max-width: 500px;">
+                        <select id="violationType" style="width: 100%; padding: 10px; margin-bottom: 10px;">
+                            <option value="no-show">No-Show Abuse</option>
+                            <option value="bypass">Platform Bypass Attempt</option>
+                            <option value="fraud">Fraudulent Intent</option>
+                            <option value="misconduct">General Misconduct</option>
+                        </select>
+                        <input type="text" id="violationEntity" placeholder="Entity ID (User/Seller ID)"
+                            style="width: 100%; padding: 10px; margin-bottom: 10px;">
+                        <select id="violationLevel" style="width: 100%; padding: 10px; margin-bottom: 10px;">
+                            <option value="warning">Warning</option>
+                            <option value="strike">Formal Strike</option>
+                            <option value="suspension">Immediate Suspension</option>
+                        </select>
+                        <textarea id="violationReason" placeholder="Detailed reason for violation..."
+                            style="width: 100%; padding: 10px; margin-bottom: 20px; min-height: 100px;"></textarea>
+                        <button class="btn-primary" onclick="submitViolation()" style="width: 100%;">Log Permanent
+                            style="width: 100%; padding: 10px; margin-bottom: 10px;">
+                            <input type="text" id="adjReason" placeholder="Reason for correction"
+                                style="width: 100%; padding: 10px; margin-bottom: 10px;">
+                            <button class="btn-primary" onclick="adjustWallet()" style="width: 100%;">Execute Ledger
+                                Correction</button>
+                    </div>
+                </div>
+        </main>
+    </div>
+
+
+    <script>
+        async function fetchQueue() {
+            const list = document.getElementById('auditQueue');
+            try {
+                const resp = await fetch('/api/admin/designs/pending', {
+                    headers: { 'Authorization': `Bearer ${Session.getToken()}` }
+                });
+                const designs = await resp.json();
+                if (designs.length === 0) {
+                    list.innerHTML = '<tr><td colspan="5" style="text-align: center; opacity: 0.6;">No pending designs in audit queue.</td></tr>';
+                    return;
+                }
+                list.innerHTML = designs.map(d => `
+                    <tr>
+                        <td><img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=100&fit=crop" style="width: 50px; height: 50px; border-radius: 4px; object-fit: cover;"></td>
+                        <td>${d.purity} Gold ${d.category}</td>
+                        <td>${d.business_name}</td>
+                        <td>${d.purity}</td>
+                        <td>
+                            <button class="btn-primary" style="padding: 5px 10px; font-size: 0.7rem; background: #1e7d32;" 
+                                onclick="auditListing(${d.design_id}, 'approved')">Approve</button>
+                            <button class="btn-primary" style="padding: 5px 10px; font-size: 0.7rem; background: #d12424; margin-left: 5px;" 
+                                onclick="auditListing(${d.design_id}, 'rejected')">Reject</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (e) {
+                list.innerHTML = '<tr><td colspan="5">Error loading audit queue.</td></tr>';
+            }
+            fetchMediaQueue();
+        }
+
+        async function fetchMediaQueue() {
+            const list = document.getElementById('mediaAuditQueue');
+            try {
+                const resp = await fetch('/api/admin/designs/media/pending', {
+                    headers: { 'Authorization': `Bearer ${Session.getToken()}` }
+                });
+                const media = await resp.json();
+                if (media.length === 0) {
+                    list.innerHTML = '<tr><td colspan="5" style="text-align: center; opacity: 0.6;">No pending media in review queue.</td></tr>';
+                    return;
+                }
+                list.innerHTML = media.map(m => `
+                    <tr>
+                        <td><img src="${m.uri}" style="width: 100px; height: 100px; border-radius: 4px; object-fit: cover; cursor: pointer;" onclick="window.open(this.src)"></td>
+                        <td><span class="badge badge--pending">${m.shot_type}</span></td>
+                        <td>${m.business_name}</td>
+                        <td>${m.category}</td>
+                        <td>
+                            <button class="btn-primary" style="padding: 5px 10px; font-size: 0.7rem; background: #1e7d32;" 
+                                onclick="reviewMedia(${m.media_id}, 'approved')">Approve</button>
+                            <button class="btn-primary" style="padding: 5px 10px; font-size: 0.7rem; background: #d12424; margin-left: 5px;" 
+                                onclick="reviewMedia(${m.media_id}, 'rejected')">Reject</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (e) {
+                list.innerHTML = '<tr><td colspan="5">Error loading media queue.</td></tr>';
+            }
+        }
+
+        function showTab(tabId, event) {
+            if (event) {
+                event.preventDefault();
+            }
+            
+            document.querySelectorAll('.content-tab').forEach(t => t.style.display = 'none');
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(`tab-${tabId}`).style.display = 'block';
+
+            // Highlight active nav item
+            document.querySelectorAll('.nav-item').forEach(n => {
+                if (n.getAttribute('onclick').includes(`'${tabId}'`)) n.classList.add('active');
+            });
+
+            if (tabId === 'audit') {
+                document.getElementById('tabTitle').innerText = 'Photography Audit Hub';
+                fetchQueue();
+            } else if (tabId === 'users') {
+                document.getElementById('tabTitle').innerText = 'User Governance';
+                fetchUsers();
+            } else if (tabId === 'sellers') {
+                document.getElementById('tabTitle').innerText = 'Seller Management';
+                fetchSellers();
+            } else if (tabId === 'monitoring') {
+                document.getElementById('tabTitle').innerText = 'Monitoring Hub';
+                fetchMonitoring();
+            } else if (tabId === 'wallets') {
+                document.getElementById('tabTitle').innerText = 'Financial Governance';
+            } else if (tabId === 'gold') {
+                document.getElementById('tabTitle').innerText = 'Market Control';
+                fetchGoldRate();
+            } else if (tabId === 'violations') {
+                document.getElementById('tabTitle').innerText = 'Violation Desk';
+            }
+        }
+
+        async function fetchUsers() {
+            const list = document.getElementById('userList');
+            try {
+                const resp = await fetch('/api/admin/users', {
+                    headers: { 'Authorization': `Bearer ${Session.getToken()}` }
+                });
+                const users = await resp.json();
+                list.innerHTML = users.map(u => `
+                    <tr>
+                        <td>#${u.user_id}</td>
+                        <td style="font-weight: 600;">${u.phone}</td>
+                        <td>${u.role}</td>
+                        <td style="color: #d12424;">${u.strike_count}</td>
+                        <td>₹${parseInt(u.balance || 0)}</td>
+                        <td>
+                            <button class="btn-primary" style="padding: 5px 10px; font-size: 0.7rem; background: #d12424;" 
+                                onclick="updateUserStatus(${u.user_id}, 'suspended')">Suspend</button>
+                            <button class="btn-primary" style="padding: 5px 10px; font-size: 0.7rem; background: #b76e00; margin-left: 5px;" 
+                                onclick="updateUserStatus(${u.user_id}, 'restricted')">Restrict</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (e) { list.innerHTML = '<tr><td colspan="6">Error loading users.</td></tr>'; }
+        }
+
+        async function fetchMonitoring() {
+            fetchAppointments();
+            fetchViolations();
+        }
+
+        async function fetchAppointments() {
+            const list = document.getElementById('appointmentLog');
+            try {
+                const resp = await fetch('/api/admin/appointments', {
+                    headers: { 'Authorization': `Bearer ${Session.getToken()}` }
+                });
+                const data = await resp.json();
+                list.innerHTML = data.map(a => `
+                    <tr>
+                        <td>${a.buyer_phone}</td>
+                        <td>${a.seller_brand}</td>
+                        <td>${new Date(a.appointment_time).toLocaleString()}</td>
+                        <td><span class="badge ${a.status === 'attended' ? 'badge--approved' : 'badge--pending'}">${a.status}</span></td>
+                        <td>${a.block_current_status}</td>
+                    </tr>
+                `).join('');
+            } catch (e) { list.innerHTML = '<tr><td colspan="5">Error loading monitoring data.</td></tr>'; }
+        }
+
+        async function fetchViolations() {
+            const list = document.getElementById('violationHistory');
+            try {
+                const resp = await fetch('/api/admin/violations', {
+                    headers: { 'Authorization': `Bearer ${Session.getToken()}` }
+                });
+                const data = await resp.json();
+                list.innerHTML = data.map(v => `
+                    <tr>
+                        <td>#${v.entity_id} (${v.entity_type})</td>
+                        <td>${v.type}</td>
+                        <td><span class="badge ${v.level === 'strike' ? 'badge--rejected' : 'badge--pending'}">${v.level}</span></td>
+                        <td style="font-size: 0.8rem; opacity: 0.7;">${v.reason}</td>
+                        <td>${new Date(v.created_at).toLocaleString()}</td>
+                    </tr>
+                `).join('');
+            } catch (e) { list.innerHTML = '<tr><td colspan="5">Error loading violations.</td></tr>'; }
+        }
+
+        async function submitViolation() {
+            const entity_id = document.getElementById('violationEntity').value;
+            const type = document.getElementById('violationType').value;
+            const level = document.getElementById('violationLevel').value;
+            const reason = document.getElementById('violationReason').value;
+
+            try {
+                const resp = await fetch('/api/admin/violations', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${Session.getToken()}`
+                    },
+                    body: JSON.stringify({ entity_type: 'buyer', entity_id, type, level, reason })
+                });
+                if (resp.ok) { alert('Violation recorded.'); showTab('users'); }
+            } catch (e) { alert('Failed to log violation.'); }
+        }
+
+        async function updateUserStatus(id, status) {
+            try {
+                const resp = await fetch(`/api/admin/users/${id}/status`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${Session.getToken()}`
+                    },
+                    body: JSON.stringify({ status })
+                });
+                if (resp.ok) { alert(`User status updated to ${status}`); fetchUsers(); }
+            } catch (e) { alert('Update failed.'); }
+        }
+
+        async function fetchAdminStats() {
+            try {
+                const resp = await fetch('/api/admin/stats', {
+                    headers: { 'Authorization': `Bearer ${Session.getToken()}` }
+                });
+                const data = await resp.json();
+
+                const stats = document.getElementById('statsGrid');
+                stats.innerHTML = `
+                    <div class="stat-card">
+                        <span style="font-size: 0.8rem; opacity: 0.6;">Users</span>
+                        <h2 style="margin-top: 10px;">${data.users}</h2>
+                    </div>
+                    <div class="stat-card">
+                        <span style="font-size: 0.8rem; opacity: 0.6;">Sellers</span>
+                        <h2 style="margin-top: 10px;">${data.sellers}</h2>
+                    </div>
+                    <div class="stat-card">
+                        <span style="font-size: 0.8rem; opacity: 0.6;">Active Blocks</span>
+                        <h2 style="margin-top: 10px;">${data.active_intent_blocks}</h2>
+                    </div>
+                    <div class="stat-card">
+                        <span style="font-size: 0.8rem; opacity: 0.6;">Network Liquidity</span>
+                        <h2 style="margin-top: 10px; color: var(--color-gold);">₹${data.platform_wallet_balance.toLocaleString()}</h2>
+                    </div>
+                `;
+            } catch (e) { console.error('Stats failed', e); }
+        }
+
+        async function fetchSellers() {
+            const list = document.getElementById('sellerList');
+            const applicants = document.getElementById('applicantList');
+            try {
+                // Fetch Applicants
+                const appResp = await fetch('/api/admin/sellers?status=applicant', {
+                    headers: { 'Authorization': `Bearer ${Session.getToken()}` }
+                });
+                const appData = await appResp.json();
+                applicants.innerHTML = appData.length === 0 ? '<tr><td colspan="4">No pending applications.</td></tr>' : appData.map(s => `
+                    <tr>
+                        <td style="font-weight: 600;">${s.business_name}</td>
+                        <td>${s.city}</td>
+                        <td style="opacity: 0.6;">${s.email}</td>
+                        <td>
+                            <button class="btn-primary" style="padding: 5px 10px; font-size: 0.7rem; background: #1e7d32;" 
+                                onclick="updateSellerStatus(${s.seller_id}, 'active')">Approve Brand</button>
+                        </td>
+                    </tr>
+                `).join('');
+
+                // Fetch Active Network
+                const resp = await fetch('/api/admin/sellers?status=active', {
+                    headers: { 'Authorization': `Bearer ${Session.getToken()}` }
+                });
+                const sellers = await resp.json();
+                list.innerHTML = sellers.map(s => `
+                    <tr>
+                        <td style="font-weight: 600;">${s.business_name}</td>
+                        <td>${s.city}</td>
+                        <td style="color: var(--color-gold); font-weight: 600;">${s.trust_score}%</td>
+                        <td><span class="badge ${s.membership_status === 'active' ? 'badge--approved' : 'badge--rejected'}">${s.membership_status}</span></td>
+                        <td>
+                            <button class="btn-primary" style="padding: 5px 10px; font-size: 0.7rem; background: #d12424;" 
+                                onclick="updateSellerStatus(${s.seller_id}, 'suspended')">Suspend</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (e) { list.innerHTML = '<tr><td colspan="5">Error loading sellers.</td></tr>'; }
+        }
+
+        async function updateSellerStatus(id, status) {
+            try {
+                const resp = await fetch(`/api/admin/sellers/${id}/status`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${Session.getToken()}`
+                    },
+                    body: JSON.stringify({ status })
+                });
+                if (resp.ok) { alert(`Seller updated to ${status}`); fetchSellers(); }
+            } catch (e) { alert('Status update failed.'); }
+        }
+
+        async function auditListing(id, status) {
+            try {
+                const resp = await fetch(`/api/admin/designs/${id}/approve`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${Session.getToken()}`
+                    },
+                    body: JSON.stringify({ status })
+                });
+                if (resp.ok) { alert(`Listing #${id} ${status}.`); fetchQueue(); }
+            } catch (e) { alert('Audit failed.'); }
+        }
+
+        async function reviewMedia(id, status) {
+            try {
+                const resp = await fetch(`/api/admin/designs/media/${id}/review`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${Session.getToken()}`
+                    },
+                    body: JSON.stringify({ status })
+                });
+                if (resp.ok) { alert(`Media #${id} ${status}.`); fetchQueue(); }
+            } catch (e) { alert('Media review failed.'); }
+        }
+
+        async function fetchGoldRate() {
+            try {
+                const resp = await fetch('/api/admin/gold-rate', {
+                    headers: { 'Authorization': `Bearer ${Session.getToken()}` }
+                });
+                const data = await resp.json();
+                document.getElementById('displayGoldRate').innerText = `₹${data.rate}/g`;
+            } catch (e) { console.error('Rate fetch failed'); }
+        }
+
+        async function updateGoldRate() {
+            const rate = document.getElementById('newGoldRate').value;
+            if (!rate) return;
+            try {
+                const resp = await fetch('/api/admin/gold-rate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${Session.getToken()}` },
+                    body: JSON.stringify({ rate: parseInt(rate) })
+                });
+                if (resp.ok) { alert('Gold Rate Updated'); fetchGoldRate(); }
+            } catch (e) { alert('Update failed'); }
+        }
+
+        async function adjustWallet() {
+            const user_id = document.getElementById('adjUserId').value;
+            const amount = parseFloat(document.getElementById('adjAmount').value);
+            const reason = document.getElementById('adjReason').value;
+
+            const resp = await fetch('/api/admin/wallet/adjust', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${Session.getToken()}`
+                },
+                body: JSON.stringify({ user_id, amount, reason })
+            });
+            if (resp.ok) { alert('Wallet adjusted.'); fetchAdminStats(); }
+            else { alert('Adjustment failed.'); }
+        }
+
+        async function init() {
+            // Wait for Session to be available
+            if (typeof Session === 'undefined') {
+                setTimeout(init, 50);
+                return;
+            }
+
+            // Immediate auth check before anything loads
+            const token = Session.getToken();
+            if (!token) {
+                window.location.href = '/login?error=admin_access_required';
+                return;
+            }
+            
+            const user = await Session.getUser();
+            if (!user || user.role !== 'admin') {
+                Session.clearToken();
+                window.location.href = '/login?error=admin_access_denied';
+                return;
+            }
+            
+            fetchAdminStats();
+            fetchQueue();
+        }
+        
+        // Run when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+
+
+
+    
+
+    
+
+
+<footer class="std-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="/collection">Discover</a></li>
+                    <li><a href="/how-it-works">How It Works</a></li>
+                    <li><a href="/problem">Problem We Solve</a></li>
+                    <li><a href="/philosophy">Philosophy</a></li>
+                    <li><a href="/about">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal Protection</h4>
+                <ul>
+                    <li><a href="/terms">Terms & Conditions</a></li>
+                    <li><a href="/wallet-policy">Wallet Policy</a></li>
+                    <li><a href="/seller-agreement">Seller Agreement</a></li>
+                    <li><a href="/terms#privacy">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Partners</h4>
+                <ul>
+                    <li><a href="/seller-register.html">Become a Seller</a></li>
+                    <li><a href="/seller-login">Partner Portal</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="mailto:concierge@heavydrops.com">concierge@heavydrops.com</a></li>
+                    <li><span style="opacity: 0.6; font-size: 0.9rem;">Chennai Only</span></li>
+                    <li><span style="opacity: 0.6; font-size: 0.9rem;">+91 9999 8888 77</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 Heavy Drops Intent Network. All rights reserved.</span>
+            <span>Est. Chennai</span>
+        </div>
+    </div>
+</footer>
+
+</body>
+
+</html>

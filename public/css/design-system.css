@@ -1,0 +1,278 @@
+/* 
+  Jewellery Discovery & Intent Platform: Design System
+  Theme: Premium Editorial Curation
+  Status: STABILIZED
+*/
+
+/* --- PHASE 4: RESET & BASE STYLE --- */
+:root {
+  /* Colors - Premium Palette */
+  --color-noir: #0A0A0A;
+  --color-gold: #D4AF37;
+  --color-linen: #F9F5F1;
+  --color-ivory: #FFFFFF;
+  --color-gray-dark: #2A2A2A;
+  --color-gray-soft: #EDEDED;
+  --color-clay: #E0DCD8;
+
+  /* Typography */
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Spacing & Borders */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --spacing-section: 80px;
+
+  /* Shadows */
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --shadow-gold: 0 4px 15px rgba(212, 175, 55, 0.2);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--color-linen);
+  color: var(--color-noir);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  /* Phase 5 Safety */
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.2s ease;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* --- PHASE 2: LAYOUT STRUCTURE --- */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  width: 100%;
+}
+
+.editorial-header {
+  text-align: center;
+  padding: var(--spacing-section) 0;
+}
+
+.editorial-title {
+  font-family: var(--font-heading);
+  font-size: 3rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+/* --- PHASE 2 & 6: HEADER STANDARDIZATION --- */
+.std-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  background: var(--color-ivory);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.nav-left a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-left img {
+  height: 32px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.nav-center {
+  display: flex;
+  gap: 40px;
+}
+
+.nav-center a {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.6;
+  font-weight: 500;
+}
+
+.nav-center a:hover,
+.nav-center a.active {
+  opacity: 1;
+  color: var(--color-noir);
+}
+
+.nav-right {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.nav-auth-channel {
+  display: flex;
+  gap: 20px;
+  font-size: 0.9rem;
+  align-items: center;
+}
+
+.nav-item.highlight {
+  color: var(--color-gold);
+  font-weight: 600;
+}
+
+/* --- PHASE 2 & 6: FOOTER STANDARDIZATION --- */
+.std-footer {
+  background: var(--color-noir);
+  color: var(--color-ivory);
+  padding: 80px 0 40px;
+  margin-top: 100px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  margin-bottom: 60px;
+}
+
+.footer-col h4 {
+  color: var(--color-gold);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 24px;
+}
+
+.footer-col li {
+  margin-bottom: 12px;
+}
+
+.footer-col a {
+  color: var(--color-ivory);
+  opacity: 0.6;
+  font-size: 0.9rem;
+}
+
+.footer-col a:hover {
+  opacity: 1;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  opacity: 0.4;
+  font-size: 0.8rem;
+}
+
+/* --- UTILITIES --- */
+.btn-primary {
+  background: var(--color-noir);
+  color: var(--color-ivory);
+  padding: 14px 28px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-primary:hover {
+  background: var(--color-gold);
+  transform: translateY(-2px);
+}
+
+.gold-accent-text {
+  color: var(--color-gold);
+  font-weight: 600;
+}
+
+/* Micro-animations */
+@keyframes fadeInSlide {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-entrance {
+  animation: fadeInSlide 0.8s ease forwards;
+}
+
+/* --- PHASE 5: RESPONSIVE SAFETY --- */
+@media (max-width: 900px) {
+  .editorial-title {
+    font-size: 2.5rem;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .std-nav {
+    padding: 15px 20px;
+    flex-wrap: wrap;
+  }
+
+  .nav-center {
+    display: none;
+  }
+
+  /* Hidden on mobile for MVP stabilization */
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .container {
+    padding: 0 20px;
+  }
+}

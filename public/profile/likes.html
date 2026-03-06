@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Hearted Collection — Heavy Drops</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <style>
+        body {
+            background: var(--color-linen);
+        }
+
+        .likes-header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            padding: 80px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .likes-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(212,175,55,0.05)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .likes-header .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .likes-stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--color-gold);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.7;
+        }
+
+        .likes-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-top: 60px;
+            margin-bottom: 80px;
+        }
+
+        .liked-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .liked-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-image-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            overflow: hidden;
+            background: #f8f8f8;
+        }
+
+        .card-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .liked-card:hover .card-image-wrapper img {
+            transform: scale(1.08);
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 700;
+            color: var(--color-noir);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+        }
+
+        .tag-pill {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 700;
+            color: var(--color-noir);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+        }
+
+        .card-actions {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+            background: white;
+        }
+
+        .action-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .action-btn.liked svg {
+            fill: #e74c3c;
+            stroke: #e74c3c;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-category {
+            color: var(--color-gold);
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 6px;
+        }
+
+        .card-title {
+            font-family: var(--font-heading);
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--color-noir);
+            margin-bottom: 8px;
+            line-height: 1.3;
+            letter-spacing: -0.02em;
+        }
+
+        .card-specs {
+            display: flex;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--color-gray-dark);
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .spec-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            opacity: 0.7;
+        }
+
+        .spec-label {
+            font-size: 0.85rem;
+        }
+
+        .spec-value {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .seller-info-inline {
+            font-size: 0.85rem;
+            color: var(--color-gray-dark);
+            margin-bottom: 16px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .seller-info-inline span {
+            opacity: 0.7;
+        }
+
+        .card-price {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--color-noir);
+            font-weight: 700;
+            margin-bottom: 14px;
+            letter-spacing: -0.02em;
+        }
+
+        .card-social {
+            display: flex;
+            gap: 20px;
+            font-size: 0.8rem;
+            color: var(--color-gray-dark);
+            padding-top: 12px;
+            border-top: 1px solid var(--color-gray-soft);
+        }
+
+        .card-social span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            opacity: 0.6;
+        }
+
+        .card-like-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            transition: all 0.2s ease;
+        }
+
+        .card-like-btn:hover {
+            transform: scale(1.1);
+            background: white;
+        }
+
+        .card-like-btn svg {
+            width: 20px;
+            height: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .card-like-btn.liked svg {
+            fill: #e74c3c;
+            stroke: #e74c3c;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f8f8;
+            color: #ccc;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 120px 20px;
+        }
+
+        .empty-icon {
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .empty-icon svg {
+            color: var(--color-gray-dark);
+        }
+
+        .empty-title {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--color-noir);
+        }
+
+        .empty-text {
+            font-size: 1.1rem;
+            color: var(--color-gray-dark);
+            margin-bottom: 32px;
+            opacity: 0.7;
+        }
+
+        .loading-state {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--color-gray-soft);
+            border-top-color: var(--color-gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 24px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 1200px) {
+            .likes-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .likes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .likes-stats {
+                gap: 30px;
+            }
+
+            .stat-value {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="std-nav">
+        <div class="nav-left">
+            <a href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+                <img src="/assets/logo.png" alt="Heavy Drops">
+                <span style="font-family: 'Outfit'; font-weight: 600; font-size: 1.2rem; color: #1a1a1a; letter-spacing: -0.02em;">HEAVY DROPS</span>
+            </a>
+        </div>
+        <div class="nav-center">
+            <a href="/">Home</a>
+            <a href="/collection">Discover</a>
+            <a href="/profile/likes" style="color: var(--color-gold);">Liked</a>
+        </div>
+        <div class="nav-right">
+            <div class="nav-auth-channel">
+                <!-- Populated by session.js -->
+            </div>
+        </div>
+    </nav>
+
+    <header class="likes-header">
+        <div class="container">
+            <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.7; font-weight: 600;">Curated Interests</span>
+            <h1 style="font-family: var(--font-heading); font-size: 3.5rem; font-weight: 800; margin: 16px 0 12px; letter-spacing: -0.02em;">My Hearted Collection</h1>
+            <p style="font-size: 1.1rem; opacity: 0.8; max-width: 600px; margin: 0 auto;">Your personally curated selection of masterwork jewelry. Each piece represents your unique taste and intent.</p>
+            
+            <div class="likes-stats">
+                <div class="stat-item">
+                    <span class="stat-value" id="totalLikes">0</span>
+                    <span class="stat-label">Designs Hearted</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="totalValue">₹0</span>
+                    <span class="stat-label">Total Value</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="avgWeight">0g</span>
+                    <span class="stat-label">Avg. Weight</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="likes-grid" id="likesGrid">
+            <div class="loading-state" style="grid-column: 1/-1;">
+                <div class="loading-spinner"></div>
+                <p style="opacity: 0.6; font-size: 1.1rem;">Loading your collection...</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="/js/session.js"></script>
+    <script>
+        async function fetchLikes() {
+            // Wait for Session to be available
+            if (typeof Session === 'undefined') {
+                await new Promise(resolve => setTimeout(resolve, 200));
+            }
+            
+            if (typeof Session === 'undefined' || !Session.isAuthenticated()) {
+                window.location.href = '/login?redirect=/profile/likes';
+                return;
+            }
+
+            const grid = document.getElementById('likesGrid');
+            try {
+                const response = await fetch('/api/likes/me', {
+                    headers: { 'Authorization': `Bearer ${Session.getToken()}` }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch likes');
+                }
+                
+                const designs = await response.json();
+
+                if (designs.length === 0) {
+                    grid.innerHTML = `
+                        <div class="empty-state" style="grid-column: 1/-1;">
+                            <div class="empty-icon">
+                                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                </svg>
+                            </div>
+                            <h2 class="empty-title">No Designs Hearted Yet</h2>
+                            <p class="empty-text">Start building your collection by exploring our curated masterworks</p>
+                            <button class="btn-primary" onclick="window.location.href='/collection'" style="padding: 18px 40px; font-size: 1.1rem;">
+                                Explore Collection
+                            </button>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Calculate stats
+                const totalValue = designs.reduce((sum, d) => sum + (d.total_price || 0), 0);
+                const avgWeight = designs.reduce((sum, d) => sum + (d.weight || 0), 0) / designs.length;
+
+                document.getElementById('totalLikes').textContent = designs.length;
+                document.getElementById('totalValue').textContent = `₹${Math.round(totalValue).toLocaleString('en-IN')}`;
+                document.getElementById('avgWeight').textContent = `${avgWeight.toFixed(1)}g`;
+
+                grid.innerHTML = designs.map(design => {
+                    const goldValue = design.weight * design.gold_rate_snapshot;
+                    const makingCharge = design.making_charge_snapshot;
+                    
+                    return `
+                    <article class="liked-card" onclick="navigateToDesign(event, ${design.design_id})">
+                        <button class="card-like-btn liked" onclick="unlikeDesign(event, ${design.design_id})" aria-label="Unlike">
+                            <svg viewBox="0 0 24 24" fill="#e74c3c" stroke="#e74c3c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </button>
+                        <div class="card-image-wrapper">
+                            <span class="tag-pill">${design.category}${design.occasion_tag ? ' · ' + design.occasion_tag : ''}</span>
+                            ${design.primary_image_url ? 
+                                `<img src="${design.primary_image_url}" alt="${design.category}" onerror="this.outerHTML='<div class=\\'image-placeholder\\'>Image unavailable</div>'">` :
+                                `<div class="image-placeholder">Image unavailable</div>`
+                            }
+                        </div>
+                        
+                        <div class="card-content">
+                            <div class="card-category">${design.category}</div>
+                            <h3 class="card-title">${design.purity} Gold ${design.category}</h3>
+                            
+                            <div class="seller-info-inline">
+                                <span>${design.business_name}</span>
+                                <span>·</span>
+                                <span>${design.purity}</span>
+                                <span>·</span>
+                                <span>${design.weight}g</span>
+                            </div>
+
+                            <div class="card-price">₹${Math.round(design.total_price).toLocaleString('en-IN')}</div>
+                            
+                            <div class="card-social">
+                                <span>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                    Liked
+                                </span>
+                                <span>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                    ${design.view_count || 0}
+                                </span>
+                            </div>
+                        </div>
+                    </article>
+                `}).join('');
+            } catch (e) {
+                console.error('Failed to load likes:', e);
+                grid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 80px 20px;">
+                        <p style="font-size: 1.2rem; color: var(--color-gray-dark); margin-bottom: 24px;">Failed to load your collection</p>
+                        <button class="btn-primary" onclick="location.reload()">Retry</button>
+                    </div>
+                `;
+            }
+        }
+
+        function navigateToDesign(event, designId) {
+            if (event.target.closest('.action-btn') || event.target.closest('button')) return;
+            window.location.href = `/design/${designId}`;
+        }
+
+        async function unlikeDesign(event, designId) {
+            event.stopPropagation();
+            
+            if (!confirm('Remove this design from your collection?')) return;
+
+            try {
+                const response = await fetch('/api/likes/toggle', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json', 
+                        'Authorization': `Bearer ${Session.getToken()}` 
+                    },
+                    body: JSON.stringify({ design_id: designId })
+                });
+
+                if (response.ok) {
+                    // Reload the page to refresh the collection
+                    location.reload();
+                }
+            } catch (error) {
+                console.error('Failed to unlike:', error);
+                alert('Failed to remove design. Please try again.');
+            }
+        }
+
+        function blockDesign(designId) {
+            // Redirect to design page where they can block it
+            window.location.href = `/design/${designId}#block`;
+        }
+        
+        // Initialize - wait for DOM and Session to be ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(fetchLikes, 100);
+            });
+        } else {
+            setTimeout(fetchLikes, 100);
+        }
+    </script>
+
+    <footer
+        style="background: var(--color-noir); color: var(--color-linen); padding: 80px 0; margin-top: 80px; border-top: 1px solid rgba(212, 175, 55, 0.2);">
+        <div class="container"
+            style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; text-align: left;">
+            <div>
+                <img src="/assets/logo.png" alt="Heavy Drops"
+                    style="height: 40px; margin-bottom: 24px; filter: grayscale(1) invert(1) brightness(0.8);">
+                <p style="opacity: 0.6; font-size: 0.8rem; line-height: 1.6;">The Intent Infrastructure for Masterwork
+                    Jewellery.</p>
+            </div>
+            <div>
+                <h4
+                    style="color: var(--color-gold); margin-bottom: 20px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em;">
+                    Foundation</h4>
+                <ul style="list-style: none; padding: 0; font-size: 0.85rem; line-height: 2;">
+                    <li><a href="/about" style="color: inherit; text-decoration: none; opacity: 0.7;">About Platform</a>
+                    </li>
+                    <li><a href="/problem" style="color: inherit; text-decoration: none; opacity: 0.7;">The Problem</a>
+                    </li>
+                    <li><a href="/philosophy" style="color: inherit; text-decoration: none; opacity: 0.7;">Trust
+                            Philosophy</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4
+                    style="color: var(--color-gold); margin-bottom: 20px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em;">
+                    Mechanics</h4>
+                <ul style="list-style: none; padding: 0; font-size: 0.85rem; line-height: 2;">
+                    <li><a href="/how-it-works" style="color: inherit; text-decoration: none; opacity: 0.7;">How It
+                            Works</a></li>
+                    <li><a href="/collection" style="color: inherit; text-decoration: none; opacity: 0.7;">Discovery</a>
+                    </li>
+                    <li><a href="/seller-register.html"
+                            style="color: inherit; text-decoration: none; opacity: 0.7;">Partner Intake</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4
+                    style="color: var(--color-gold); margin-bottom: 20px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em;">
+                    Network</h4>
+                <p style="opacity: 0.6; font-size: 0.8rem; line-height: 1.6;">Currently serving verified curation in
+                    India.</p>
+                <p style="opacity: 0.4; font-size: 0.75rem; margin-top: 20px;">&copy; 2026 Heavy Drops.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
