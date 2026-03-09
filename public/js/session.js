@@ -31,27 +31,44 @@ const Session = {
     updateNav: async () => {
         const user = await Session.getUser();
         const authContainer = document.querySelector('.nav-auth-channel');
+        const navCenter = document.getElementById('navCenter');
+        
         if (!authContainer) return;
 
         let html = '';
+        let mobileAuthHtml = '';
 
         if (user) {
             if (user.role === 'admin') {
-                html += `<a href="/admin.html" class="nav-item">ADMIN</a>`;
+                html += `<a href="/admin" class="nav-item">ADMIN</a>`;
+                mobileAuthHtml += `<a href="/admin" class="mobile-auth-link">ADMIN</a>`;
             } else if (user.role === 'seller') {
-                html += `<a href="/seller-dashboard.html" class="nav-item">DASHBOARD</a>`;
+                html += `<a href="/seller-dashboard" class="nav-item">DASHBOARD</a>`;
+                mobileAuthHtml += `<a href="/seller-dashboard" class="mobile-auth-link">DASHBOARD</a>`;
             } else {
                 // Buyer - show liked and wallet
-                html += `<a href="/profile/likes.html" class="nav-item">LIKED</a>`;
-                html += `<a href="/wallet.html" class="nav-item">WALLET</a>`;
+                html += `<a href="/profile/likes" class="nav-item">LIKED</a>`;
+                html += `<a href="/wallet" class="nav-item">WALLET</a>`;
+                mobileAuthHtml += `<a href="/profile/likes" class="mobile-auth-link">LIKED</a>`;
+                mobileAuthHtml += `<a href="/wallet" class="mobile-auth-link">WALLET</a>`;
             }
 
             html += `<a href="#" onclick="Session.logout()" class="nav-item">LOGOUT</a>`;
+            mobileAuthHtml += `<a href="#" onclick="Session.logout()" class="mobile-auth-link">LOGOUT</a>`;
         } else {
-            html += `<a href="/login.html" class="nav-item">LOGIN</a>`;
+            html += `<a href="/login" class="nav-item">LOGIN</a>`;
+            mobileAuthHtml += `<a href="/login" class="mobile-auth-link">LOGIN</a>`;
         }
 
         authContainer.innerHTML = html;
+
+        // Add mobile auth links to nav-center if it exists
+        if (navCenter) {
+            // Remove existing mobile auth links
+            navCenter.querySelectorAll('.mobile-auth-link').forEach(link => link.remove());
+            // Add new mobile auth links
+            navCenter.insertAdjacentHTML('beforeend', mobileAuthHtml);
+        }
 
         // Highlight active link
         const currentPath = window.location.pathname;
@@ -74,3 +91,11 @@ document.addEventListener('DOMContentLoaded', () => {
     Session.updateNav();
 });
 window.Session = Session;
+
+// Mobile menu toggle function (available globally)
+window.toggleMobileMenu = function() {
+    const navCenter = document.getElementById('navCenter');
+    if (navCenter) {
+        navCenter.classList.toggle('active');
+    }
+};

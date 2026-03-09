@@ -8,7 +8,7 @@ discovery_bp = Blueprint('discovery', __name__)
 def get_curated_designs():
     try:
         category = request.args.get('category')
-        occasion = request.args.get('occasion')
+        # occasion = request.args.get('occasion')  # Column doesn't exist yet
         min_price = request.args.get('min_price')
         max_price = request.args.get('max_price')
         min_weight = request.args.get('min_weight')
@@ -24,15 +24,15 @@ def get_curated_designs():
             first_images = db.execute('''
                 SELECT design_id, MIN(media_id) as first_media_id 
                 FROM design_media 
-                WHERE shot_type = 'master' AND status = 'approved' 
+                WHERE is_primary = 1 OR type = 'image'
                 GROUP BY design_id
             ''').fetchall()
 
             image_map = {}
             for img in first_images:
-                media = db.execute('SELECT uri FROM design_media WHERE media_id = ?', (img['first_media_id'],)).fetchone()
+                media = db.execute('SELECT url FROM design_media WHERE media_id = ?', (img['first_media_id'],)).fetchone()
                 if media:
-                    image_map[img['design_id']] = media['uri']
+                    image_map[img['design_id']] = media['url']
 
             like_counts = db.execute('SELECT design_id, COUNT(*) as likes_count FROM likes GROUP BY design_id').fetchall()
             like_map = {l['design_id']: l['likes_count'] for l in like_counts}
@@ -48,9 +48,9 @@ def get_curated_designs():
             if category:
                 query += ' AND d.category = ?'
                 params.append(category)
-            if occasion:
-                query += ' AND d.occasion_tag = ?'
-                params.append(occasion)
+            # if occasion:
+            #     query += ' AND d.occasion_tag = ?'
+            #     params.append(occasion)
             if min_weight:
                 query += ' AND d.weight >= ?'
                 params.append(float(min_weight))
@@ -74,7 +74,7 @@ def get_curated_designs():
                     'name': f"{design['purity']} Gold {design['category']}",
                     'seller_name': design['business_name'],
                     'views_count': design['view_count'],
-                    'occasion': design['occasion_tag'],
+                    'occasion': None,  # Column doesn't exist yet
                     'making_charge': design['making_charge_snapshot'],
                     'gold_rate': current_rate,
                     'current_gold_rate': current_rate,
@@ -124,8 +124,8 @@ def get_design_by_id(id):
 
             media = db.execute('''
                 SELECT * FROM design_media 
-                WHERE design_id = ? AND status = 'approved' 
-                ORDER BY shot_type ASC
+                WHERE design_id = ?
+                ORDER BY is_primary DESC, media_id ASC
             ''', (id,)).fetchall()
 
             db.execute('UPDATE designs SET view_count = view_count + 1 WHERE design_id = ?', (id,))
@@ -140,7 +140,7 @@ def get_design_by_id(id):
             result = dict(design)
             result.update({
                 'current_gold_rate': current_rate,
-                'media': [dict(m) for m in media],
+                'media': [{'shot_type': m['type'], 'uri': m['url'], **{k: v for k, v in dict(m).items() if k not in ['type', 'url']}} for m in media],
                 'total_price': total_price,
                 'total_price_display': total_price,
                 'price_breakdown': {

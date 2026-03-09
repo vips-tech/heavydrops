@@ -4,7 +4,7 @@ from contextlib import contextmanager
 
 # Base directory is one level up from this file's directory (src -> HeavyDrops_Platform_v1.0)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-DB_PATH = os.path.join(BASE_DIR, 'platform.sqlite')
+DB_PATH = os.path.join(BASE_DIR, 'src', 'database', 'dev.sqlite3')
 
 def dict_factory(cursor, row):
     """

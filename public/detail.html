@@ -67,13 +67,129 @@
             fill: #d12424;
             stroke: #d12424;
         }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            .detail-layout {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 20px 0 80px;
+            }
+
+            .image-gallery {
+                position: relative;
+                top: 0;
+            }
+
+            .gallery-container {
+                position: relative !important;
+                top: 0 !important;
+            }
+
+            .main-img {
+                aspect-ratio: 1/1;
+                max-height: 400px;
+                width: 100%;
+            }
+
+            .thumbnails {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                padding-bottom: 5px;
+            }
+
+            .thumbnails::-webkit-scrollbar {
+                display: none;
+            }
+
+            .spec-tiles {
+                grid-template-columns: 1fr 1fr !important;
+                gap: 12px !important;
+                margin: 30px 0 !important;
+            }
+
+            .spec-tile {
+                padding: 16px !important;
+            }
+
+            .price-module {
+                padding: 20px !important;
+                margin-bottom: 20px;
+            }
+
+            .price-item {
+                font-size: 0.85rem;
+            }
+
+            .price-item span:first-child {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .price-item span:last-child {
+                white-space: nowrap;
+                font-weight: 600;
+            }
+
+            .actions {
+                margin-top: 20px !important;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 12px 16px;
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+                z-index: 100;
+            }
+
+            .btn-primary {
+                padding: 14px !important;
+                font-size: 0.95rem;
+            }
+
+            .editorial-title {
+                font-size: 1.6rem !important;
+                line-height: 1.2;
+            }
+
+            .identity {
+                margin-bottom: 20px;
+            }
+
+            .identity p {
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+
+            .editorial-tag {
+                font-size: 0.7rem;
+            }
+
+            .price-module h3 {
+                font-size: 0.9rem !important;
+            }
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            gap: 15px;
+        }
     </style>
 </head>
 
 <body>
 
     <nav class="std-nav">
-        <button class="mobile-menu-btn" aria-label="Toggle menu"><svg viewBox="0 0 24 24">
+        <button class="mobile-menu-btn" aria-label="Toggle menu" onclick="toggleMobileMenu()"><svg viewBox="0 0 24 24">
                 <path d="M3 12h18M3 6h18M3 18h18" />
             </svg></button>
         <div class="nav-left">
@@ -84,7 +200,7 @@
                     DROPS</span>
             </a>
         </div>
-        <div class="nav-center">
+        <div class="nav-center" id="navCenter">
             <a href="/">Home</a>
             <a href="/collection">Discover</a>
             <a href="/profile/likes">Liked</a>
@@ -137,6 +253,11 @@
     </div>
 
     <script>
+        function toggleMobileMenu() {
+            const navCenter = document.getElementById('navCenter');
+            navCenter.classList.toggle('active');
+        }
+
         // Wait for Session to be available
         function initDetailPage() {
             const urlParams = new URLSearchParams(window.location.search);

@@ -114,8 +114,18 @@ img {
 }
 
 .nav-center {
-  display: flex;
+  display: flex !important;
   gap: 40px;
+}
+
+@media (max-width: 768px) {
+  .nav-center {
+    display: none !important;
+  }
+  
+  .nav-center.active {
+    display: flex !important;
+  }
 }
 
 .nav-center a {
