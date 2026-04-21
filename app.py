@@ -87,6 +87,9 @@ def wallet(): return serve_html('wallet.html')
 @app.route('/seller-dashboard')
 def seller_dashboard(): return serve_html('seller-dashboard.html')
 
+@app.route('/seller-register')
+def seller_register(): return serve_html('seller-register.html')
+
 @app.route('/admin')
 def admin(): return serve_html('admin.html')
 

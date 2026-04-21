@@ -4,66 +4,413 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Heavy Drops — About the Platform</title>
+    <title>Heavy Drops — Premium Jewelry Discovery Platform</title>
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Enhanced Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="/css/design-system.css">
-    <link rel="stylesheet" href="/css/components.css">
-</head>
+    <link rel="stylesheet" href="/css/components-enhanced.css">
+    <link rel="stylesheet" href="/css/mobile-nav.css">
+    
+    <!-- Scripts -->
+    <script src="/js/session.js"></script>
+    <script src="/js/enhanced-features.js"></script>
+    <script src="/js/jewelry-images.js"></script>
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="Discover exquisite handcrafted jewelry from India's master artisans. Premium gold, silver, and diamond pieces with transparent pricing and live gold rates.">
+    <meta name="keywords" content="jewelry, gold, silver, diamonds, handcrafted, artisan, India, premium, luxury">
+    <meta name="author" content="Heavy Drops">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Heavy Drops — Premium Jewelry Discovery Platform">
+    <meta property="og:description" content="Discover exquisite handcrafted jewelry from India's master artisans">
+    <meta property="og:image" content="/assets/og-image.jpg">
+    <meta property="og:url" content="https://heavydrops.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+        </head>
 
 <body>
 
-<nav class="std-nav">
-        <button class="mobile-menu-btn" aria-label="Toggle menu" onclick="toggleMobileMenu()"><svg viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
-    <div class="nav-left">
-        <a href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
-            <img src="/assets/logo.png" alt="Heavy Drops">
-            <span style="font-family: 'Outfit'; font-weight: 600; font-size: 1.2rem; color: #1a1a1a; letter-spacing: -0.02em;">HEAVY DROPS</span>
+
+        
+        <nav class="std-nav">
+            <div>
+                <div class="nav-left">
+                    <a href="/" class="nav-logo">
+                        <img src="/assets/logo.png" alt="Heavy Drops Logo">
+                        <span>HEAVY DROPS</span>
+                    </a>
+                </div>
+                
+                <div class="nav-center" id="navCenter">
+                    <a href="/" class="nav-link">HOME</a>
+                    <a href="/how-it-works" class="nav-link">HOW IT WORKS</a>
+                    <a href="/about" class="nav-link active">ABOUT</a>
+                </div>
+                
+                <div class="nav-right">
+                    <!-- Gold rate ticker will be inserted here by JavaScript -->
+                </div>
+                
+                <button class="mobile-menu-btn" aria-label="Toggle navigation menu" onclick="toggleMobileMenu()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 12h18M3 6h18M3 18h18" />
+                    </svg>
+                </button>
+            </div>
+        </nav>
+        
+        
+
+
+
+
+    <style>
+        .about-hero {
+            position: relative;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, #0A0A0A 0%, #2a2a2a 100%);
+            color: white;
+            overflow: hidden;
+            margin-top: 110px;
+            padding: 4rem 2rem;
+        }
+        
+        .about-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=2070&auto=format&fit=crop') center/cover;
+            opacity: 0.15;
+            z-index: 1;
+        }
+        
+        .about-hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.9) 0%, rgba(42, 42, 42, 0.8) 100%);
+            z-index: 2;
+        }
+        
+        .about-hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 900px;
+        }
+        
+        .about-hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, white, var(--color-gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+        
+        .about-hero p {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            opacity: 0.9;
+            line-height: 1.7;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .about-section {
+            padding: 5rem 0;
+        }
+        
+        .about-section:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        .about-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .about-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .about-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        .about-card-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--color-gold), var(--color-gold-light));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .about-card-icon svg {
+            width: 30px;
+            height: 30px;
+            stroke: white;
+            fill: none;
+            stroke-width: 2;
+        }
+        
+        .about-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--color-noir);
+        }
+        
+        .about-card p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--color-gray-dark);
+            opacity: 0.9;
+        }
+        
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+        
+        .stat-box {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--color-gold);
+            margin-bottom: 0.5rem;
+            font-family: var(--font-heading);
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: var(--color-gray-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+        }
+        
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--color-noir);
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.15rem;
+            color: var(--color-gray-dark);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            line-height: 1.7;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, var(--color-noir), #2a2a2a);
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+            margin-top: 5rem;
+        }
+        
+        .cta-section h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+        
+        .cta-section p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .about-hero {
+                min-height: 60vh;
+                padding: 3rem 1.5rem;
+            }
+            
+            .about-section {
+                padding: 3rem 0;
+            }
+            
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .about-card {
+                padding: 2rem;
+            }
+        }
+    </style>
+
+    <div class="about-hero">
+        <div class="about-hero-content">
+            <span class="editorial-tag">Our Story</span>
+            <h1>The Architecture of Intent</h1>
+            <p>Heavy Drops is not a marketplace. It is a behavioral network designed for those who seek masterwork jewelry with clarity, not convenience.</p>
+        </div>
+    </div>
+
+    <section class="about-section">
+        <div class="about-content">
+            <h2 class="section-title">Our Mission</h2>
+            <p class="section-subtitle">We believe the current digital landscape is too noisy for significant decisions. By removing the pressure of 'Add to Cart' and replacing it with a 'Signal of Intent', we create a bridge between digital exploration and physical verification.</p>
+            
+            <div class="about-stats">
+                <div class="stat-box">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">Master Jewelers</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">5000+</div>
+                    <div class="stat-label">Unique Designs</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Transparency</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Live Gold Rates</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section">
+        <div class="about-content">
+            <h2 class="section-title">What Makes Us Different</h2>
+            <p class="section-subtitle">We've reimagined the jewelry discovery experience from the ground up</p>
+            
+            <div class="about-grid">
+                <div class="about-card">
+                    <div class="about-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h3>Curated Discovery</h3>
+                    <p>Every piece is hand-selected from master artisans. No mass production, no compromises. Only authentic craftsmanship that tells a story.</p>
+                </div>
+                
+                <div class="about-card">
+                    <div class="about-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        </svg>
+                    </div>
+                    <h3>Transparent Pricing</h3>
+                    <p>Live gold rates, clear breakdowns of making charges and GST. No hidden costs, no surprises. Just honest pricing you can trust.</p>
+                </div>
+                
+                <div class="about-card">
+                    <div class="about-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                        </svg>
+                    </div>
+                    <h3>Intent-Based System</h3>
+                    <p>No flash sales or countdown timers. Signal your intent, visit the showroom, and make decisions with clarity and confidence.</p>
+                </div>
+                
+                <div class="about-card">
+                    <div class="about-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <h3>Vetted Partners</h3>
+                    <p>Every jeweler on our platform is hand-vetted. We don't list products; we list masterworks from trusted artisans.</p>
+                </div>
+                
+                <div class="about-card">
+                    <div class="about-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                    </div>
+                    <h3>Trust & Security</h3>
+                    <p>Your data is protected, your transactions are secure, and your intent wallet ensures commitment from both sides.</p>
+                </div>
+                
+                <div class="about-card">
+                    <div class="about-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                    </div>
+                    <h3>Dedicated Environment</h3>
+                    <p>No distractions, no noise. Only the weight of the metal, the purity of the craft, and the clarity of your intent.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="cta-section">
+        <h2>Ready to Discover Your Perfect Piece?</h2>
+        <p>Explore our curated collection of masterwork jewelry from India's finest artisans</p>
+        <a href="/" class="btn-gold btn-lg">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.35-4.35"/>
+            </svg>
+            Explore Collection
         </a>
     </div>
-    <div class="nav-center" id="navCenter">
-        <a href="/">Home</a>
-        <a href="/collection">Discover</a>
-        <a href="/profile/likes">Liked</a>
-    </div>
-    <div class="nav-right">
-        <div class="nav-auth-channel">
-            <!-- Populated by session.js -->
-        </div>
-    </div>
-</nav>
-
-
-
-
-    
-
-    <header class="editorial-header animate-entrance">
-        <span class="editorial-tag">The Vision</span>
-        <h1 class="editorial-title lustre-gold">The Architecture of Intent</h1>
-        <p style="opacity: 0.6; max-width: 600px; margin: 0 auto;">Heavy Drops is not a marketplace. It is a behavioral
-            network designed for those who seek masterwork jewellery with clarity, not convenience.</p>
-    </header>
-
-    <main class="container" style="max-width: 800px; padding-bottom: 100px;">
-        <section style="margin-bottom: 80px;">
-            <h2 style="margin-bottom: 20px;">Curated Discovery</h2>
-            <p style="line-height: 2; opacity: 0.8;">We believe the current digital landscape is too noisy for
-                significant decisions. By removing the pressure of 'Add to Cart' and replacing it with a 'Signal of
-                Intent', we create a bridge between digital exploration and physical verification.</p>
-        </section>
-
-        <section style="margin-bottom: 80px;">
-            <h2 style="margin-bottom: 20px;">The Partner Network</h2>
-            <p style="line-height: 2; opacity: 0.8;">Every jeweller on our platform is hand-vetted. We don't list
-                products; we list masterworks. Our partners value transparency and the sanctity of the decision-making
-                process as much as we do.</p>
-        </section>
-
-        <section>
-            <h2 style="margin-bottom: 20px;">A Dedicated Environment</h2>
-            <p style="line-height: 2; opacity: 0.8;">No flash sales. No countdown timers. No algorithmically-driven
-                urgency. Only the weight of the metal, the purity of the craft, and the clarity of your intent.</p>
-        </section>
-    </main>
 
     
 
@@ -73,52 +420,173 @@
 
 
 
-<footer class="std-footer">
-    <div class="container">
-        <div class="footer-grid">
-            <div class="footer-col">
-                <h4>Platform</h4>
-                <ul>
-                    <li><a href="/collection">Discover</a></li>
-                    <li><a href="/how-it-works">How It Works</a></li>
-                    <li><a href="/problem">Problem We Solve</a></li>
-                    <li><a href="/philosophy">Philosophy</a></li>
-                    <li><a href="/about">About Us</a></li>
-                </ul>
+
+        
+        <footer class="std-footer">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-col">
+                        <h4>Platform</h4>
+                        <ul>
+                            <li><a href="/collection">Discover Collection</a></li>
+                            <li><a href="/how-it-works">How It Works</a></li>
+                            <li><a href="/problem">Problem We Solve</a></li>
+                            <li><a href="/philosophy">Our Philosophy</a></li>
+                            <li><a href="/about">About Heavy Drops</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Legal & Trust</h4>
+                        <ul>
+                            <li><a href="/terms">Terms & Conditions</a></li>
+                            <li><a href="/wallet-policy">Wallet Policy</a></li>
+                            <li><a href="/seller-agreement">Seller Agreement</a></li>
+                            <li><a href="/terms#privacy">Privacy Policy</a></li>
+                            <li><a href="/terms#security">Security</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Partners</h4>
+                        <ul>
+                            <li><a href="/seller-register.html">Become a Seller</a></li>
+                            <li><a href="/seller-login">Partner Portal</a></li>
+                            <li><a href="/seller-dashboard">Seller Dashboard</a></li>
+                            <li><a href="/seller-agreement">Partnership Terms</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Contact & Support</h4>
+                        <ul>
+                            <li><a href="mailto:concierge@heavydrops.com">concierge@heavydrops.com</a></li>
+                            <li><a href="tel:+919999888877">+91 98408 28137</a></li>
+                            <li><span style="opacity: 0.6;">Chennai, Tamil Nadu</span></li>
+                            <li><a href="/support">Help Center</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <span>&copy; 2026 Heavy Drops Intent Network. All rights reserved.</span>
+                    <span>Crafted in Chennai with ♥</span>
+                </div>
             </div>
-            <div class="footer-col">
-                <h4>Legal Protection</h4>
-                <ul>
-                    <li><a href="/terms">Terms & Conditions</a></li>
-                    <li><a href="/wallet-policy">Wallet Policy</a></li>
-                    <li><a href="/seller-agreement">Seller Agreement</a></li>
-                    <li><a href="/terms#privacy">Privacy Policy</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Partners</h4>
-                <ul>
-                    <li><a href="/seller-register.html">Become a Seller</a></li>
-                    <li><a href="/seller-login">Partner Portal</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Contact</h4>
-                <ul>
-                    <li><a href="mailto:concierge@heavydrops.com">concierge@heavydrops.com</a></li>
-                    <li><span style="opacity: 0.6; font-size: 0.9rem;">Chennai Only</span></li>
-                    <li><span style="opacity: 0.6; font-size: 0.9rem;">+91 9999 8888 77</span></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <span>&copy; 2026 Heavy Drops Intent Network. All rights reserved.</span>
-            <span>Est. Chennai</span>
-        </div>
-    </div>
-</footer>
+        </footer>
+        
+        
 
 <script src="/js/session.js"></script>
+
+        
+        <script>
+            let systemConfig = {};
+            let userLikes = new Set();
+
+            // Mobile Navigation Toggle
+            function toggleMobileMenu() {
+                const navCenter = document.getElementById('navCenter');
+                const isActive = navCenter.classList.contains('active');
+                
+                if (isActive) {
+                    navCenter.classList.remove('active');
+                    document.body.style.overflow = '';
+                } else {
+                    navCenter.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+
+            // Initialize Application
+            async function init() {
+                try {
+                    // Fetch system configuration
+                    const configResp = await fetch('/api/health/config');
+                    systemConfig = await configResp.json();
+
+                    if (systemConfig.pilot_mode) {
+                        const pilotElement = document.getElementById('pilotCity');
+                        if (pilotElement) {
+                            pilotElement.innerText = systemConfig.constraints.RESTRICTED_CITY;
+                        }
+                    }
+                } catch (e) { 
+                    console.error('Config fetch failed:', e); 
+                }
+
+                // Load user likes if authenticated
+                await loadUserLikes();
+                
+                // Fetch and display designs if on collection page
+                if (typeof fetchDesigns === 'function') {
+                    await fetchDesigns();
+                }
+            }
+
+            // Load User Likes
+            async function loadUserLikes() {
+                if (typeof Session === 'undefined' || !Session.isAuthenticated()) return;
+
+                try {
+                    const response = await fetch('/api/likes/me', {
+                        headers: { 'Authorization': `Bearer ${Session.getToken()}` }
+                    });
+                    if (response.ok) {
+                        const likes = await response.json();
+                        userLikes = new Set(likes.map(l => l.design_id));
+                    }
+                } catch (e) {
+                    console.error('Failed to load likes:', e);
+                }
+            }
+
+            // Enhanced Like Toggle with Animation
+            async function toggleLike(event, design_id, btn) {
+                event.stopPropagation();
+                
+                if (!Session.isAuthenticated()) {
+                    window.location.href = '/login.html';
+                    return;
+                }
+
+                try {
+                    const res = await fetch('/api/likes/toggle', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${Session.getToken()}`
+                        },
+                        body: JSON.stringify({ design_id })
+                    });
+                    
+                    const data = await res.json();
+                    
+                    if (res.ok) {
+                        // Update local state
+                        if (data.liked) {
+                            userLikes.add(design_id);
+                        } else {
+                            userLikes.delete(design_id);
+                        }
+                        
+                        // Animate the like button
+                        if (window.heavyDropsEnhanced) {
+                            window.heavyDropsEnhanced.animateLike(btn, data.liked);
+                        } else {
+                            btn.classList.toggle('active', data.liked);
+                        }
+                    }
+                } catch (e) {
+                    console.error('Like toggle failed:', e);
+                }
+            }
+
+            // Initialize when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        </script>
+        
+        
 </body>
 
 </html>

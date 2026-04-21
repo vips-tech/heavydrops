@@ -60,7 +60,7 @@ const FOOTER_HTML = `
                 <ul>
                     <li><a href="mailto:concierge@heavydrops.com">concierge@heavydrops.com</a></li>
                     <li><span style="opacity: 0.6; font-size: 0.9rem;">Mumbai Only</span></li>
-                    <li><span style="opacity: 0.6; font-size: 0.9rem;">+91 9999 8888 77</span></li>
+                    <li><span style="opacity: 0.6; font-size: 0.9rem;">+91 98408 28137</span></li>
                 </ul>
             </div>
         </div>

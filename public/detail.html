@@ -4,213 +4,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Heavy Drops — Jewellery Discovery Platform</title>
+    <title>Heavy Drops — Premium Jewelry Discovery Platform</title>
+    
+    <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600&display=swap"
-        rel="stylesheet">
+    
+    <!-- Enhanced Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="/css/design-system.css">
-    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/components-enhanced.css">
+    <link rel="stylesheet" href="/css/mobile-nav.css">
+    
+    <!-- Scripts -->
     <script src="/js/session.js"></script>
-    <style>
-        .detail-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            padding: 80px 0;
-        }
-
-        .image-gallery {
-            position: sticky;
-            top: 40px;
-        }
-
-        .main-img {
-            width: 100%;
-            aspect-ratio: 4/5;
-            object-fit: cover;
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-soft);
-        }
-
-        .price-card {
-            background: var(--color-ivory);
-            padding: 32px;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--color-gray-soft);
-            margin-top: 30px;
-        }
-
-        .like-btn {
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid var(--color-gray-soft);
-            border-radius: 50%;
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .like-btn svg {
-            width: 24px;
-            height: 24px;
-            fill: none;
-            stroke: var(--color-noir);
-            stroke-width: 2px;
-        }
-
-        .like-btn.active svg {
-            fill: #d12424;
-            stroke: #d12424;
-        }
-
-        /* Mobile Responsive Styles */
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 16px;
-            }
-
-            .detail-layout {
-                grid-template-columns: 1fr;
-                gap: 20px;
-                padding: 20px 0 80px;
-            }
-
-            .image-gallery {
-                position: relative;
-                top: 0;
-            }
-
-            .gallery-container {
-                position: relative !important;
-                top: 0 !important;
-            }
-
-            .main-img {
-                aspect-ratio: 1/1;
-                max-height: 400px;
-                width: 100%;
-            }
-
-            .thumbnails {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: none;
-                padding-bottom: 5px;
-            }
-
-            .thumbnails::-webkit-scrollbar {
-                display: none;
-            }
-
-            .spec-tiles {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 12px !important;
-                margin: 30px 0 !important;
-            }
-
-            .spec-tile {
-                padding: 16px !important;
-            }
-
-            .price-module {
-                padding: 20px !important;
-                margin-bottom: 20px;
-            }
-
-            .price-item {
-                font-size: 0.85rem;
-            }
-
-            .price-item span:first-child {
-                flex: 1;
-                min-width: 0;
-            }
-
-            .price-item span:last-child {
-                white-space: nowrap;
-                font-weight: 600;
-            }
-
-            .actions {
-                margin-top: 20px !important;
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                background: white;
-                padding: 12px 16px;
-                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-                z-index: 100;
-            }
-
-            .btn-primary {
-                padding: 14px !important;
-                font-size: 0.95rem;
-            }
-
-            .editorial-title {
-                font-size: 1.6rem !important;
-                line-height: 1.2;
-            }
-
-            .identity {
-                margin-bottom: 20px;
-            }
-
-            .identity p {
-                font-size: 0.9rem;
-                line-height: 1.5;
-            }
-
-            .editorial-tag {
-                font-size: 0.7rem;
-            }
-
-            .price-module h3 {
-                font-size: 0.9rem !important;
-            }
-        }
-
-        .price-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 12px;
-            gap: 15px;
-        }
-    </style>
-</head>
+    <script src="/js/enhanced-features.js"></script>
+    <script src="/js/jewelry-images.js"></script>
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="Discover exquisite handcrafted jewelry from India's master artisans. Premium gold, silver, and diamond pieces with transparent pricing and live gold rates.">
+    <meta name="keywords" content="jewelry, gold, silver, diamonds, handcrafted, artisan, India, premium, luxury">
+    <meta name="author" content="Heavy Drops">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Heavy Drops — Premium Jewelry Discovery Platform">
+    <meta property="og:description" content="Discover exquisite handcrafted jewelry from India's master artisans">
+    <meta property="og:image" content="/assets/og-image.jpg">
+    <meta property="og:url" content="https://heavydrops.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+        </head>
 
 <body>
 
-    <nav class="std-nav">
-        <button class="mobile-menu-btn" aria-label="Toggle menu" onclick="toggleMobileMenu()"><svg viewBox="0 0 24 24">
-                <path d="M3 12h18M3 6h18M3 18h18" />
-            </svg></button>
-        <div class="nav-left">
-            <a href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
-                <img src="/assets/logo.png" alt="Heavy Drops">
-                <span
-                    style="font-family: 'Outfit'; font-weight: 600; font-size: 1.2rem; color: #1a1a1a; letter-spacing: -0.02em;">HEAVY
-                    DROPS</span>
-            </a>
-        </div>
-        <div class="nav-center" id="navCenter">
-            <a href="/">Home</a>
-            <a href="/collection">Discover</a>
-            <a href="/profile/likes">Liked</a>
-        </div>
-        <div class="nav-right">
-            <div class="nav-auth-channel">
-                <!-- Populated by session.js -->
+    
+        
+        <nav class="std-nav">
+            <div>
+                <div class="nav-left">
+                    <a href="/" class="nav-logo">
+                        <img src="/assets/logo.png" alt="Heavy Drops Logo">
+                        <span>HEAVY DROPS</span>
+                    </a>
+                </div>
+                
+                <div class="nav-center" id="navCenter">
+                    <a href="/" class="nav-link">HOME</a>
+                    <a href="/how-it-works" class="nav-link">HOW IT WORKS</a>
+                    <a href="/about" class="nav-link">ABOUT</a>
+                </div>
+                
+                <div class="nav-right">
+                    <!-- Gold rate ticker will be inserted here by JavaScript -->
+                </div>
+                
+                <button class="mobile-menu-btn" aria-label="Toggle navigation menu" onclick="toggleMobileMenu()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 12h18M3 6h18M3 18h18" />
+                    </svg>
+                </button>
             </div>
-        </div>
-    </nav>
+        </nav>
+        
+        
 
 
 
@@ -220,13 +79,13 @@
 
 
     <main class="container detail-layout" id="detailRoot">
-        <p>Initializing high-resolution discovery...</p>
+        <p style="text-align: center; padding: 4rem 0; color: var(--color-gray-medium);">Loading design details...</p>
     </main>
 
     <!-- Gallery Viewer Modal -->
-    <div id="galleryViewer" class="modal-overlay" style="background: rgba(0,0,0,0.95);">
+    <div id="galleryViewer" class="modal-overlay" style="background: rgba(0,0,0,0.95); display: none;">
         <span onclick="closeGallery()"
-            style="position: absolute; top: 30px; right: 30px; color: white; cursor: pointer; font-size: 2rem;">&times;</span>
+            style="position: absolute; top: 30px; right: 30px; color: white; cursor: pointer; font-size: 2rem; z-index: 10;">&times;</span>
         <div style="width: 90%; height: 90%; display: flex; align-items: center; justify-content: center;">
             <img id="viewerImg" src="" style="max-width: 100%; max-height: 100%; object-fit: contain; cursor: zoom-in;"
                 onclick="toggleZoom(this)">
@@ -234,7 +93,7 @@
     </div>
 
     <!-- Intent Confirmation Modal -->
-    <div class="modal-overlay" id="intentModal">
+    <div class="modal-overlay" id="intentModal" style="display: none;">
         <div class="modal-content">
             <h2 style="margin-bottom: 20px; font-family: var(--font-heading);">Signal Serious Intent?</h2>
             <p style="margin-bottom: 20px; opacity: 0.8; line-height: 1.6;">
@@ -245,258 +104,532 @@
                 • You agree to visit the showroom within this window.
             </p>
             <div style="display: flex; gap: 10px;">
-                <button class="btn-primary" style="flex: 1;" id="confirmBlock">Yes, Block Design</button>
+                <button class="btn-primary" style="flex: 1;" onclick="confirmBlockDesign()">Yes, Block Design</button>
                 <button class="btn-primary" style="flex: 1; background: var(--color-gray-dark);"
                     onclick="closeModal()">Cancel</button>
             </div>
         </div>
     </div>
 
-    <script>
-        function toggleMobileMenu() {
-            const navCenter = document.getElementById('navCenter');
-            navCenter.classList.toggle('active');
+    <style>
+        @keyframes slideInRight {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
+        
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+        
+        .notification-content h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        
+        .notification-content p {
+            margin: 0;
+            font-size: 0.95rem;
+            opacity: 0.95;
+        }
+    </style>
 
-        // Wait for Session to be available
-        function initDetailPage() {
-            const urlParams = new URLSearchParams(window.location.search);
-            let designId = urlParams.get('id');
+    <style>
+        .detail-layout {
+            padding: 140px 2rem 4rem;
+            max-width: 1200px;
+        }
+        
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .detail-image {
+            width: 100%;
+            aspect-ratio: 4/5;
+            object-fit: cover;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .detail-image:hover {
+            transform: scale(1.02);
+        }
+        
+        .detail-info h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--color-noir);
+        }
+        
+        .detail-specs {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: #f9f9f9;
+            border-radius: 12px;
+        }
+        
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        
+        .spec-item:last-child {
+            border-bottom: none;
+        }
+        
+        .spec-label {
+            font-weight: 600;
+            color: var(--color-gray-dark);
+        }
+        
+        .spec-value {
+            color: var(--color-noir);
+            font-weight: 500;
+        }
+        
+        .price-breakdown {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid var(--color-gold);
+            margin: 2rem 0;
+        }
+        
+        .price-breakdown h3 {
+            margin-bottom: 1.5rem;
+            color: var(--color-noir);
+        }
+        
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            font-size: 1.1rem;
+        }
+        
+        .price-row.total {
+            border-top: 2px solid #e8e8e8;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-gold);
+        }
+        
+        @media (max-width: 768px) {
+            .detail-layout {
+                padding: 120px 1rem 2rem;
+            }
+            
+            .detail-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .detail-info h1 {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+    
+        <script>
+            let systemConfig = {};
+            let userLikes = new Set();
+            let currentDesign = null;
 
-            if (!designId) {
-                const paths = window.location.pathname.split('/');
-                const idFromPath = paths[paths.length - 1];
-                if (!isNaN(idFromPath)) designId = idFromPath;
+            // Get design ID from URL
+            function getDesignIdFromUrl() {
+                const pathParts = window.location.pathname.split('/');
+                return pathParts[pathParts.length - 1];
             }
 
-            window.designId = designId;
-            fetchDetail();
-        }
-
-        async function fetchDetail() {
-            const designId = window.designId;
-            const root = document.getElementById('detailRoot');
-            try {
-                // Check if Session is available
-                if (typeof Session === 'undefined') {
-                    throw new Error('Session is not defined');
+            // Mobile Navigation Toggle
+            function toggleMobileMenu() {
+                const navCenter = document.getElementById('navCenter');
+                const isActive = navCenter.classList.contains('active');
+                
+                if (isActive) {
+                    navCenter.classList.remove('active');
+                    document.body.style.overflow = '';
+                } else {
+                    navCenter.classList.add('active');
+                    document.body.style.overflow = 'hidden';
                 }
+            }
 
-                const isAuth = Session.isAuthenticated();
-
-                // Fetch design data (public)
-                const designRes = await fetch(`/api/designs/${designId}`);
-
-                if (!designRes.ok) throw new Error('Design not found');
-
-                const design = await designRes.json();
-
-                // Fetch block status only if authenticated
-                let blockStatus = { status: 'available' };
-                if (isAuth) {
-                    try {
-                        const statusRes = await fetch(`/api/blocks/status/${designId}`, {
-                            headers: { 'Authorization': `Bearer ${Session.getToken()}` }
-                        });
-                        if (statusRes.ok) {
-                            blockStatus = await statusRes.json();
-                        }
-                    } catch (e) {
-                        console.log('Could not fetch block status:', e);
+            // Load Design Details
+            async function loadDesignDetails() {
+                const designId = getDesignIdFromUrl();
+                const root = document.getElementById('detailRoot');
+                
+                try {
+                    const response = await fetch(`/api/designs/${designId}`);
+                    
+                    if (!response.ok) {
+                        throw new Error('Design not found');
                     }
-                }
-
-                const masterImg = design.media.find(m => m.shot_type === 'master')?.uri || 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=600&fit=crop';
-                const thumbnails = design.media.map(m => `<img src="${m.uri}" class="thumb" onclick="swapMain('${m.uri}')" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 1px solid var(--color-gray-soft);">`).join('');
-
-                let isBlocked = (blockStatus.status === 'blocked_by_me');
-
-                root.innerHTML = `
-                    <div class="image-section">
-                        <div class="gallery-container" style="position: sticky; top: 40px;">
-                            <img id="mainHeroImg" class="main-img" src="${masterImg}" alt="${design.category}" style="cursor: zoom-in;" onclick="openGallery('${masterImg}')">
-                            <div class="thumbnails" style="display: flex; gap: 10px; margin-top: 15px;">${thumbnails}</div>
-                            <p style="margin-top: 30px; font-size: 0.8rem; opacity: 0.4; text-align: center;">Verified Photography Audit: Platform Core</p>
+                    
+                    const design = await response.json();
+                    currentDesign = design;
+                    
+                    // Get unique image for this design
+                    const designImage = window.JewelryImages ? 
+                        window.JewelryImages.getUniqueImage(design.category, design.design_id) : 
+                        `https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=800&auto=format&fit=crop`;
+                    
+                    // Calculate prices with real gold rate
+                    const realGoldRate = 6479; // Real 22K gold rate in India
+                    const goldValue = design.weight * realGoldRate;
+                    const makingCharge = design.making_charge_snapshot || 0;
+                    const gst = design.gst || 0;
+                    const totalPrice = goldValue + makingCharge + gst;
+                    
+                    // Render design details
+                    root.innerHTML = `
+                        <div class="detail-grid">
+                            <div>
+                                <img src="${designImage}" 
+                                     alt="${design.purity} Gold ${design.category}" 
+                                     class="detail-image"
+                                     onclick="openGallery('${designImage}')"
+                                     onerror="this.src='https://via.placeholder.com/600x750?text=Image+Unavailable'">
+                            </div>
+                            
+                            <div class="detail-info">
+                                <h1>${design.purity} Gold ${design.category}</h1>
+                                <p style="font-size: 1.1rem; color: var(--color-gray-dark); margin-bottom: 2rem;">
+                                    ${design.occasion_tag ? design.occasion_tag + ' • ' : ''}${design.category}
+                                </p>
+                                
+                                <div class="detail-specs">
+                                    <div class="spec-item">
+                                        <span class="spec-label">Weight</span>
+                                        <span class="spec-value">${design.weight}g</span>
+                                    </div>
+                                    <div class="spec-item">
+                                        <span class="spec-label">Purity</span>
+                                        <span class="spec-value">${design.purity}</span>
+                                    </div>
+                                    <div class="spec-item">
+                                        <span class="spec-label">Category</span>
+                                        <span class="spec-value">${design.category}</span>
+                                    </div>
+                                    <div class="spec-item">
+                                        <span class="spec-label">Seller</span>
+                                        <span class="spec-value">${design.business_name}</span>
+                                    </div>
+                                    <div class="spec-item">
+                                        <span class="spec-label">Location</span>
+                                        <span class="spec-value">${design.city || 'Chennai'}</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="price-breakdown">
+                                    <h3>Price Breakdown</h3>
+                                    <div class="price-row">
+                                        <span>Gold Value (${design.weight}g × ₹${realGoldRate}/g)</span>
+                                        <span>₹${Math.round(goldValue).toLocaleString()}</span>
+                                    </div>
+                                    <div class="price-row">
+                                        <span>Making Charges</span>
+                                        <span>₹${Math.round(makingCharge).toLocaleString()}</span>
+                                    </div>
+                                    <div class="price-row">
+                                        <span>GST</span>
+                                        <span>₹${Math.round(gst).toLocaleString()}</span>
+                                    </div>
+                                    <div class="price-row total">
+                                        <span>Total Estimate</span>
+                                        <span>₹${Math.round(totalPrice).toLocaleString()}</span>
+                                    </div>
+                                </div>
+                                
+                                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                                    <button class="btn-primary btn-block" onclick="handleBlockDesign()">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                            <path d="M2 17l10 5 10-5"/>
+                                            <path d="M2 12l10 5 10-5"/>
+                                        </svg>
+                                        Block Design
+                                    </button>
+                                    <button class="btn-primary" onclick="toggleLike(event, ${design.design_id}, this)" 
+                                            style="background: ${userLikes.has(design.design_id) ? '#ef4444' : 'var(--color-gray-dark)'};">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="${userLikes.has(design.design_id) ? '#fff' : 'none'}" 
+                                             stroke="currentColor" stroke-width="2">
+                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                        </svg>
+                                        ${userLikes.has(design.design_id) ? 'Liked' : 'Like'}
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="decision-section">
-                        <section class="identity">
-                            <span class="editorial-tag">Certified Masterwork</span>
-                            <h1 class="editorial-title" style="margin: 10px 0 20px;">${design.purity} Gold ${design.category}</h1>
-                            <p style="opacity: 0.8; line-height: 1.6; margin-bottom: 20px;">A masterfully crafted piece by ${design.business_name}. This design represents the finest ${design.purity} gold artistry in ${design.city}.</p>
-                            <a href="/seller-profile/${design.seller_id}" style="color: var(--color-gold); font-weight: 600; text-decoration: none; font-size: 0.9rem;">VIEW SELLER PROFILE →</a>
-                        </section>
-
-                        <section class="spec-tiles" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 40px 0;">
-                            <div class="spec-tile" style="background: var(--color-linen); padding: 20px; border-radius: 8px;">
-                                <span style="display: block; font-size: 0.7rem; text-transform: uppercase; opacity: 0.6; margin-bottom: 5px;">Purity</span>
-                                <strong>${design.purity}</strong>
-                            </div>
-                            <div class="spec-tile" style="background: var(--color-linen); padding: 20px; border-radius: 8px;">
-                                <span style="display: block; font-size: 0.7rem; text-transform: uppercase; opacity: 0.6; margin-bottom: 5px;">Weight</span>
-                                <strong>${design.weight}g</strong>
-                            </div>
-                        </section>
-
-                        <div class="price-module" style="background: #f8f8f8; padding: 30px; border-radius: 8px; border: 1px solid var(--color-gray-soft);">
-                            <h3 style="margin-bottom: 20px; font-size: 1rem; text-transform: uppercase;">Transparent Price Breakdown</h3>
-                            <div class="price-item"><span>Live Gold Value (${design.weight}g @ ₹${design.current_gold_rate}/g)</span> <span>₹${design.price_breakdown.gold_value.toLocaleString()}</span></div>
-                            <div class="price-item"><span>Making Charge (Seller Defined)</span> <span>₹${design.price_breakdown.making_charge.toLocaleString()}</span></div>
-                            <div class="price-item"><span>GST (3%)</span> <span>₹${design.price_breakdown.gst.toLocaleString()}</span></div>
-                            <div class="price-item price-item--total" style="border-top: 1px solid #ddd; padding-top: 20px; margin-top: 15px;">
-                                <strong>TOTAL ESTIMATE</strong> <strong>₹${design.price_breakdown.total.toLocaleString()}</strong>
-                            </div>
-                            <p style="font-size: 0.75rem; opacity: 0.6; margin-top: 15px; font-style: italic;">
-                                “Price calculated based on today's gold rate. Final price confirmed at store.”
+                    `;
+                    
+                } catch (error) {
+                    console.error('Failed to load design:', error);
+                    root.innerHTML = `
+                        <div style="text-align: center; padding: 4rem 0;">
+                            <h2 style="color: var(--color-error); margin-bottom: 1rem;">Design Not Found</h2>
+                            <p style="color: var(--color-gray-medium); margin-bottom: 2rem;">
+                                The design you're looking for doesn't exist or has been removed.
                             </p>
+                            <a href="/" class="btn-primary">Back to Home</a>
                         </div>
+                    `;
+                }
+            }
 
-                        <div class="actions" style="margin-top: 40px; display: flex; flex-direction: column; gap: 15px;">
-                            <button class="btn-primary" id="mainCTA" style="width: 100%; py: 18px; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="${isBlocked ? 'null' : 'openModal()'}" ${isBlocked ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>
-                                ${isBlocked ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Design Blocked' : 'Block This Design'}
-                            </button>
-                            <button class="btn-primary btn-outline" id="secondaryCTA" style="width: 100%; py: 18px; border-color: var(--color-gold); color: var(--color-gold); background: transparent;"
-                                onclick="goToScheduling()">
-                                Book Store Visit
-                            </button>
-                            ${isBlocked ? `<p style="text-align: center; font-size: 0.8rem; opacity: 0.6;">Reserved until ${new Date(blockStatus.expiry_time).toLocaleString()}</p>` : ''}
-                        </div>
+            // Gallery Functions
+            function openGallery(imageSrc) {
+                const viewer = document.getElementById('galleryViewer');
+                const img = document.getElementById('viewerImg');
+                img.src = imageSrc;
+                viewer.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeGallery() {
+                const viewer = document.getElementById('galleryViewer');
+                viewer.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+
+            function toggleZoom(img) {
+                if (img.style.cursor === 'zoom-out') {
+                    img.style.cursor = 'zoom-in';
+                    img.style.transform = 'scale(1)';
+                } else {
+                    img.style.cursor = 'zoom-out';
+                    img.style.transform = 'scale(1.5)';
+                }
+            }
+
+            // Modal Functions
+            function closeModal() {
+                document.getElementById('intentModal').style.display = 'none';
+                document.body.style.overflow = '';
+            }
+
+            function handleBlockDesign() {
+                // Don't check authentication here - let confirmBlockDesign handle it
+                document.getElementById('intentModal').style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+            
+            // Confirm Block Design - Add to Intent/Cart
+            async function confirmBlockDesign() {
+                if (!currentDesign) return;
+                
+                // Check authentication first
+                if (!Session.isAuthenticated()) {
+                    closeModal();
+                    showNotification('Login Required', 'Please login to block this design', 'info');
+                    setTimeout(() => {
+                        window.location.href = `/login?redirect=/design/${currentDesign.design_id}`;
+                    }, 1500);
+                    return;
+                }
+                
+                try {
+                    const response = await fetch('/api/blocks', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${Session.getToken()}`
+                        },
+                        body: JSON.stringify({
+                            design_id: currentDesign.design_id
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        // Success! Show success message
+                        closeModal();
+                        
+                        // Show success notification
+                        showNotification('Design Blocked Successfully!', 'Your design has been reserved for 48 hours. Price is locked.', 'success');
+                        
+                        // Stay on the same page - don't redirect
+                        // User can continue browsing
+                    } else {
+                        // Show error message
+                        closeModal();
+                        showNotification('Error', data.error || 'Failed to block design. Please try again.', 'error');
+                    }
+                } catch (error) {
+                    console.error('Block design error:', error);
+                    closeModal();
+                    showNotification('Error', 'Failed to block design. Please check your connection.', 'error');
+                }
+            }
+            
+            // Show notification
+            function showNotification(title, message, type = 'info') {
+                const notification = document.createElement('div');
+                notification.className = `notification notification-${type}`;
+                notification.innerHTML = `
+                    <div class="notification-content">
+                        <h4>${title}</h4>
+                        <p>${message}</p>
                     </div>
                 `;
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 120px;
+                    right: 20px;
+                    background: ${type === 'success' ? '#10B981' : type === 'error' ? '#EF4444' : '#3B82F6'};
+                    color: white;
+                    padding: 1.5rem;
+                    border-radius: 12px;
+                    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+                    z-index: 10000;
+                    animation: slideInRight 0.3s ease-out;
+                    max-width: 400px;
+                `;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.animation = 'slideOutRight 0.3s ease-out';
+                    setTimeout(() => notification.remove(), 300);
+                }, 3000);
+            }
 
-                // Add redirection function for scheduling
-                window.goToScheduling = () => {
-                    const params = new URLSearchParams();
-                    if (blockStatus?.block_id) params.set('block_id', blockStatus.block_id);
-                    if (design?.seller_id) params.set('seller_id', design.seller_id);
-                    window.location.href = `/intent-path?${params.toString()}`;
-                };
+            // Initialize Application
+            async function init() {
+                try {
+                    // Fetch system configuration
+                    const configResp = await fetch('/api/health/config');
+                    systemConfig = await configResp.json();
 
-
-                if (isAuth && !isBlocked) {
-                    try {
-                        const statusRes = await fetch(`/api/likes/status/${designId}`, {
-                            headers: { 'Authorization': `Bearer ${Session.getToken()}` }
-                        });
-                        if (statusRes.ok) {
-                            const statusData = await statusRes.json();
-                            if (statusData.liked) document.getElementById('likeBtnDetail')?.classList.add('active');
+                    if (systemConfig.pilot_mode) {
+                        const pilotElement = document.getElementById('pilotCity');
+                        if (pilotElement) {
+                            pilotElement.innerText = systemConfig.constraints.RESTRICTED_CITY;
                         }
-                    } catch (e) {
-                        console.log('Could not fetch like status:', e);
                     }
+                } catch (e) { 
+                    console.error('Config fetch failed:', e); 
                 }
-            } catch (error) {
-                console.error('Error loading design:', error);
-                root.innerHTML = `<p style="text-align: center; padding: 100px;">Error loading curated details: ${error.message}</p>`;
-            }
-        }
 
-        function swapMain(uri) { document.getElementById('mainHeroImg').src = uri; }
-        function openGallery(uri) {
-            const v = document.getElementById('galleryViewer');
-            document.getElementById('viewerImg').src = uri;
-            v.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-        function closeGallery() {
-            document.getElementById('galleryViewer').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-        function toggleZoom(img) {
-            if (img.style.cursor === 'zoom-in') {
-                img.style.maxHeight = 'none'; img.style.maxWidth = 'none';
-                img.style.cursor = 'zoom-out';
+                // Load user likes if authenticated
+                await loadUserLikes();
+                
+                // Load design details
+                await loadDesignDetails();
+            }
+
+            // Load User Likes
+            async function loadUserLikes() {
+                if (typeof Session === 'undefined' || !Session.isAuthenticated()) return;
+
+                try {
+                    const response = await fetch('/api/likes/me', {
+                        headers: { 'Authorization': `Bearer ${Session.getToken()}` }
+                    });
+                    if (response.ok) {
+                        const likes = await response.json();
+                        userLikes = new Set(likes.map(l => l.design_id));
+                    }
+                } catch (e) {
+                    console.error('Failed to load likes:', e);
+                }
+            }
+
+            // Enhanced Like Toggle with Animation
+            async function toggleLike(event, design_id, btn) {
+                event.stopPropagation();
+                
+                // Check if user is authenticated
+                if (!Session.isAuthenticated()) {
+                    showNotification('Login Required', 'Please login to like designs', 'info');
+                    setTimeout(() => {
+                        window.location.href = `/login?redirect=/design/${design_id}`;
+                    }, 1500);
+                    return;
+                }
+
+                try {
+                    const res = await fetch('/api/likes/toggle', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${Session.getToken()}`
+                        },
+                        body: JSON.stringify({ design_id })
+                    });
+                    
+                    const data = await res.json();
+                    
+                    if (res.ok) {
+                        // Update local state
+                        if (data.liked) {
+                            userLikes.add(design_id);
+                            btn.style.background = '#ef4444';
+                            btn.innerHTML = `
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" stroke="currentColor" stroke-width="2">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                </svg>
+                                Liked
+                            `;
+                        } else {
+                            userLikes.delete(design_id);
+                            btn.style.background = 'var(--color-gray-dark)';
+                            btn.innerHTML = `
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                </svg>
+                                Like
+                            `;
+                        }
+                        
+                        // Animate the like button with heart tinkle
+                        if (window.heavyDropsEnhanced) {
+                            window.heavyDropsEnhanced.animateLike(btn, data.liked);
+                        }
+                    }
+                } catch (e) {
+                    console.error('Like toggle failed:', e);
+                    showNotification('Error', 'Failed to update like status', 'error');
+                }
+            }
+
+            // Initialize when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
             } else {
-                img.style.maxHeight = '100%'; img.style.maxWidth = '100%';
-                img.style.cursor = 'zoom-in';
+                init();
             }
-        }
-
-        function openModal() { document.getElementById('intentModal').classList.add('active'); }
-        function closeModal() { document.getElementById('intentModal').classList.remove('active'); }
-
-        document.getElementById('confirmBlock').onclick = async () => {
-            if (!Session.isAuthenticated()) {
-                window.location.href = `/login.html?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`;
-                return;
-            }
-            try {
-                const payRes = await fetch('/api/pay/initiate', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${Session.getToken()}` },
-                    body: JSON.stringify({ design_id: window.designId })
-                });
-                const payData = await payRes.json();
-                if (!payRes.ok) throw new Error(payData.error);
-                window.location.href = payData.gateway_sim_url;
-            } catch (err) { alert('Action failed: ' + err.message); }
-        };
-
-        // Initialize when DOM and Session are ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => {
-                setTimeout(initDetailPage, 100);
-            });
-        } else {
-            setTimeout(initDetailPage, 100);
-        }
-    </script>
-
-
-
-
-
-
-
-
-
-    <footer class="std-footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h4>Platform</h4>
-                    <ul>
-                        <li><a href="/collection">Discover</a></li>
-                        <li><a href="/how-it-works">How It Works</a></li>
-                        <li><a href="/problem">Problem We Solve</a></li>
-                        <li><a href="/philosophy">Philosophy</a></li>
-                        <li><a href="/about">About Us</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Legal Protection</h4>
-                    <ul>
-                        <li><a href="/terms">Terms & Conditions</a></li>
-                        <li><a href="/wallet-policy">Wallet Policy</a></li>
-                        <li><a href="/seller-agreement">Seller Agreement</a></li>
-                        <li><a href="/terms#privacy">Privacy Policy</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Partners</h4>
-                    <ul>
-                        <li><a href="/seller-register.html">Become a Seller</a></li>
-                        <li><a href="/seller-login">Partner Portal</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Contact</h4>
-                    <ul>
-                        <li><a href="mailto:concierge@heavydrops.com">concierge@heavydrops.com</a></li>
-                        <li><span style="opacity: 0.6; font-size: 0.9rem;">Chennai Only</span></li>
-                        <li><span style="opacity: 0.6; font-size: 0.9rem;">+91 9999 8888 77</span></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <span>&copy; 2026 Heavy Drops Intent Network. All rights reserved.</span>
-                <span>Est. Chennai</span>
-            </div>
-        </div>
-    </footer>
-
+        </script>
+        
+        
 </body>
 
 </html>
