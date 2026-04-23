@@ -368,8 +368,8 @@
                                     </div>
                                 </div>
                                 
-                                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-                                    <button class="btn-primary btn-block" onclick="handleBlockDesign()">
+                                <div style="display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;">
+                                    <button class="btn-primary" onclick="handleBlockDesign()" style="flex: 1; min-width: 200px;">
                                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                             <path d="M12 2L2 7l10 5 10-5-10-5z"/>
                                             <path d="M2 17l10 5 10-5"/>
@@ -377,8 +377,18 @@
                                         </svg>
                                         Block Design
                                     </button>
+                                    <button class="btn-primary" onclick="bookAppointmentForDesign()" 
+                                            style="background: #3B82F6; flex: 1; min-width: 200px;">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                            <line x1="16" y1="2" x2="16" y2="6"/>
+                                            <line x1="8" y1="2" x2="8" y2="6"/>
+                                            <line x1="3" y1="10" x2="21" y2="10"/>
+                                        </svg>
+                                        Book Appointment
+                                    </button>
                                     <button class="btn-primary" onclick="toggleLike(event, ${design.design_id}, this)" 
-                                            style="background: ${userLikes.has(design.design_id) ? '#ef4444' : 'var(--color-gray-dark)'};">
+                                            style="background: ${userLikes.has(design.design_id) ? '#ef4444' : 'var(--color-gray-dark)'}; width: auto; padding: 0 1.5rem;">
                                         <svg width="20" height="20" viewBox="0 0 24 24" fill="${userLikes.has(design.design_id) ? '#fff' : 'none'}" 
                                              stroke="currentColor" stroke-width="2">
                                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
@@ -439,6 +449,14 @@
                 // Don't check authentication here - let confirmBlockDesign handle it
                 document.getElementById('intentModal').style.display = 'flex';
                 document.body.style.overflow = 'hidden';
+            }
+            
+            // Book appointment for this design
+            function bookAppointmentForDesign() {
+                if (!currentDesign) return;
+                
+                // Redirect to appointment booking page with design ID
+                window.location.href = `/appointments.html?design_id=${currentDesign.design_id}`;
             }
             
             // Confirm Block Design - Add to Intent/Cart

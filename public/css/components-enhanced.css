@@ -648,16 +648,57 @@
 
 @media (max-width: 480px) {
   .design-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  
+  .design-card__content {
+    padding: 0.75rem;
+  }
+  
+  .design-card__title {
+    font-size: 0.9rem;
   }
   
   .design-card__specs {
-    flex-direction: column;
-    gap: var(--space-xs);
+    font-size: 0.7rem;
+    gap: 0.25rem;
+  }
+  
+  .design-card__specs span {
+    font-size: 0.65rem;
+  }
+  
+  .design-card__specs svg {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .price-item {
+    font-size: 0.8rem;
+  }
+  
+  .price-item--total {
+    font-size: 1.1rem;
   }
   
   .transparency-breakdown .price-item:not(.price-item--total) {
-    display: none;
+    font-size: 0.7rem;
+  }
+  
+  .btn {
+    font-size: 0.8rem;
+    padding: 0.6rem 1rem;
+  }
+  
+  .card-like-btn {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .card-like-btn svg {
+    width: 14px;
+    height: 14px;
   }
 }
 

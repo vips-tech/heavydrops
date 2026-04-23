@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard — Heavy Drops</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/components-enhanced.css">
+    <link rel="stylesheet" href="/css/mobile-nav.css">
+    
+    <!-- Scripts -->
+    <script src="/js/session.js"></script>
+    <script src="/js/jewelry-images.js"></script>
+    <script src="/js/enhanced-features.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="std-nav" id="mainNav">
+        <div>
+            <div class="nav-left">
+                <a href="/" class="nav-logo">
+                    <img src="/assets/logo.png" alt="Heavy Drops Logo">
+                    <span>HEAVY DROPS</span>
+                </a>
+            </div>
+            
+            <div class="nav-center" id="navCenter">
+                <a href="/" class="nav-link">HOME</a>
+                <a href="/how-it-works" class="nav-link">HOW IT WORKS</a>
+                <a href="/about" class="nav-link">ABOUT</a>
+            </div>
+            
+            <div class="nav-right">
+                <button class="filter-toggle-btn" onclick="window.location.href='/dashboard'" aria-label="Dashboard">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    <span>DASHBOARD</span>
+                </button>
+            </div>
+            
+            <button class="mobile-menu-btn" aria-label="Toggle navigation menu" onclick="toggleMobileMenu()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12h18M3 6h18M3 18h18" />
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <main class="container section" style="margin-top: 120px;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <!-- Header -->
+            <div style="margin-bottom: 3rem;">
+                <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">My Dashboard</h1>
+                <p style="color: var(--color-gray-dark); font-size: 1.1rem;">Welcome back! Here's your jewelry journey.</p>
+            </div>
+
+            <!-- User State Card -->
+            <div style="background: linear-gradient(135deg, #D4AF37 0%, #FFD700 100%); padding: 2rem; border-radius: 16px; margin-bottom: 2rem; color: white;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Your Status</h2>
+                        <p id="userState" style="font-size: 1.2rem; font-weight: 600; opacity: 0.95;">Loading...</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.25rem;">Intent Wallet Balance</p>
+                        <p id="walletBalance" style="font-size: 2rem; font-weight: 700;">₹0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                        </svg>
+                        <h3 style="font-size: 0.9rem; color: var(--color-gray-dark); text-transform: uppercase; letter-spacing: 0.05em;">Liked</h3>
+                    </div>
+                    <p id="likedCount" style="font-size: 2.5rem; font-weight: 700; color: var(--color-noir);">0</p>
+                </div>
+
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                        <h3 style="font-size: 0.9rem; color: var(--color-gray-dark); text-transform: uppercase; letter-spacing: 0.05em;">Blocked</h3>
+                    </div>
+                    <p id="blockedCount" style="font-size: 2.5rem; font-weight: 700; color: var(--color-noir);">0</p>
+                </div>
+
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                        <h3 style="font-size: 0.9rem; color: var(--color-gray-dark); text-transform: uppercase; letter-spacing: 0.05em;">Appointments</h3>
+                    </div>
+                    <p id="appointmentCount" style="font-size: 2.5rem; font-weight: 700; color: var(--color-noir);">0</p>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div style="border-bottom: 2px solid #f0f0f0; margin-bottom: 2rem;">
+                <div style="display: flex; gap: 2rem;">
+                    <button class="dashboard-tab active" onclick="switchTab('liked')" data-tab="liked">
+                        Liked Designs
+                    </button>
+                    <button class="dashboard-tab" onclick="switchTab('blocked')" data-tab="blocked">
+                        Blocked Designs
+                    </button>
+                    <button class="dashboard-tab" onclick="switchTab('appointments')" data-tab="appointments">
+                        Appointments
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab Content -->
+            <div id="likedTab" class="tab-content active">
+                <div id="likedDesigns" class="design-grid"></div>
+            </div>
+
+            <div id="blockedTab" class="tab-content" style="display: none;">
+                <div id="blockedDesigns" class="design-grid"></div>
+            </div>
+
+            <div id="appointmentsTab" class="tab-content" style="display: none;">
+                <div id="appointmentsList"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="std-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="/">Discover Collection</a></li>
+                        <li><a href="/how-it-works">How It Works</a></li>
+                        <li><a href="/about">About Heavy Drops</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal & Trust</h4>
+                    <ul>
+                        <li><a href="/terms">Terms & Conditions</a></li>
+                        <li><a href="/wallet-policy">Wallet Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 Heavy Drops Intent Network. All rights reserved.</span>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        .dashboard-tab {
+            background: none;
+            border: none;
+            padding: 1rem 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-gray-dark);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-tab:hover {
+            color: var(--color-gold);
+        }
+
+        .dashboard-tab.active {
+            color: var(--color-gold);
+            border-bottom-color: var(--color-gold);
+        }
+
+        .tab-content {
+            min-height: 400px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            color: var(--color-gray-medium);
+            margin-bottom: 1.5rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-noir);
+        }
+
+        .empty-state p {
+            color: var(--color-gray-dark);
+            margin-bottom: 2rem;
+        }
+    </style>
+
+    <script>
+        // Check authentication
+        if (!Session.isAuthenticated()) {
+            window.location.href = '/login?redirect=/dashboard';
+        }
+
+        let currentTab = 'liked';
+
+        // Switch tabs
+        function switchTab(tab) {
+            currentTab = tab;
+            
+            // Update tab buttons
+            document.querySelectorAll('.dashboard-tab').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+            
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            document.getElementById(`${tab}Tab`).style.display = 'block';
+            
+            // Load content
+            if (tab === 'liked') loadLikedDesigns();
+            else if (tab === 'blocked') loadBlockedDesigns();
+            else if (tab === 'appointments') loadAppointments();
+        }
+
+        // Load dashboard data
+        async function loadDashboard() {
+            try {
+                // Load user state
+                const stateResp = await fetch('/api/users/me', {
+                    headers: { 'Authorization': `Bearer ${Session.getToken()}` }
+                });
+                
+                if (stateResp.ok) {
+                    const userData = await stateResp.json();
+                    document.getElementById('userState').textContent = userData.state || 'Explorer';
+                    document.getElementById('walletBalance').textContent = `₹${(userData.wallet_balance || 0).toLocaleString()}`;
+                }
+
+                // Load counts
+                const [likesResp, blocksResp] = await Promise.all([
+                    fetch('/api/likes/me', { headers: { 'Authorization': `Bearer ${Session.getToken()}` } }),
+                    fetch('/api/intent/me/active', { headers: { 'Authorization': `Bearer ${Session.getToken()}` } })
+                ]);
+
+                if (likesResp.ok) {
+                    const likes = await likesResp.json();
+                    document.getElementById('likedCount').textContent = likes.length;
+                }
+
+                if (blocksResp.ok) {
+                    const blocks = await blocksResp.json();
+                    document.getElementById('blockedCount').textContent = blocks.length;
+                }
+
+                // Load initial tab
+                loadLikedDesigns();
+            } catch (error) {
+                console.error('Failed to load dashboard:', error);
+            }
+        }
+
+        // Load liked designs
+        async function loadLikedDesigns() {
+            const container = document.getElementById('likedDesigns');
+            container.innerHTML = '<p style="text-align: center; padding: 2rem;">Loading...</p>';
+
+            try {
+                const response = await fetch('/api/likes/me', {
+                    headers: { 'Authorization': `Bearer ${Session.getToken()}` }
+                });
+
+                if (!response.ok) throw new Error('Failed to load likes');
+
+                const likes = await response.json();
+
+                if (likes.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                            <h3>No Liked Designs Yet</h3>
+                            <p>Start exploring and save your favorite designs</p>
+                            <a href="/" class="btn btn-primary">Explore Collection</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Fetch design details
+                const designIds = likes.map(l => l.design_id).join(',');
+                const designsResp = await fetch(`/api/designs?ids=${designIds}`);
+                const designs = await designsResp.json();
+
+                container.innerHTML = designs.map(design => {
+                    const goldRate = 6479;
+                    const goldValue = design.weight * goldRate;
+                    const totalPrice = goldValue + (design.making_charge_snapshot || 0) + (design.gst || 0);
+                    const uniqueImage = window.JewelryImages.getUniqueImage(design.category, design.design_id);
+
+                    return `
+                        <article class="design-card" onclick="window.location.href='/design/${design.design_id}'">
+                            <div class="design-card__media">
+                                <span class="tag-pill">${design.category}</span>
+                                <img src="${uniqueImage}" alt="${design.purity} Gold ${design.category}">
+                            </div>
+                            <div class="design-card__content">
+                                <h3 class="design-card__title">${design.purity} Gold ${design.category}</h3>
+                                <div class="design-card__specs">
+                                    <span>${design.weight}g</span>
+                                    <span>${design.business_name}</span>
+                                </div>
+                                <div class="price-item price-item--total">
+                                    <span>Total</span>
+                                    <span>₹${Math.round(totalPrice).toLocaleString()}</span>
+                                </div>
+                            </div>
+                        </article>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Failed to load liked designs:', error);
+                container.innerHTML = '<p style="text-align: center; color: red;">Failed to load designs</p>';
+            }
+        }
+
+        // Load blocked designs
+        async function loadBlockedDesigns() {
+            const container = document.getElementById('blockedDesigns');
+            container.innerHTML = '<p style="text-align: center; padding: 2rem;">Loading...</p>';
+
+            try {
+                const response = await fetch('/api/intent/me/active', {
+                    headers: { 'Authorization': `Bearer ${Session.getToken()}` }
+                });
+
+                if (!response.ok) throw new Error('Failed to load blocks');
+
+                const blocks = await response.json();
+
+                if (blocks.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                <path d="M2 17l10 5 10-5"/>
+                                <path d="M2 12l10 5 10-5"/>
+                            </svg>
+                            <h3>No Blocked Designs</h3>
+                            <p>Block designs to reserve them for 48 hours with locked pricing</p>
+                            <a href="/" class="btn btn-primary">Explore Collection</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = blocks.map(block => {
+                    const expiryDate = new Date(block.expires_at);
+                    const now = new Date();
+                    const hoursLeft = Math.max(0, Math.floor((expiryDate - now) / (1000 * 60 * 60)));
+
+                    return `
+                        <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: start; gap: 1rem;">
+                                <div>
+                                    <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Design #${block.design_id}</h3>
+                                    <p style="color: var(--color-gray-dark); margin-bottom: 0.5rem;">Blocked on ${new Date(block.created_at).toLocaleDateString()}</p>
+                                    <p style="color: ${hoursLeft > 0 ? '#10b981' : '#ef4444'}; font-weight: 600;">
+                                        ${hoursLeft > 0 ? `${hoursLeft} hours remaining` : 'Expired'}
+                                    </p>
+                                </div>
+                                <button class="btn btn-primary" onclick="window.location.href='/design/${block.design_id}'">View Design</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Failed to load blocked designs:', error);
+                container.innerHTML = '<p style="text-align: center; color: red;">Failed to load designs</p>';
+            }
+        }
+
+        // Load appointments
+        function loadAppointments() {
+            const container = document.getElementById('appointmentsList');
+            container.innerHTML = `
+                <div class="empty-state">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6"/>
+                        <line x1="8" y1="2" x2="8" y2="6"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
+                    </svg>
+                    <h3>Appointment System Coming Soon</h3>
+                    <p>Book appointments with jewelers to view designs in person</p>
+                </div>
+            `;
+        }
+
+        // Initialize
+        loadDashboard();
+    </script>
+</body>
+</html>
