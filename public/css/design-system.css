@@ -182,48 +182,31 @@ input, textarea, select {
 /* --- ENHANCED NAVIGATION --- */
 .std-nav {
   position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 1000;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   padding: 0;
-  height: 70px;
-  width: calc(100% - 80px);
-  max-width: 1300px;
-  border-radius: 50px;
+  height: 80px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all var(--transition-base);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-.std-nav::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50px;
-  padding: 1px;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(255, 255, 255, 0.1));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
 .std-nav.scrolled {
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.06);
-  top: 10px;
-  transform: translateX(-50%);
+  background: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .std-nav > div {
   width: 100%;
+  max-width: 1400px;
   padding: 0 2rem;
   display: flex;
   align-items: center;
@@ -279,13 +262,13 @@ input, textarea, select {
   transition: all var(--transition-base);
   position: relative;
   white-space: nowrap;
-  border-radius: 25px;
+  border-radius: 6px;
 }
 
 .nav-link:hover,
 .nav-link.active {
   color: var(--color-gold);
-  background: rgba(212, 175, 55, 0.1);
+  background: rgba(212, 175, 55, 0.08);
 }
 
 .nav-right {
@@ -299,10 +282,10 @@ input, textarea, select {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: linear-gradient(135deg, var(--color-gold), var(--color-gold-light));
+  background: var(--color-noir);
   color: white;
   padding: 0.7rem 1.3rem;
-  border-radius: 25px;
+  border-radius: 6px;
   font-size: 0.8rem;
   font-weight: 700;
   border: none;
@@ -310,12 +293,11 @@ input, textarea, select {
   transition: all var(--transition-base);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
 }
 
 .filter-toggle-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+  background: var(--color-gray-dark);
+  transform: translateY(-1px);
 }
 
 .filter-toggle-btn svg {
@@ -330,18 +312,26 @@ input, textarea, select {
   background: linear-gradient(135deg, var(--color-gold), var(--color-gold-light));
   color: white;
   padding: 0.7rem 1.3rem;
-  border-radius: 25px;
-  font-size: 0.8rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
   font-weight: 700;
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
-  animation: pulse 2s infinite;
   letter-spacing: 0.5px;
+  white-space: nowrap;
 }
 
 .gold-rate-ticker .icon {
-  width: 14px;
-  height: 14px;
-  animation: spin 3s linear infinite;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.gold-rate-ticker .rate-label {
+  font-size: 0.65rem;
+  opacity: 0.9;
+  margin-left: 4px;
+  padding: 2px 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
 }
 
 /* Filter Sidebar */
@@ -614,6 +604,15 @@ input, textarea, select {
   background: rgba(212, 175, 55, 0.1);
 }
 
+.editorial-subtitle {
+  font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+  line-height: 1.7;
+  color: white;
+  opacity: 1;
+  max-width: 700px;
+  margin: 0 auto 2rem;
+}
+
 .animate-fade-in-up {
   animation: fadeInUp 1s ease-out;
 }
@@ -696,10 +695,12 @@ input, textarea, select {
 
   /* Standard Navbar */
   .std-nav {
-    padding: 12px 16px;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 12px;
+    height: 70px;
+    padding: 0 1rem;
+  }
+
+  .std-nav > div {
+    padding: 0 1rem;
   }
 
   .nav-left {
@@ -722,6 +723,25 @@ input, textarea, select {
   .nav-right {
     display: flex;
     flex: 0 0 auto;
+    gap: 0.5rem;
+  }
+
+  .gold-rate-ticker {
+    font-size: 0.75rem;
+    padding: 0.5rem 0.8rem;
+  }
+
+  .gold-rate-ticker .rate-label {
+    display: none;
+  }
+
+  .filter-toggle-btn {
+    font-size: 0.75rem;
+    padding: 0.5rem 0.8rem;
+  }
+
+  .filter-toggle-btn span {
+    display: none;
   }
 
   .nav-auth-channel {
@@ -731,7 +751,7 @@ input, textarea, select {
   }
 
   .nav-left img {
-    height: 24px;
+    height: 28px;
   }
 
   .nav-left span {

@@ -146,7 +146,7 @@
                 Authentic craftsmanship from <span class="gold-accent-text" id="pilotCity">Chennai</span>.
             </p>
             <div class="hero-cta">
-                <a href="/collection" class="btn btn-gold btn-lg">
+                <a href="#designGrid" class="btn btn-gold btn-lg">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="11" cy="11" r="8"/>
                         <path d="m21 21-4.35-4.35"/>
@@ -319,6 +319,10 @@
                     // Get unique image for this design
                     const uniqueImage = getUniqueImage(design.category, design.design_id);
                     
+                    // Create proper jewelry name
+                    const jewelryName = `${design.purity} Gold ${design.category}`;
+                    const categoryDisplay = design.occasion_tag ? `${design.category} • ${design.occasion_tag}` : design.category;
+                    
                     return `
                         <article class="design-card fade-in-observer" 
                                 onclick="navigateToDesign(event, ${design.design_id})"
@@ -337,17 +341,17 @@
                             </button>
                             
                             <div class="design-card__media">
-                                <span class="tag-pill">${design.category}${design.occasion_tag ? ' • ' + design.occasion_tag : ''}</span>
+                                <span class="tag-pill">${categoryDisplay}</span>
                                 <img src="${uniqueImage}" 
-                                     alt="${design.purity} Gold ${design.category}"
+                                     alt="${jewelryName}"
                                      loading="lazy"
                                      crossorigin="anonymous"
-                                     onerror="this.style.display='none'; this.parentElement.innerHTML += '<div class=\\'image-placeholder\\'><svg width=\\'48\\' height=\\'48\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'1\\'><rect x=\\'3\\' y=\\'3\\' width=\\'18\\' height=\\'18\\' rx=\\'2\\' ry=\\'2\\'/><circle cx=\\'8.5\\' cy=\\'8.5\\' r=\\'1.5\\'/><polyline points=\\'21,15 16,10 5,21\\'/></svg><span>Image unavailable</span></div>'">
+                                     onerror="this.style.display='none'; this.parentElement.innerHTML += '<div class=\\'image-placeholder\\'><svg width=\\'48\\' height=\\'48\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'1\\'><rect x=\\'3\\' y=\\'3\\' width=\\'18\\' height=\\'18\\' rx=\\'2\\' ry=\\'2\\'/><circle cx=\\'8.5\\' cy=\\'8.5\\' r=\\'1.5\\'/><polyline points=\\'21,15 16,10 5,21\\'/></svg><span>${design.category}</span></div>'">
                             </div>
                             
                             <div class="design-card__content">
-                                <div class="design-card__category">${design.category}</div>
-                                <h3 class="design-card__title">${design.purity} Gold ${design.category}</h3>
+                                <div class="design-card__category">${design.category.toUpperCase()}</div>
+                                <h3 class="design-card__title">${jewelryName}</h3>
                                 
                                 <div class="design-card__specs">
                                     <span>

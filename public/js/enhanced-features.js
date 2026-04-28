@@ -79,20 +79,20 @@ class HeavyDropsEnhanced {
             const ticker = document.createElement('div');
             ticker.className = 'gold-rate-ticker';
             ticker.innerHTML = `
-                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                     <circle cx="12" cy="12" r="3"/>
                     <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
                 </svg>
                 <span class="rate-value">₹${this.goldRate.toLocaleString()}/g</span>
-                <span class="rate-label">LIVE</span>
+                <span class="rate-label">LIVE 22K</span>
             `;
             
-            // Insert before auth channel
-            const authChannel = navRight.querySelector('.nav-auth-channel');
-            if (authChannel) {
-                navRight.insertBefore(ticker, authChannel);
+            // Insert before filter button
+            const filterBtn = navRight.querySelector('.filter-toggle-btn');
+            if (filterBtn) {
+                navRight.insertBefore(ticker, filterBtn);
             } else {
-                navRight.appendChild(ticker);
+                navRight.prepend(ticker);
             }
         }
     }
@@ -116,15 +116,11 @@ class HeavyDropsEnhanced {
             const currentScrollY = window.scrollY;
             
             if (nav) {
-                if (currentScrollY > 100) {
+                if (currentScrollY > 50) {
                     nav.classList.add('scrolled');
                 } else {
                     nav.classList.remove('scrolled');
                 }
-                
-                // Keep navbar centered and visible on scroll
-                nav.style.left = '50%';
-                nav.style.transform = 'translateX(-50%)';
             }
             
             lastScrollY = currentScrollY;
