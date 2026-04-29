@@ -77,36 +77,298 @@
 
 
 
-    <main class="legal-content">
-        <h1>Wallet & Credits Policy</h1>
+    <style>
+        /* Wallet Policy Page Styling */
+        .legal-hero {
+            position: relative;
+            min-height: 40vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, #0A0A0A 0%, #2a2a2a 100%);
+            color: white;
+            overflow: hidden;
+            margin-top: 80px;
+            padding: 4rem 2rem;
+        }
+        
+        .legal-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=2070&h=800&fit=crop&q=80') center/cover;
+            opacity: 0.1;
+            z-index: 1;
+        }
+        
+        .legal-hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.92) 0%, rgba(42, 42, 42, 0.88) 100%);
+            z-index: 2;
+        }
+        
+        .legal-hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 800px;
+        }
+        
+        .legal-hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, white, var(--color-gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+        
+        .legal-hero p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            opacity: 1;
+            color: white;
+            line-height: 1.7;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .legal-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+            background: white;
+        }
+        
+        .legal-content h1 {
+            display: none;
+        }
+        
+        .legal-content h2 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 700;
+            color: var(--color-noir);
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--color-gold);
+            position: relative;
+        }
+        
+        .legal-content h2::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--color-gold);
+        }
+        
+        .legal-content p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--color-gray-dark);
+            margin-bottom: 1.5rem;
+        }
+        
+        .legal-content strong {
+            color: var(--color-noir);
+            font-weight: 600;
+        }
+        
+        .legal-content ul {
+            margin: 1.5rem 0;
+            padding-left: 2rem;
+        }
+        
+        .legal-content li {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--color-gray-dark);
+            margin-bottom: 0.75rem;
+        }
+        
+        .legal-content ul li::marker {
+            color: var(--color-gold);
+            font-size: 1.2em;
+        }
+        
+        .legal-card {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.05), rgba(212, 175, 55, 0.02));
+            border-left: 4px solid var(--color-gold);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+        }
+        
+        .legal-card h2 {
+            margin-top: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .legal-card h2::before {
+            display: none;
+        }
+        
+        .legal-divider {
+            margin: 4rem 0;
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--color-gray-soft), transparent);
+        }
+        
+        .legal-footer-note {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--color-gray-soft);
+            font-size: 0.9rem;
+            color: var(--color-gray-medium);
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .legal-hero {
+                min-height: 30vh;
+                padding: 3rem 1.5rem;
+            }
+            
+            .legal-content {
+                padding: 3rem 1.5rem;
+            }
+            
+            .legal-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
 
+    <!-- Legal Hero Section -->
+    <div class="legal-hero">
+        <div class="legal-hero-content">
+            <span class="editorial-tag">Financial Policy</span>
+            <h1>Wallet & Credits Policy</h1>
+            <p>Understanding how your Heavy Drops wallet works and credit management</p>
+        </div>
+    </div>
+
+    <main class="legal-content">
         <div class="legal-card">
             <h2>Non-Withdrawable Nature</h2>
-            <p style="font-size: 1.1rem;">The Heavy Drops Wallet is an **Intent-Specific Ledger**. Credits held within
+            <p>The Heavy Drops Wallet is an <strong>Intent-Specific Ledger</strong>. Credits held within
                 this wallet are non-refundable and non-withdrawable into bank accounts or external cash equivalents.</p>
         </div>
 
         <h2>1. Purpose of Credits</h2>
         <p>Wallet balances are used exclusively for platform-gated actions, including:</p>
         <ul>
-            <li>Triggering intent blocks for specific designs.</li>
-            <li>Maintaining a 'Proof of Seriousness' balance for high-value discoveries.</li>
-            <li>Settlement of behavioral penalties (e.g., No-Show fines).</li>
+            <li>Triggering intent blocks for specific designs</li>
+            <li>Maintaining a 'Proof of Seriousness' balance for high-value discoveries</li>
+            <li>Settlement of behavioral penalties (e.g., No-Show fines)</li>
+            <li>Platform service fees and reservation charges</li>
         </ul>
+
+        <hr class="legal-divider">
 
         <h2>2. No Cash Equivalence</h2>
         <p>The credits held in the Heavy Drops wallet are not "currency" but represent pre-paid access to the platform's
-            high-intent infrastructure. They cannot be used to purchase jewellery directly; jewellery purchases must be
+            high-intent infrastructure.</p>
+        <p><strong>Important:</strong> Credits cannot be used to purchase jewellery directly. Jewellery purchases must be
             completed at the seller's showroom using their accepted payment methods.</p>
 
-        <h2>3. Expiry & Forfeiture</h2>
-        <p>Credits may expire if the account remains inactive for a period exceeding 12 months. Any credits deducted as
-            penalties for violating trust protocols (Strike system) are forfeited to support platform governance costs.
-        </p>
+        <hr class="legal-divider">
 
-        <div
-            style="margin-top: 60px; border-top: 1px solid var(--color-linen); padding-top: 20px; font-size: 0.8rem; opacity: 0.5;">
-            Last Updated: February 2026
+        <h2>3. Credit Usage</h2>
+        <p>Your wallet credits can be used for:</p>
+        <ul>
+            <li><strong>Intent Signals:</strong> Reserve designs for 48-hour viewing windows</li>
+            <li><strong>Appointment Booking:</strong> Secure time slots with verified sellers</li>
+            <li><strong>Platform Services:</strong> Access premium discovery features</li>
+            <li><strong>Penalty Settlement:</strong> Resolve no-show or cancellation fees</li>
+        </ul>
+
+        <hr class="legal-divider">
+
+        <h2>4. Adding Credits</h2>
+        <p>Credits can be added to your wallet through:</p>
+        <ul>
+            <li>Direct bank transfer or UPI payment</li>
+            <li>Credit/Debit card payments</li>
+            <li>Net banking</li>
+            <li>Digital wallets (Paytm, PhonePe, Google Pay)</li>
+        </ul>
+        <p>All transactions are processed through secure payment gateways with industry-standard encryption.</p>
+
+        <hr class="legal-divider">
+
+        <h2>5. Expiry & Forfeiture</h2>
+        <p>Credits may expire if the account remains inactive for a period exceeding <strong>12 months</strong>.</p>
+        <p>Any credits deducted as penalties for violating trust protocols (Strike system) are forfeited to support platform governance costs.</p>
+        
+        <h3>Expiry Notifications</h3>
+        <ul>
+            <li>90 days before expiry: First notification</li>
+            <li>30 days before expiry: Second notification</li>
+            <li>7 days before expiry: Final warning</li>
+        </ul>
+
+        <hr class="legal-divider">
+
+        <h2>6. Refund Policy</h2>
+        <p>Credits are generally non-refundable. However, refunds may be considered in the following exceptional circumstances:</p>
+        <ul>
+            <li>Technical errors resulting in duplicate charges</li>
+            <li>Unauthorized transactions (subject to investigation)</li>
+            <li>Platform service failures preventing credit usage</li>
+        </ul>
+        <p>Refund requests must be submitted within 7 days of the transaction with supporting documentation.</p>
+
+        <hr class="legal-divider">
+
+        <h2>7. Account Closure</h2>
+        <p>Upon account closure:</p>
+        <ul>
+            <li>Unused credits will be forfeited after 30 days</li>
+            <li>Pending intent signals will be cancelled</li>
+            <li>No refunds will be issued for remaining balance</li>
+            <li>Transaction history will be retained for legal compliance</li>
+        </ul>
+
+        <hr class="legal-divider">
+
+        <h2>8. Security & Protection</h2>
+        <p>We implement multiple security measures to protect your wallet:</p>
+        <ul>
+            <li>Two-factor authentication for transactions above ₹5,000</li>
+            <li>Transaction notifications via SMS and email</li>
+            <li>Spending limits and velocity checks</li>
+            <li>Fraud detection and prevention systems</li>
+        </ul>
+
+        <hr class="legal-divider">
+
+        <h2>9. Contact for Wallet Issues</h2>
+        <p>For wallet-related queries or disputes:</p>
+        <ul>
+            <li><strong>Email:</strong> wallet@heavydrops.com</li>
+            <li><strong>Phone:</strong> +91 98408 28137</li>
+            <li><strong>Support Hours:</strong> Monday-Saturday, 10 AM - 6 PM IST</li>
+        </ul>
+
+        <div class="legal-footer-note">
+            <p><strong>Last Updated:</strong> February 2026</p>
+            <p>By using the Heavy Drops wallet, you acknowledge that you have read and agree to this policy.</p>
         </div>
     </main>
 
@@ -137,8 +399,8 @@
                             <li><a href="/terms">Terms & Conditions</a></li>
                             <li><a href="/wallet-policy">Wallet Policy</a></li>
                             <li><a href="/seller-agreement">Seller Agreement</a></li>
-                            <li><a href="/terms#privacy">Privacy Policy</a></li>
-                            <li><a href="/terms#security">Security</a></li>
+                            <li><a href="/privacy-policy">Privacy Policy</a></li>
+                            <li><a href="/security">Security</a></li>
                         </ul>
                     </div>
                     <div class="footer-col">

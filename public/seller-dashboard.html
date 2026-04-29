@@ -36,16 +36,408 @@
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/assets/favicon.png">
+    
+    <style>
+        /* Dashboard Hero Section */
+        .dashboard-hero {
+            position: relative;
+            min-height: 35vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, #0A0A0A 0%, #2a2a2a 100%);
+            color: white;
+            overflow: hidden;
+            margin-top: 80px;
+            padding: 3rem 2rem;
+        }
+        
+        .dashboard-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=2070&auto=format&fit=crop') center/cover;
+            opacity: 0.1;
+            z-index: 1;
+        }
+        
+        .dashboard-hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.92) 0%, rgba(42, 42, 42, 0.88) 100%);
+            z-index: 2;
+        }
+        
+        .dashboard-hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 800px;
+        }
+        
+        .dashboard-hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, white, var(--color-gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+        
+        .dashboard-hero p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            opacity: 1;
+            color: white;
+            line-height: 1.7;
+        }
+        
+        /* Dashboard Grid Layout */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        /* Sidebar Stats */
+        aside {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        
+        aside h3 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-gold);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.05), rgba(212, 175, 55, 0.02));
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--color-gold);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+        }
+        
+        .stat-card span {
+            display: block;
+            font-size: 0.8rem;
+            opacity: 0.6;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+        
+        .stat-card div {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--color-noir);
+            font-family: var(--font-heading);
+        }
+        
+        /* Main Section */
+        section {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        section h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--color-noir);
+        }
+        
+        section h4 {
+            font-size: 1.1rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--color-gray-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--color-gold);
+        }
+        
+        /* Data Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+        
+        .data-table thead {
+            background: linear-gradient(135deg, var(--color-noir), #2a2a2a);
+            color: white;
+        }
+        
+        .data-table th {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 700;
+        }
+        
+        .data-table td {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.95rem;
+            color: var(--color-gray-dark);
+        }
+        
+        .data-table tbody tr {
+            transition: all 0.2s ease;
+        }
+        
+        .data-table tbody tr:hover {
+            background: rgba(212, 175, 55, 0.05);
+        }
+        
+        .data-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Status Badges */
+        .status-badge {
+            display: inline-block;
+            padding: 0.4rem 0.9rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .status-badge.pending {
+            background: rgba(251, 191, 36, 0.15);
+            color: #d97706;
+        }
+        
+        .status-badge.confirmed {
+            background: rgba(16, 185, 129, 0.15);
+            color: #059669;
+        }
+        
+        .status-badge.active {
+            background: rgba(59, 130, 246, 0.15);
+            color: #2563eb;
+        }
+        
+        /* Action Buttons */
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            background: var(--color-noir);
+            color: white;
+        }
+        
+        .action-btn:hover {
+            background: var(--color-gold);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+        }
+        
+        .action-btn.secondary {
+            background: transparent;
+            border: 2px solid var(--color-gray-soft);
+            color: var(--color-gray-dark);
+        }
+        
+        .action-btn.secondary:hover {
+            border-color: var(--color-gold);
+            color: var(--color-gold);
+            background: rgba(212, 175, 55, 0.05);
+        }
+        
+        /* Modal Styling */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-backdrop > div {
+            background: white;
+            padding: 3rem;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-backdrop h3 {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            color: var(--color-noir);
+        }
+        
+        .modal-backdrop p {
+            font-size: 0.9rem;
+            color: var(--color-gray-medium);
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-backdrop label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--color-noir);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .modal-backdrop select,
+        .modal-backdrop input[type="file"] {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid #e8e8e8;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            transition: all 0.2s ease;
+        }
+        
+        .modal-backdrop select:focus,
+        .modal-backdrop input[type="file"]:focus {
+            border-color: var(--color-gold);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            aside {
+                position: relative;
+                top: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-hero {
+                min-height: 30vh;
+                padding: 2rem 1.5rem;
+            }
+            
+            section {
+                padding: 1.5rem;
+            }
+            
+            .data-table {
+                font-size: 0.85rem;
+            }
+            
+            .data-table th,
+            .data-table td {
+                padding: 0.75rem 1rem;
+            }
+            
+            .modal-backdrop > div {
+                padding: 2rem;
+            }
+        }
+    </style>
         </head>
 
 <body>
-    <div class="seller-header">
-        <h1>HEAVY DROPS — Seller Dashboard
-        </h1>
-        <button class="logout-btn" onclick="Session.logout()">Logout</button>
-    </div>
+    <!-- Enhanced Navigation -->
+    <nav class="std-nav" id="mainNav">
+        <div>
+            <div class="nav-left">
+                <a href="/" class="nav-logo">
+                    <img src="/assets/logo.png" alt="Heavy Drops Logo">
+                    <span>HEAVY DROPS</span>
+                </a>
+            </div>
+            
+            <div class="nav-center" id="navCenter">
+                <a href="/seller-dashboard" class="nav-link active">DASHBOARD</a>
+                <a href="/" class="nav-link">HOME</a>
+                <a href="/how-it-works" class="nav-link">HOW IT WORKS</a>
+            </div>
+            
+            <div class="nav-right">
+                <!-- Gold rate ticker will be inserted here by JavaScript -->
+                <button class="btn-primary" onclick="Session.logout()" style="padding: 0.7rem 1.3rem; font-size: 0.8rem;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    LOGOUT
+                </button>
+            </div>
+            
+            <button class="mobile-menu-btn" aria-label="Toggle navigation menu" onclick="toggleMobileMenu()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12h18M3 6h18M3 18h18" />
+                </svg>
+            </button>
+        </div>
+    </nav>
 
-    <main class="container">
+    <!-- Dashboard Hero Section -->
+    <section class="dashboard-hero">
+        <div class="dashboard-hero-content">
+            <span class="editorial-tag">Seller Portal</span>
+            <h1>Operational Dashboard</h1>
+            <p>Manage your designs, appointments, and performance metrics</p>
+        </div>
+    </section>
+
+    <main class="container" style="margin-top: 3rem;">
         <div class="dashboard-grid">
             <aside>
                 <h3 style="margin-bottom: 20px;">Operational Metrics</h3>
@@ -115,32 +507,82 @@
         </div>
 
         <!-- Controlled Upload Modal -->
-        <div id="uploadModal" class="modal-backdrop" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center;">
-            <div style="background:white; padding:40px; border-radius:8px; max-width:500px; width:90%;">
+        <div id="uploadModal" class="modal-backdrop" style="display:none;">
+            <div>
                 <h3 id="modalTitle">Photography Standards Upload</h3>
-                <p style="font-size: 0.8rem; opacity: 0.6; margin-bottom: 20px;">Support for Master, Close-up, and Worn shots. JPG/PNG/WebP only (Max 10MB).</p>
+                <p>Support for Master, Close-up, and Worn shots. JPG/PNG/WebP only (Max 10MB).</p>
                 <form id="uploadForm" onsubmit="handleUpload(event)">
                     <input type="hidden" id="uploadDesignId">
-                    <div style="margin-bottom: 15px;">
-                        <label style="display:block; font-size: 0.75rem; margin-bottom: 5px;">Shot Type</label>
-                        <select id="shotType" style="width:100%; padding:10px; border:1px solid #ddd;">
+                    <div>
+                        <label>Shot Type</label>
+                        <select id="shotType">
                             <option value="master">Master Shot (Essential for listing)</option>
                             <option value="closeup">Close-up Detail</option>
                             <option value="worn">Worn / Scale Reference</option>
                         </select>
                     </div>
-                    <div style="margin-bottom: 20px;">
-                        <label style="display:block; font-size: 0.75rem; margin-bottom: 5px;">Select Image</label>
-                        <input type="file" id="imageFiles" accept="image/jpeg,image/png,image/webp" required style="width:100%;">
+                    <div>
+                        <label>Select Image</label>
+                        <input type="file" id="imageFiles" accept="image/jpeg,image/png,image/webp" required>
                     </div>
-                    <div style="display:flex; justify-content:flex-end; gap:10px;">
-                        <button type="button" onclick="closeModal()" style="background:none; border:none; cursor:pointer; opacity:0.6;">Cancel</button>
-                        <button type="submit" class="btn-primary" style="padding:10px 20px;">Upload for Review</button>
+                    <div style="display:flex; justify-content:flex-end; gap:10px; margin-top: 1.5rem;">
+                        <button type="button" class="action-btn secondary" onclick="closeModal()">Cancel</button>
+                        <button type="submit" class="action-btn">Upload for Review</button>
                     </div>
                 </form>
             </div>
         </div>
     </main>
+
+    <!-- Enhanced Footer -->
+    <footer class="std-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="/collection">Discover Collection</a></li>
+                        <li><a href="/how-it-works">How It Works</a></li>
+                        <li><a href="/problem">Problem We Solve</a></li>
+                        <li><a href="/philosophy">Our Philosophy</a></li>
+                        <li><a href="/about">About Heavy Drops</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal & Trust</h4>
+                    <ul>
+                        <li><a href="/terms">Terms & Conditions</a></li>
+                        <li><a href="/wallet-policy">Wallet Policy</a></li>
+                        <li><a href="/seller-agreement">Seller Agreement</a></li>
+                        <li><a href="/privacy-policy">Privacy Policy</a></li>
+                        <li><a href="/security">Security</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Partners</h4>
+                    <ul>
+                        <li><a href="/seller-register.html">Become a Seller</a></li>
+                        <li><a href="/seller-login">Partner Portal</a></li>
+                        <li><a href="/seller-dashboard">Seller Dashboard</a></li>
+                        <li><a href="/seller-agreement">Partnership Terms</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact & Support</h4>
+                    <ul>
+                        <li><a href="mailto:concierge@heavydrops.com">concierge@heavydrops.com</a></li>
+                        <li><a href="tel:+919999888877">+91 98408 28137</a></li>
+                        <li><span style="opacity: 0.6;">Chennai, Tamil Nadu</span></li>
+                        <li><a href="/support">Help Center</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 Heavy Drops Intent Network. All rights reserved.</span>
+                <span>Crafted in Chennai with ♥</span>
+            </div>
+        </div>
+    </footer>
 
     
         

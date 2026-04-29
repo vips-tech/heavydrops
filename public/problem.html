@@ -77,42 +77,147 @@
 
 
 
-    
+    <style>
+        /* Problem Page Styling */
+        .problem-hero {
+            position: relative;
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, #0A0A0A 0%, #2a2a2a 100%);
+            color: white;
+            overflow: hidden;
+            margin-top: 80px;
+            padding: 4rem 2rem;
+        }
+        
+        .problem-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=2070&h=800&fit=crop&q=80') center/cover;
+            opacity: 0.12;
+            z-index: 1;
+        }
+        
+        .problem-hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.92) 0%, rgba(42, 42, 42, 0.88) 100%);
+            z-index: 2;
+        }
+        
+        .problem-hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 800px;
+        }
+        
+        .problem-hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, white, var(--color-gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+        
+        .problem-hero p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            opacity: 1;
+            color: white;
+            line-height: 1.7;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .problem-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+        
+        .problem-section {
+            margin-bottom: 4rem;
+            padding: 2.5rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            border-left: 4px solid var(--color-gold);
+            transition: all var(--transition-base);
+        }
+        
+        .problem-section:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+        
+        .problem-section h3 {
+            color: var(--color-gold);
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .problem-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--color-gray-dark);
+        }
+        
+        @media (max-width: 768px) {
+            .problem-hero {
+                min-height: 40vh;
+                padding: 3rem 1.5rem;
+            }
+            
+            .problem-content {
+                padding: 3rem 1.5rem;
+            }
+            
+            .problem-section {
+                padding: 1.5rem;
+                margin-bottom: 2rem;
+            }
+        }
+    </style>
 
-    <header class="editorial-header animate-entrance">
-        <span class="editorial-tag">The Challenge</span>
-        <h1 class="editorial-title">The Noise of Modern Ecommerce</h1>
-        <p style="opacity: 0.6; max-width: 600px; margin: 0 auto;">Purchasing masterwork jewellery online has become a
-            transaction of uncertainty and artificial urgency. We solve the friction between digital convenience and
-            physical trust.</p>
-    </header>
+    <!-- Problem Hero Section -->
+    <div class="problem-hero">
+        <div class="problem-hero-content">
+            <span class="editorial-tag">The Challenge</span>
+            <h1>The Noise of Modern Ecommerce</h1>
+            <p>Purchasing masterwork jewellery online has become a transaction of uncertainty and artificial urgency. We solve the friction between digital convenience and physical trust.</p>
+        </div>
+    </div>
 
-    <main class="container" style="max-width: 800px; padding-bottom: 100px;">
-        <div style="display: grid; gap: 60px;">
-            <section>
-                <h3 style="color: var(--color-gold); margin-bottom: 10px;">The Urgency Trap</h3>
-                <p style="line-height: 1.8; opacity: 0.8;">Standard platforms use countdown timers and
-                    ghost-notifications to force a sale. We believe a piece of jewellery that lasts a lifetime shouldn't
-                    be decided upon in seconds.</p>
-            </section>
+    <main class="problem-content">
+        <div class="problem-section">
+            <h3>The Urgency Trap</h3>
+            <p>Standard platforms use countdown timers and ghost-notifications to force a sale. We believe a piece of jewellery that lasts a lifetime shouldn't be decided upon in seconds.</p>
+        </div>
 
-            <section>
-                <h3 style="color: var(--color-gold); margin-bottom: 10px;">The Information Gap</h3>
-                <p style="line-height: 1.8; opacity: 0.8;">Markup-heavy pricing and hidden charges often mask the true
-                    value of the metal. Heavy Drops enforces absolute breakup transparency—Gold Rate, Weight, and Making
-                    Charges are always visible.</p>
-            </section>
+        <div class="problem-section">
+            <h3>The Information Gap</h3>
+            <p>Markup-heavy pricing and hidden charges often mask the true value of the metal. Heavy Drops enforces absolute breakup transparency—Gold Rate, Weight, and Making Charges are always visible.</p>
+        </div>
 
-            <section>
-                <h3 style="color: var(--color-gold); margin-bottom: 10px;">The Physical Disconnect</h3>
-                <p style="line-height: 1.8; opacity: 0.8;">You cannot feel the weight or see the lustre of high-purity
-                    gold through a screen. We bridge this by making the digital signal a precursor to a physical visit,
-                    not a replacement for it.</p>
-            </section>
+        <div class="problem-section">
+            <h3>The Physical Disconnect</h3>
+            <p>You cannot feel the weight or see the lustre of high-purity gold through a screen. We bridge this by making the digital signal a precursor to a physical visit, not a replacement for it.</p>
         </div>
     </main>
-
-    
 
 
 
@@ -141,8 +246,8 @@
                             <li><a href="/terms">Terms & Conditions</a></li>
                             <li><a href="/wallet-policy">Wallet Policy</a></li>
                             <li><a href="/seller-agreement">Seller Agreement</a></li>
-                            <li><a href="/terms#privacy">Privacy Policy</a></li>
-                            <li><a href="/terms#security">Security</a></li>
+                            <li><a href="/privacy-policy">Privacy Policy</a></li>
+                            <li><a href="/security">Security</a></li>
                         </ul>
                     </div>
                     <div class="footer-col">

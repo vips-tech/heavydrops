@@ -126,6 +126,12 @@ def wallet_policy(): return serve_html('wallet-policy.html')
 @app.route('/seller-agreement')
 def seller_agreement(): return serve_html('seller-agreement.html')
 
+@app.route('/privacy-policy')
+def privacy_policy(): return serve_html('privacy-policy.html')
+
+@app.route('/security')
+def security(): return serve_html('security.html')
+
 
 if __name__ == '__main__':
     print('--- SYSTEM BOOT SUCCESSFUL ---')

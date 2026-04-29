@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — Heavy Drops</title>
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Enhanced Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/components-enhanced.css">
+    <link rel="stylesheet" href="/css/mobile-nav.css">
+    
+    <!-- Scripts -->
+    <script src="/js/session.js"></script>
+    <script src="/js/enhanced-features.js"></script>
+</head>
+
+<body>
+    <nav class="std-nav">
+        <div>
+            <div class="nav-left">
+                <a href="/" class="nav-logo">
+                    <img src="/assets/logo.png" alt="Heavy Drops Logo">
+                    <span>HEAVY DROPS</span>
+                </a>
+            </div>
+            
+            <div class="nav-center" id="navCenter">
+                <a href="/" class="nav-link">HOME</a>
+                <a href="/how-it-works" class="nav-link">HOW IT WORKS</a>
+                <a href="/about" class="nav-link">ABOUT</a>
+            </div>
+            
+            <div class="nav-right">
+                <div class="nav-auth-channel"></div>
+            </div>
+            
+            <button class="mobile-menu-btn" aria-label="Toggle navigation menu" onclick="toggleMobileMenu()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12h18M3 6h18M3 18h18" />
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <style>
+        .legal-hero {
+            position: relative;
+            min-height: 40vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, #0A0A0A 0%, #2a2a2a 100%);
+            color: white;
+            overflow: hidden;
+            margin-top: 80px;
+            padding: 4rem 2rem;
+        }
+        
+        .legal-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=2070&h=800&fit=crop&q=80') center/cover;
+            opacity: 0.1;
+            z-index: 1;
+        }
+        
+        .legal-hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.92) 0%, rgba(42, 42, 42, 0.88) 100%);
+            z-index: 2;
+        }
+        
+        .legal-hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 800px;
+        }
+        
+        .legal-hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, white, var(--color-gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+        
+        .legal-hero p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            opacity: 1;
+            color: white;
+            line-height: 1.7;
+        }
+        
+        .legal-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+        
+        .legal-content h2 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 700;
+            color: var(--color-noir);
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--color-gold);
+            position: relative;
+        }
+        
+        .legal-content h2::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--color-gold);
+        }
+        
+        .legal-content h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--color-gray-dark);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .legal-content p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--color-gray-dark);
+            margin-bottom: 1.5rem;
+        }
+        
+        .legal-content ul {
+            margin: 1.5rem 0;
+            padding-left: 2rem;
+        }
+        
+        .legal-content li {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--color-gray-dark);
+            margin-bottom: 0.75rem;
+        }
+        
+        .legal-content ul li::marker {
+            color: var(--color-gold);
+        }
+        
+        .legal-card {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.05), rgba(212, 175, 55, 0.02));
+            border-left: 4px solid var(--color-gold);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+        
+        .legal-divider {
+            margin: 4rem 0;
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--color-gray-soft), transparent);
+        }
+        
+        .legal-footer-note {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--color-gray-soft);
+            text-align: center;
+            color: var(--color-gray-medium);
+        }
+    </style>
+
+    <div class="legal-hero">
+        <div class="legal-hero-content">
+            <span class="editorial-tag">Privacy</span>
+            <h1>Privacy Policy</h1>
+            <p>How we collect, use, and protect your personal information</p>
+        </div>
+    </div>
+
+    <main class="legal-content">
+        <div class="legal-card">
+            <h2>Our Commitment to Privacy</h2>
+            <p>Heavy Drops is committed to protecting your privacy and ensuring the security of your personal information. This policy explains how we collect, use, and safeguard your data.</p>
+        </div>
+
+        <h2>1. Information We Collect</h2>
+        
+        <h3>Personal Information</h3>
+        <ul>
+            <li>Name, email address, and phone number</li>
+            <li>Location and city information</li>
+            <li>Payment and wallet transaction details</li>
+            <li>Appointment preferences and history</li>
+        </ul>
+
+        <h3>Usage Information</h3>
+        <ul>
+            <li>Designs you view, like, or signal intent for</li>
+            <li>Browsing patterns and search queries</li>
+            <li>Device information and IP address</li>
+            <li>Session duration and interaction data</li>
+        </ul>
+
+        <hr class="legal-divider">
+
+        <h2>2. How We Use Your Information</h2>
+        <p>We use your personal information to:</p>
+        <ul>
+            <li>Facilitate appointments between buyers and sellers</li>
+            <li>Process wallet transactions and intent signals</li>
+            <li>Send notifications about appointments and designs</li>
+            <li>Improve platform functionality and user experience</li>
+            <li>Prevent fraud and ensure platform security</li>
+            <li>Comply with legal obligations</li>
+        </ul>
+
+        <hr class="legal-divider">
+
+        <h2>3. Information Sharing</h2>
+        <p>We share your information only in the following circumstances:</p>
+        
+        <h3>With Sellers</h3>
+        <p>When you book an appointment, we share your name and contact information with the seller to facilitate the meeting.</p>
+        
+        <h3>With Service Providers</h3>
+        <p>We work with trusted third-party service providers for:</p>
+        <ul>
+            <li>Payment processing</li>
+            <li>SMS and email notifications</li>
+            <li>Cloud hosting and data storage</li>
+            <li>Analytics and performance monitoring</li>
+        </ul>
+        
+        <h3>Legal Requirements</h3>
+        <p>We may disclose information when required by law or to protect our rights and safety.</p>
+
+        <hr class="legal-divider">
+
+        <h2>4. Data Security</h2>
+        <p>We implement industry-standard security measures:</p>
+        <ul>
+            <li>SSL/TLS encryption for data transmission</li>
+            <li>Encrypted storage of sensitive information</li>
+            <li>Regular security audits and updates</li>
+            <li>Access controls and authentication</li>
+            <li>Secure payment gateway integration</li>
+        </ul>
+
+        <hr class="legal-divider">
+
+        <h2>5. Your Rights</h2>
+        <p>You have the right to:</p>
+        <ul>
+            <li><strong>Access:</strong> Request a copy of your personal data</li>
+            <li><strong>Correction:</strong> Update inaccurate information</li>
+            <li><strong>Deletion:</strong> Request deletion of your account and data</li>
+            <li><strong>Opt-out:</strong> Unsubscribe from marketing communications</li>
+            <li><strong>Data Portability:</strong> Receive your data in a structured format</li>
+        </ul>
+
+        <hr class="legal-divider">
+
+        <h2>6. Cookies and Tracking</h2>
+        <p>We use cookies and similar technologies to:</p>
+        <ul>
+            <li>Remember your preferences and settings</li>
+            <li>Analyze site traffic and usage patterns</li>
+            <li>Personalize your experience</li>
+            <li>Improve platform performance</li>
+        </ul>
+        <p>You can control cookie settings through your browser preferences.</p>
+
+        <hr class="legal-divider">
+
+        <h2>7. Data Retention</h2>
+        <p>We retain your personal information for as long as:</p>
+        <ul>
+            <li>Your account is active</li>
+            <li>Needed to provide our services</li>
+            <li>Required by law or for legal purposes</li>
+            <li>Necessary to resolve disputes</li>
+        </ul>
+        <p>After account closure, we retain minimal data for 3 years for legal compliance.</p>
+
+        <hr class="legal-divider">
+
+        <h2>8. Children's Privacy</h2>
+        <p>Heavy Drops is not intended for users under 18 years of age. We do not knowingly collect information from children. If we discover that a child has provided personal information, we will delete it immediately.</p>
+
+        <hr class="legal-divider">
+
+        <h2>9. Changes to This Policy</h2>
+        <p>We may update this privacy policy periodically. We will notify you of significant changes via email or platform notifications. Continued use after changes constitutes acceptance.</p>
+
+        <hr class="legal-divider">
+
+        <h2>10. Contact Us</h2>
+        <p>For privacy-related questions or requests:</p>
+        <ul>
+            <li><strong>Email:</strong> privacy@heavydrops.com</li>
+            <li><strong>Phone:</strong> +91 98408 28137</li>
+            <li><strong>Address:</strong> Chennai, Tamil Nadu, India</li>
+        </ul>
+
+        <div class="legal-footer-note">
+            <p><strong>Last Updated:</strong> February 2026</p>
+            <p>By using Heavy Drops, you consent to this Privacy Policy.</p>
+        </div>
+    </main>
+
+    <footer class="std-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="/collection">Discover Collection</a></li>
+                        <li><a href="/how-it-works">How It Works</a></li>
+                        <li><a href="/problem">Problem We Solve</a></li>
+                        <li><a href="/about">About Heavy Drops</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal & Trust</h4>
+                    <ul>
+                        <li><a href="/terms">Terms & Conditions</a></li>
+                        <li><a href="/wallet-policy">Wallet Policy</a></li>
+                        <li><a href="/privacy-policy">Privacy Policy</a></li>
+                        <li><a href="/security">Security</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Partners</h4>
+                    <ul>
+                        <li><a href="/seller-register.html">Become a Seller</a></li>
+                        <li><a href="/seller-dashboard">Seller Dashboard</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact & Support</h4>
+                    <ul>
+                        <li><a href="mailto:concierge@heavydrops.com">concierge@heavydrops.com</a></li>
+                        <li><a href="tel:+919840828137">+91 98408 28137</a></li>
+                        <li><span style="opacity: 0.6;">Chennai, Tamil Nadu</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 Heavy Drops Intent Network. All rights reserved.</span>
+                <span>Crafted in Chennai with ♥</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const navCenter = document.getElementById('navCenter');
+            navCenter.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
