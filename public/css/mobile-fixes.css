@@ -1,0 +1,376 @@
+/**
+ * Heavy Drops - Mobile Fixes & Text Visibility
+ * Fixes: White bars, overlapping text, menu alignment
+ * Version: 2.0
+ */
+
+/* === GLOBAL MOBILE FIXES === */
+@media (max-width: 768px) {
+    /* Prevent horizontal scroll and white bars */
+    html,
+    body {
+        overflow-x: hidden !important;
+        max-width: 100vw !important;
+        width: 100% !important;
+        position: relative;
+    }
+
+    /* Ensure all containers respect viewport width */
+    * {
+        max-width: 100vw;
+    }
+
+    /* Fix for white vertical bars */
+    .std-nav,
+    .nav-center,
+    .hero-banner,
+    .collection-hero,
+    .container,
+    main,
+    section {
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+    }
+
+    /* === TEXT VISIBILITY IMPROVEMENTS === */
+    
+    /* Hero sections - Better text contrast */
+    .hero-banner,
+    .collection-hero,
+    .about-hero,
+    .problem-hero,
+    .philosophy-hero {
+        position: relative;
+    }
+
+    .hero-banner::after,
+    .collection-hero::after,
+    .about-hero::after,
+    .problem-hero::after,
+    .philosophy-hero::after {
+        background: linear-gradient(135deg, rgba(10, 10, 10, 0.92) 0%, rgba(42, 42, 42, 0.88) 100%) !important;
+    }
+
+    /* Hero text - Enhanced visibility */
+    .hero-title,
+    .editorial-title,
+    h1 {
+        text-shadow: 0 3px 25px rgba(0, 0, 0, 0.9),
+                     0 1px 10px rgba(0, 0, 0, 0.8) !important;
+        position: relative;
+        z-index: 10;
+    }
+
+    .hero-subtitle,
+    .editorial-subtitle,
+    .hero-content p {
+        text-shadow: 0 2px 15px rgba(0, 0, 0, 0.9),
+                     0 1px 8px rgba(0, 0, 0, 0.7) !important;
+        position: relative;
+        z-index: 10;
+        color: rgba(255, 255, 255, 0.95) !important;
+    }
+
+    /* Content sections - Better readability */
+    .content-section,
+    .section-content,
+    article,
+    .card-content {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Text on dark backgrounds */
+    .dark-section h2,
+    .dark-section h3,
+    .dark-section p,
+    .dark-bg h2,
+    .dark-bg h3,
+    .dark-bg p {
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+        color: white !important;
+    }
+
+    /* === NAVIGATION FIXES === */
+    
+    /* Ensure nav doesn't create white bars */
+    .std-nav {
+        width: 100%;
+        max-width: 100vw;
+        left: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+    }
+
+    .std-nav > div {
+        width: 100%;
+        max-width: 100vw;
+        padding: 0 1rem;
+        margin: 0;
+    }
+
+    /* Mobile menu - Full width, no gaps */
+    .nav-center {
+        width: 100% !important;
+        max-width: 100vw !important;
+        left: 0 !important;
+        right: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .nav-center a {
+        width: 100%;
+        padding: 1.25rem 1.5rem;
+        margin: 0;
+        display: block;
+        text-align: left;
+    }
+
+    /* === CONTENT SPACING === */
+    
+    /* Adjust content below fixed header */
+    .hero-banner,
+    .collection-hero,
+    .about-hero,
+    .problem-hero,
+    .philosophy-hero {
+        margin-top: 70px !important;
+        padding-top: 2rem;
+    }
+
+    main.container {
+        margin-top: 90px;
+    }
+
+    /* === BUTTON & INTERACTIVE ELEMENTS === */
+    
+    /* Touch-friendly buttons */
+    .btn,
+    .btn-primary,
+    .btn-gold,
+    .btn-outline,
+    button {
+        min-height: 44px;
+        padding: 12px 20px;
+        font-size: 0.95rem;
+    }
+
+    /* Card interactions */
+    .design-card,
+    .card {
+        margin-bottom: 1rem;
+    }
+
+    /* === TYPOGRAPHY ADJUSTMENTS === */
+    
+    /* Headings */
+    h1 {
+        font-size: clamp(1.75rem, 6vw, 3rem) !important;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+    }
+
+    h2 {
+        font-size: clamp(1.5rem, 5vw, 2.25rem) !important;
+        line-height: 1.3;
+        margin-bottom: 0.875rem;
+    }
+
+    h3 {
+        font-size: clamp(1.25rem, 4vw, 1.75rem) !important;
+        line-height: 1.4;
+        margin-bottom: 0.75rem;
+    }
+
+    h4 {
+        font-size: clamp(1.125rem, 3.5vw, 1.5rem) !important;
+        line-height: 1.4;
+        margin-bottom: 0.625rem;
+    }
+
+    /* Body text */
+    p {
+        font-size: clamp(0.95rem, 2.5vw, 1.125rem);
+        line-height: 1.7;
+        margin-bottom: 1rem;
+    }
+
+    /* Small text */
+    small,
+    .small-text {
+        font-size: clamp(0.8rem, 2vw, 0.9rem);
+    }
+
+    /* === GRID & LAYOUT === */
+    
+    /* Design grid */
+    .design-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1rem;
+        padding: 1.5rem 0;
+    }
+
+    /* Footer */
+    .std-footer {
+        padding: 40px 1rem 30px;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2rem;
+    }
+
+    /* === FILTER SIDEBAR === */
+    
+    .filter-sidebar {
+        width: 100% !important;
+        max-width: 100vw !important;
+        right: -100% !important;
+    }
+
+    .filter-sidebar.active {
+        right: 0 !important;
+    }
+
+    /* === SPECIAL SECTIONS === */
+    
+    /* Category sections */
+    .category-section {
+        padding: 1.5rem 1rem;
+    }
+
+    /* Info cards */
+    .info-card,
+    .feature-card {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Lists */
+    ul,
+    ol {
+        padding-left: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    li {
+        margin-bottom: 0.5rem;
+        line-height: 1.6;
+    }
+
+    /* === IMAGES & MEDIA === */
+    
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .design-card__media {
+        aspect-ratio: 4/5;
+        width: 100%;
+    }
+
+    /* === FORMS === */
+    
+    input,
+    textarea,
+    select {
+        width: 100%;
+        padding: 12px 16px;
+        font-size: 1rem;
+        border-radius: 8px;
+        border: 2px solid #e8e8e8;
+    }
+
+    /* === OVERLAYS === */
+    
+    .filter-overlay,
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 998;
+    }
+}
+
+/* === EXTRA SMALL DEVICES === */
+@media (max-width: 480px) {
+    /* Further text size adjustments */
+    h1 {
+        font-size: clamp(1.5rem, 5vw, 2.5rem) !important;
+    }
+
+    h2 {
+        font-size: clamp(1.25rem, 4vw, 2rem) !important;
+    }
+
+    h3 {
+        font-size: clamp(1.125rem, 3.5vw, 1.5rem) !important;
+    }
+
+    p {
+        font-size: clamp(0.9rem, 2.25vw, 1rem);
+    }
+
+    /* Tighter spacing */
+    .container {
+        padding: 0 1rem;
+    }
+
+    .section {
+        padding: 2rem 0;
+    }
+
+    /* Smaller buttons */
+    .btn,
+    .btn-primary {
+        padding: 10px 16px;
+        font-size: 0.875rem;
+    }
+}
+
+/* === LANDSCAPE ORIENTATION === */
+@media (max-width: 768px) and (orientation: landscape) {
+    .hero-banner,
+    .collection-hero {
+        min-height: 50vh;
+        padding: 1.5rem 1rem;
+    }
+
+    .hero-title {
+        font-size: clamp(1.5rem, 5vw, 2.5rem) !important;
+    }
+
+    .hero-subtitle {
+        font-size: clamp(0.9rem, 2vw, 1.125rem);
+    }
+}
+
+/* === ACCESSIBILITY === */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* === HIGH CONTRAST MODE === */
+@media (prefers-contrast: high) {
+    .hero-title,
+    .hero-subtitle,
+    h1, h2, h3, h4, h5, h6 {
+        text-shadow: 0 0 10px rgba(0, 0, 0, 1),
+                     0 0 20px rgba(0, 0, 0, 1) !important;
+    }
+}

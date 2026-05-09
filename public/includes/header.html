@@ -1,0 +1,151 @@
+<!-- Enhanced Navigation - Universal Header -->
+<nav class="std-nav" id="mainNav">
+    <div>
+        <div class="nav-left">
+            <a href="/" class="nav-logo">
+                <img src="/assets/logo.png" alt="Heavy Drops Logo">
+                <span>HEAVY DROPS</span>
+            </a>
+        </div>
+        
+        <div class="nav-center" id="navCenter">
+            <a href="/" class="nav-link">HOME</a>
+            <a href="/how-it-works" class="nav-link">HOW IT WORKS</a>
+            <a href="/about" class="nav-link">ABOUT</a>
+        </div>
+        
+        <div class="nav-right">
+            <!-- Gold rate ticker will be inserted here by JavaScript -->
+            <button class="filter-toggle-btn" onclick="toggleFilters()" aria-label="Toggle filters">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="4" y1="6" x2="20" y2="6"/>
+                    <line x1="4" y1="12" x2="20" y2="12"/>
+                    <line x1="4" y1="18" x2="14" y2="18"/>
+                    <circle cx="18" cy="18" r="2"/>
+                </svg>
+                <span>FILTERS</span>
+            </button>
+        </div>
+        
+        <button class="mobile-menu-btn" aria-label="Toggle navigation menu" onclick="toggleMobileMenu()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12h18M3 6h18M3 18h18" />
+            </svg>
+        </button>
+    </div>
+</nav>
+
+<!-- Filter Sidebar -->
+<div class="filter-sidebar" id="filterSidebar">
+    <div class="filter-sidebar-header">
+        <h3>Filter Designs</h3>
+        <button class="filter-close-btn" onclick="toggleFilters()" aria-label="Close filters">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+        </button>
+    </div>
+    
+    <div class="filter-sidebar-content">
+        <div class="filter-group">
+            <label>Category</label>
+            <select id="categoryFilter" class="filter-select" onchange="applyFilters()">
+                <option value="">All Categories</option>
+                <option value="Necklace">Necklaces</option>
+                <option value="Rings">Rings</option>
+                <option value="Bangle">Bangles</option>
+                <option value="Earrings">Earrings</option>
+                <option value="Bracelet">Bracelets</option>
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label>Budget</label>
+            <select id="budgetFilter" class="filter-select" onchange="applyFilters()">
+                <option value="">All Budgets</option>
+                <option value="50000">Under ₹50k</option>
+                <option value="100000">Under ₹1L</option>
+                <option value="300000">Under ₹3L</option>
+                <option value="500000">Under ₹5L</option>
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label>Weight</label>
+            <select id="weightFilter" class="filter-select" onchange="applyFilters()">
+                <option value="">Any Weight</option>
+                <option value="10">Under 10g</option>
+                <option value="30">Under 30g</option>
+                <option value="50">Under 50g</option>
+                <option value="100">Under 100g</option>
+            </select>
+        </div>
+        
+        <button class="btn btn-primary btn-block" onclick="applyFilters(); toggleFilters();">
+            Apply Filters
+        </button>
+        
+        <button class="btn btn-outline btn-block" onclick="resetFilters()">
+            Reset All
+        </button>
+    </div>
+</div>
+
+<!-- Filter Overlay -->
+<div class="filter-overlay" id="filterOverlay" onclick="toggleFilters()"></div>
+
+<script>
+// Universal filter functions
+function toggleFilters() {
+    const sidebar = document.getElementById('filterSidebar');
+    const overlay = document.getElementById('filterOverlay');
+    
+    if (sidebar && overlay) {
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+        
+        if (sidebar.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    }
+}
+
+function applyFilters() {
+    // If fetchDesigns function exists (on collection/home page), call it
+    if (typeof fetchDesigns === 'function') {
+        fetchDesigns();
+    }
+}
+
+function resetFilters() {
+    const categoryFilter = document.getElementById('categoryFilter');
+    const budgetFilter = document.getElementById('budgetFilter');
+    const weightFilter = document.getElementById('weightFilter');
+    
+    if (categoryFilter) categoryFilter.value = '';
+    if (budgetFilter) budgetFilter.value = '';
+    if (weightFilter) weightFilter.value = '';
+    
+    applyFilters();
+}
+
+// Set active nav link based on current page
+document.addEventListener('DOMContentLoaded', function() {
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        const linkPath = new URL(link.href).pathname;
+        
+        if (currentPath === linkPath || 
+            (currentPath === '/' && linkPath === '/') ||
+            (currentPath.includes(linkPath) && linkPath !== '/')) {
+            link.classList.add('active');
+        }
+    });
+});
+</script>

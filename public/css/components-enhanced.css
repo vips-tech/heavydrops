@@ -16,7 +16,7 @@
   color: white;
   overflow: hidden;
   margin-top: 80px;
-  padding-top: 2rem;
+  padding: 2rem;
 }
 
 .hero-banner::before {
@@ -50,7 +50,7 @@
 }
 
 .hero-title {
-  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
   font-weight: 700;
   margin-bottom: 1.5rem;
   background: linear-gradient(135deg, white, var(--color-gold-light));
@@ -64,7 +64,7 @@
 }
 
 .hero-subtitle {
-  font-size: clamp(1.125rem, 2.5vw, 1.4rem);
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
   margin-bottom: 2.5rem;
   opacity: 1;
   color: white;
@@ -130,7 +130,7 @@
 }
 
 .editorial-title {
-  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-size: clamp(2rem, 6vw, 4rem);
   font-weight: 700;
   margin-bottom: 1.5rem;
   background: linear-gradient(135deg, white, var(--color-gold-light));
