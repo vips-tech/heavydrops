@@ -1,0 +1,68 @@
+/**
+ * Hide Inline Filter Section
+ * Filters are only accessible through the sidebar (FILTERS button)
+ */
+
+/* Hide the inline filter section that appears on the page */
+.filter-bar,
+.inline-filters,
+.page-filters,
+.filter-section {
+    display: none !important;
+}
+
+/* Hide any filter dropdowns on the main page */
+.main-content select[id*="Filter"],
+.main-content select[id*="filter"],
+main select[id*="Filter"],
+main select[id*="filter"],
+body > .filter-sidebar-content,
+body > div > .filter-sidebar-content:not(.filter-sidebar .filter-sidebar-content) {
+    display: none !important;
+}
+
+/* Hide filter labels and containers on main page */
+.filter-group:not(.filter-sidebar .filter-group),
+.filter-container:not(.filter-sidebar .filter-container) {
+    display: none !important;
+}
+
+/* Ensure filter sidebar is still visible when active */
+.filter-sidebar {
+    display: none;
+}
+
+.filter-sidebar.active {
+    display: block !important;
+}
+
+/* Keep the filter button in header visible */
+.filter-toggle-btn {
+    display: flex !important;
+}
+
+/* Mobile: Keep filter button visible */
+@media (max-width: 768px) {
+    .filter-toggle-btn {
+        display: flex !important;
+    }
+}
+
+/* Hide any standalone filter sections in page content */
+section.filters,
+div.filters:not(.filter-sidebar) {
+    display: none !important;
+}
+
+/* Clean up spacing where filters were removed */
+.hero-banner + .filter-bar,
+.hero-banner + .filters,
+.collection-hero + .filter-bar,
+.collection-hero + .filters {
+    display: none !important;
+}
+
+/* Adjust main content spacing */
+main.container {
+    padding-top: 2rem;
+}

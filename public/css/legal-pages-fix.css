@@ -1,0 +1,318 @@
+/**
+ * Legal Pages & Philosophy Page Styling Fix
+ * Fixes text visibility, alignment, and professional styling
+ */
+
+/* === SELLER AGREEMENT PAGE === */
+
+.legal-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 120px 2rem 80px;
+    background: white;
+    min-height: 100vh;
+}
+
+.legal-content h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--color-noir);
+    margin-bottom: 3rem;
+    font-weight: 700;
+    text-align: center;
+    border-bottom: 3px solid var(--color-gold);
+    padding-bottom: 1.5rem;
+}
+
+.legal-content .clause {
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: var(--color-linen);
+    border-left: 4px solid var(--color-gold);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.legal-content .clause h3 {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    color: var(--color-noir);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.legal-content .clause p {
+    font-size: clamp(1rem, 2.5vw, 1.125rem);
+    line-height: 1.8;
+    color: #333;
+    margin: 0;
+}
+
+.legal-content p {
+    font-size: clamp(1rem, 2.5vw, 1.125rem);
+    line-height: 1.8;
+    color: #555;
+}
+
+/* === PHILOSOPHY PAGE === */
+
+body[style*="background: var(--color-noir)"] {
+    background: var(--color-noir) !important;
+}
+
+.editorial-header {
+    text-align: center;
+    padding: 120px 2rem 60px;
+    background: var(--color-noir);
+}
+
+.editorial-header .editorial-tag {
+    display: inline-block;
+    padding: 8px 20px;
+    background: rgba(212, 175, 55, 0.15);
+    border: 2px solid var(--color-gold);
+    border-radius: 30px;
+    color: var(--color-gold) !important;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+}
+
+.editorial-header .editorial-title {
+    font-size: clamp(2.5rem, 8vw, 4rem) !important;
+    color: var(--color-gold) !important;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 2rem;
+    text-shadow: 0 2px 20px rgba(212, 175, 55, 0.3);
+}
+
+.editorial-header p {
+    color: rgba(255, 255, 255, 0.8) !important;
+    font-size: clamp(1rem, 2.5vw, 1.125rem);
+    line-height: 1.8;
+    max-width: 600px;
+    margin: 0 auto;
+    opacity: 1 !important;
+}
+
+/* Philosophy content sections */
+main[style*="max-width: 800px"] {
+    background: var(--color-noir);
+    padding-bottom: 120px;
+}
+
+main[style*="max-width: 800px"] div[style*="border-left"] {
+    border-left: 3px solid var(--color-gold) !important;
+    padding-left: 40px;
+    margin-bottom: 80px;
+}
+
+main[style*="max-width: 800px"] h2 {
+    color: var(--color-gold) !important;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+main[style*="max-width: 800px"] p {
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-size: clamp(1rem, 2.5vw, 1.125rem);
+    line-height: 1.8;
+    opacity: 1 !important;
+}
+
+/* === SELLER REGISTER PAGE === */
+
+.seller-register-hero,
+.partner-application-hero {
+    background: var(--color-noir);
+    color: white;
+    padding: 120px 2rem 60px;
+    text-align: center;
+}
+
+.seller-register-hero h1,
+.partner-application-hero h1 {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    color: white !important;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+}
+
+.seller-register-hero p,
+.partner-application-hero p {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    color: rgba(255, 255, 255, 0.85) !important;
+    line-height: 1.8;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Form sections */
+.form-section {
+    background: white;
+    padding: 3rem 2rem;
+    max-width: 700px;
+    margin: -40px auto 60px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.form-section label {
+    display: block;
+    font-weight: 600;
+    color: var(--color-noir);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.form-section input,
+.form-section textarea,
+.form-section select {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e8e8e8;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+    background: white;
+    color: #333;
+}
+
+.form-section input:focus,
+.form-section textarea:focus,
+.form-section select:focus {
+    border-color: var(--color-gold);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.form-section textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* === ABOUT PAGE CTA SECTION === */
+
+.cta-section {
+    background: var(--color-noir);
+    color: white;
+    padding: 80px 2rem;
+    text-align: center;
+}
+
+.cta-section h2 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: white !important;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+}
+
+.cta-section p {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    color: rgba(255, 255, 255, 0.8) !important;
+    line-height: 1.8;
+    max-width: 600px;
+    margin: 0 auto 2.5rem;
+}
+
+.cta-section .btn {
+    margin: 0.5rem;
+}
+
+/* === MOBILE ADJUSTMENTS === */
+
+@media (max-width: 768px) {
+    .legal-content {
+        padding: 100px 1.5rem 60px;
+    }
+    
+    .legal-content .clause {
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .editorial-header {
+        padding: 100px 1.5rem 40px;
+    }
+    
+    main[style*="max-width: 800px"] div[style*="border-left"] {
+        padding-left: 20px;
+        margin-bottom: 50px;
+    }
+    
+    .form-section {
+        padding: 2rem 1.5rem;
+        margin: -30px 1rem 40px;
+    }
+    
+    .cta-section {
+        padding: 60px 1.5rem;
+    }
+}
+
+/* === PRINT STYLES === */
+
+@media print {
+    .legal-content,
+    .editorial-header,
+    main {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .legal-content h1,
+    .legal-content h3,
+    .editorial-title,
+    h2 {
+        color: black !important;
+    }
+    
+    .legal-content p,
+    .editorial-header p,
+    main p {
+        color: #333 !important;
+    }
+}
+
+/* === ACCESSIBILITY === */
+
+@media (prefers-contrast: high) {
+    .legal-content .clause {
+        border-left-width: 6px;
+    }
+    
+    .editorial-header .editorial-title {
+        text-shadow: none;
+    }
+}
+
+/* === SMOOTH ANIMATIONS === */
+
+.animate-entrance {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* === LUSTRE GOLD CLASS === */
+
+.lustre-gold {
+    background: linear-gradient(135deg, #FFD700, #FFA500, #FFD700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}

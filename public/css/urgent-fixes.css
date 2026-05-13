@@ -1,0 +1,258 @@
+/**
+ * URGENT FIXES - White Space & Text Visibility
+ * Fixes the white space gap and makes "Discover India's Finest Jewelry" visible
+ */
+
+/* === REMOVE WHITE SPACE COMPLETELY === */
+
+/* Force hero sections to start immediately after header */
+.hero-banner,
+.collection-hero,
+.about-hero,
+.problem-hero,
+.philosophy-hero {
+    margin-top: 0 !important;
+    padding-top: 80px !important;
+    position: relative;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .hero-banner,
+    .collection-hero,
+    .about-hero,
+    .problem-hero,
+    .philosophy-hero {
+        margin-top: 0 !important;
+        padding-top: 70px !important;
+    }
+}
+
+/* Remove any spacing from body and main */
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+main {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* === MAXIMUM TEXT VISIBILITY === */
+
+/* Hero title - PURE WHITE with EXTREME shadows */
+.hero-title,
+.hero-banner h1,
+.collection-hero h1 {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+    text-shadow: 
+        /* Outer glow */
+        0 0 80px rgba(0, 0, 0, 1),
+        0 0 60px rgba(0, 0, 0, 1),
+        0 0 40px rgba(0, 0, 0, 1),
+        /* Strong shadows */
+        0 10px 60px rgba(0, 0, 0, 1),
+        0 8px 50px rgba(0, 0, 0, 0.95),
+        0 6px 40px rgba(0, 0, 0, 0.9),
+        0 4px 30px rgba(0, 0, 0, 0.85),
+        0 2px 20px rgba(0, 0, 0, 0.8) !important;
+    -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.4) !important;
+    position: relative !important;
+    z-index: 100 !important;
+    opacity: 1 !important;
+    filter: brightness(1.3) contrast(1.4) drop-shadow(0 0 20px rgba(0, 0, 0, 1)) !important;
+    letter-spacing: 0.02em !important;
+}
+
+/* Hero subtitle - BRIGHT WHITE with strong shadows */
+.hero-subtitle,
+.hero-banner p,
+.collection-hero p {
+    color: #FFFFFF !important;
+    font-weight: 500 !important;
+    text-shadow: 
+        0 0 50px rgba(0, 0, 0, 1),
+        0 6px 40px rgba(0, 0, 0, 1),
+        0 4px 30px rgba(0, 0, 0, 0.95),
+        0 3px 20px rgba(0, 0, 0, 0.9),
+        0 2px 15px rgba(0, 0, 0, 0.85) !important;
+    position: relative !important;
+    z-index: 100 !important;
+    opacity: 1 !important;
+    filter: brightness(1.2) contrast(1.3) !important;
+}
+
+/* Editorial tag - Gold with strong visibility */
+.editorial-tag {
+    color: #FFD700 !important;
+    background: rgba(255, 215, 0, 0.2) !important;
+    border: 2px solid rgba(255, 215, 0, 0.6) !important;
+    text-shadow: 
+        0 0 30px rgba(0, 0, 0, 1),
+        0 4px 20px rgba(0, 0, 0, 0.9) !important;
+    position: relative !important;
+    z-index: 100 !important;
+    font-weight: 600 !important;
+    padding: 8px 20px !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+/* Gold accent text (Chennai) */
+.gold-accent-text {
+    color: #FFD700 !important;
+    font-weight: 700 !important;
+    text-shadow: 
+        0 0 40px rgba(0, 0, 0, 1),
+        0 4px 25px rgba(0, 0, 0, 0.95) !important;
+    filter: brightness(1.3) !important;
+}
+
+/* Hero content container - Ensure it's on top */
+.hero-content,
+.collection-hero-content {
+    position: relative !important;
+    z-index: 100 !important;
+    padding: 3rem 2rem !important;
+}
+
+/* All hero content children */
+.hero-content *,
+.collection-hero-content * {
+    position: relative !important;
+    z-index: 100 !important;
+}
+
+/* === OVERLAY ADJUSTMENTS === */
+
+/* Lighter overlay so text stands out more */
+.hero-banner::after,
+.collection-hero::after,
+.about-hero::after {
+    background: linear-gradient(
+        135deg, 
+        rgba(0, 0, 0, 0.75) 0%, 
+        rgba(30, 30, 30, 0.70) 100%
+    ) !important;
+    z-index: 2 !important;
+}
+
+/* Background image behind overlay */
+.hero-banner::before,
+.collection-hero::before,
+.about-hero::before {
+    z-index: 1 !important;
+}
+
+/* === BUTTONS IN HERO === */
+
+.hero-cta .btn,
+.hero-banner .btn {
+    position: relative !important;
+    z-index: 100 !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4) !important;
+    font-weight: 600 !important;
+}
+
+/* === MOBILE SPECIFIC === */
+
+@media (max-width: 768px) {
+    /* Even stronger text visibility on mobile */
+    .hero-title,
+    .hero-banner h1 {
+        text-shadow: 
+            0 0 100px rgba(0, 0, 0, 1),
+            0 0 80px rgba(0, 0, 0, 1),
+            0 0 60px rgba(0, 0, 0, 1),
+            0 12px 70px rgba(0, 0, 0, 1),
+            0 10px 60px rgba(0, 0, 0, 1),
+            0 8px 50px rgba(0, 0, 0, 0.95) !important;
+        -webkit-text-stroke: 2px rgba(255, 255, 255, 0.5) !important;
+        font-size: clamp(2rem, 8vw, 3.5rem) !important;
+    }
+    
+    .hero-subtitle,
+    .hero-banner p {
+        text-shadow: 
+            0 0 60px rgba(0, 0, 0, 1),
+            0 8px 50px rgba(0, 0, 0, 1),
+            0 6px 40px rgba(0, 0, 0, 0.95) !important;
+        font-size: clamp(1rem, 4vw, 1.25rem) !important;
+    }
+    
+    /* Adjust hero content padding */
+    .hero-content,
+    .collection-hero-content {
+        padding: 2rem 1.5rem !important;
+    }
+}
+
+/* === FORCE VISIBILITY === */
+
+/* Ensure nothing is hidden */
+.hero-title,
+.hero-subtitle,
+.editorial-tag,
+.hero-content {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* === HIGH CONTRAST MODE === */
+
+@media (prefers-contrast: high) {
+    .hero-title,
+    .hero-subtitle {
+        text-shadow: 
+            0 0 100px rgba(0, 0, 0, 1),
+            0 0 80px rgba(0, 0, 0, 1),
+            0 0 60px rgba(0, 0, 0, 1) !important;
+        -webkit-text-stroke: 2px rgba(255, 255, 255, 0.6) !important;
+    }
+}
+
+/* === REMOVE ANY GAPS === */
+
+/* Remove default margins that create gaps */
+* {
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
+/* First child of body should have no margin */
+body > *:first-child {
+    margin-top: 0 !important;
+}
+
+/* Navigation should be flush with top */
+.std-nav {
+    margin-top: 0 !important;
+    top: 0 !important;
+}
+
+/* === ENSURE PROPER STACKING === */
+
+/* Navigation layer */
+.std-nav {
+    z-index: 1000 !important;
+}
+
+/* Hero background */
+.hero-banner,
+.collection-hero {
+    z-index: 1 !important;
+}
+
+/* Hero overlay */
+.hero-banner::after,
+.collection-hero::after {
+    z-index: 2 !important;
+}
+
+/* Hero content on top */
+.hero-content,
+.collection-hero-content {
+    z-index: 100 !important;
+}

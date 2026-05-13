@@ -40,6 +40,10 @@
     <link rel="icon" type="image/png" href="/assets/favicon.png">
     <script src="/js/mobile-menu.js"></script>
     <script src="/js/universal-header.js"></script>
+    <link rel="stylesheet" href="/css/hide-inline-filters.css">
+    <link rel="stylesheet" href="/css/clean-layout-fix.css">
+    <link rel="stylesheet" href="/css/urgent-fixes.css">
+    <link rel="stylesheet" href="/css/legal-pages-fix.css">
 </head>
 
 <body>
@@ -195,53 +199,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-<div class="filter-sidebar-content">
-            <div class="filter-group">
-                <label>Category</label>
-                <select id="categoryFilter" class="filter-select" onchange="fetchDesigns()">
-                    <option value="">All Categories</option>
-                    <option value="Necklace">Necklaces</option>
-                    <option value="Rings">Rings</option>
-                    <option value="Bangle">Bangles</option>
-                    <option value="Earrings">Earrings</option>
-                    <option value="Bracelet">Bracelets</option>
-                </select>
-            </div>
-            
-            <div class="filter-group">
-                <label>Budget</label>
-                <select id="budgetFilter" class="filter-select" onchange="fetchDesigns()">
-                    <option value="">All Budgets</option>
-                    <option value="50000">Under ₹50k</option>
-                    <option value="100000">Under ₹1L</option>
-                    <option value="300000">Under ₹3L</option>
-                    <option value="500000">Under ₹5L</option>
-                </select>
-            </div>
-            
-            <div class="filter-group">
-                <label>Weight</label>
-                <select id="weightFilter" class="filter-select" onchange="fetchDesigns()">
-                    <option value="">Any Weight</option>
-                    <option value="10">Under 10g</option>
-                    <option value="30">Under 30g</option>
-                    <option value="50">Under 50g</option>
-                    <option value="100">Under 100g</option>
-                </select>
-            </div>
-            
-            <button class="btn btn-primary btn-block" onclick="fetchDesigns(); toggleFilters();">
-                Apply Filters
-            </button>
-            
-            <button class="btn btn-outline btn-block" onclick="resetFilters()">
-                Reset All
-            </button>
-        </div>
-    </div>
-    
-    <!-- Filter Overlay -->
-    <div class="filter-overlay" id="filterOverlay" onclick="toggleFilters()"></div>
 
     <!-- Enhanced Hero Section -->
     <section class="hero-banner">
@@ -652,9 +609,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="footer-grid">
                 <div class="footer-col">
                     <h4>Platform</h4>
-                    <ul>
-                        <li><a href="/collection">Discover Collection</a></li>
-                        <li><a href="/how-it-works">How It Works</a></li>
+                    <ul>                        <li><a href="/how-it-works">How It Works</a></li>
                         <li><a href="/problem">Problem We Solve</a></li>
                         <li><a href="/philosophy">Our Philosophy</a></li>
                         <li><a href="/about">About Heavy Drops</a></li>
