@@ -1,0 +1,407 @@
+/**
+ * Gradient Hero Styles - Professional Page Headers
+ * Applies beautiful gradient text and professional styling to all pages
+ */
+
+/* === HERO SECTION WITH GRADIENT TEXT === */
+
+.gradient-hero,
+.legal-hero,
+.partner-hero,
+.policy-hero {
+    position: relative;
+    min-height: 40vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(135deg, #0A0A0A 0%, #2a2a2a 100%);
+    color: white;
+    overflow: hidden;
+    margin-top: 0;
+    padding-top: 140px;
+    padding-bottom: 4rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+/* Background image overlay */
+.gradient-hero::before,
+.legal-hero::before,
+.partner-hero::before,
+.policy-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=2070&h=800&fit=crop&q=80') center/cover;
+    opacity: 0.08;
+    z-index: 1;
+}
+
+/* Dark overlay */
+.gradient-hero::after,
+.legal-hero::after,
+.partner-hero::after,
+.policy-hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(10, 10, 10, 0.92) 0%, rgba(42, 42, 42, 0.88) 100%);
+    z-index: 2;
+}
+
+/* Hero content container */
+.gradient-hero-content,
+.legal-hero-content,
+.partner-hero-content,
+.policy-hero-content {
+    position: relative;
+    z-index: 10;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* === GRADIENT TEXT STYLING === */
+
+/* Main title with gradient */
+.gradient-hero h1,
+.legal-hero h1,
+.partner-hero h1,
+.policy-hero h1,
+.gradient-title {
+    font-size: clamp(2.5rem, 6vw, 4rem) !important;
+    font-weight: 700 !important;
+    margin-bottom: 1.5rem !important;
+    background: linear-gradient(135deg, white 0%, var(--color-gold-light) 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    line-height: 1.2 !important;
+    position: relative;
+    z-index: 10;
+}
+
+/* Subtitle text */
+.gradient-hero p,
+.legal-hero p,
+.partner-hero p,
+.policy-hero p {
+    font-size: clamp(1rem, 2vw, 1.25rem) !important;
+    opacity: 1 !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+    line-height: 1.8 !important;
+    max-width: 650px;
+    margin: 0 auto !important;
+    position: relative;
+    z-index: 10;
+}
+
+/* === TAG/BADGE STYLING === */
+
+.gradient-tag,
+.policy-tag,
+.partner-tag {
+    display: inline-block;
+    padding: 10px 24px;
+    background: rgba(212, 175, 55, 0.15);
+    border: 2px solid var(--color-gold);
+    border-radius: 50px;
+    color: var(--color-gold) !important;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 10;
+    backdrop-filter: blur(10px);
+}
+
+/* === CONTENT SECTIONS === */
+
+.gradient-content,
+.policy-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+    background: white;
+}
+
+.gradient-content h2,
+.policy-content h2 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    color: var(--color-noir);
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--color-gold);
+    position: relative;
+}
+
+.gradient-content h2::before,
+.policy-content h2::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background: var(--color-gold);
+}
+
+.gradient-content p,
+.policy-content p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 1.5rem;
+}
+
+.gradient-content strong,
+.policy-content strong {
+    color: var(--color-noir);
+    font-weight: 600;
+}
+
+/* === CARD STYLING === */
+
+.gradient-card,
+.policy-card {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.05), rgba(212, 175, 55, 0.02));
+    border-left: 4px solid var(--color-gold);
+    padding: 2rem;
+    margin: 2rem 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.gradient-card h2,
+.policy-card h2 {
+    margin-top: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.gradient-card h2::before,
+.policy-card h2::before {
+    display: none;
+}
+
+/* === FORM STYLING ON DARK BACKGROUND === */
+
+.dark-form-container {
+    max-width: 700px;
+    margin: -60px auto 0;
+    padding: 0 2rem 80px;
+    position: relative;
+    z-index: 10;
+}
+
+.dark-form {
+    background: rgba(42, 42, 42, 0.95);
+    padding: 3rem;
+    border-radius: 12px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.dark-form label {
+    display: block;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+}
+
+.dark-form input,
+.dark-form textarea,
+.dark-form select {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 16px 18px;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+    font-family: var(--font-body);
+}
+
+.dark-form input:focus,
+.dark-form textarea:focus,
+.dark-form select:focus {
+    border-color: var(--color-gold);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.dark-form input::placeholder,
+.dark-form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.dark-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.dark-form button[type="submit"] {
+    width: 100%;
+    background: var(--color-gold);
+    color: var(--color-noir);
+    padding: 16px 32px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dark-form button[type="submit"]:hover {
+    background: var(--color-gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+}
+
+/* === MOBILE ADJUSTMENTS === */
+
+@media (max-width: 768px) {
+    .gradient-hero,
+    .legal-hero,
+    .partner-hero,
+    .policy-hero {
+        min-height: 50vh;
+        padding-top: 120px;
+        padding-bottom: 3rem;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+    
+    .gradient-hero h1,
+    .legal-hero h1,
+    .partner-hero h1,
+    .policy-hero h1,
+    .gradient-title {
+        font-size: clamp(2rem, 8vw, 3rem) !important;
+        margin-bottom: 1.25rem !important;
+    }
+    
+    .gradient-hero p,
+    .legal-hero p,
+    .partner-hero p,
+    .policy-hero p {
+        font-size: clamp(0.95rem, 3vw, 1.125rem) !important;
+    }
+    
+    .gradient-tag,
+    .policy-tag,
+    .partner-tag {
+        padding: 8px 18px;
+        font-size: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .gradient-content,
+    .policy-content {
+        padding: 3rem 1.5rem;
+    }
+    
+    .dark-form-container {
+        padding: 0 1.5rem 60px;
+        margin-top: -40px;
+    }
+    
+    .dark-form {
+        padding: 2rem 1.5rem;
+    }
+    
+    .gradient-card,
+    .policy-card {
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+    }
+}
+
+/* === ANIMATIONS === */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+/* === ACCESSIBILITY === */
+
+@media (prefers-reduced-motion: reduce) {
+    .animate-fade-in {
+        animation: none;
+    }
+}
+
+@media (prefers-contrast: high) {
+    .gradient-hero h1,
+    .legal-hero h1,
+    .partner-hero h1,
+    .policy-hero h1 {
+        -webkit-text-fill-color: white;
+        background: none;
+    }
+    
+    .gradient-tag,
+    .policy-tag,
+    .partner-tag {
+        background: var(--color-gold);
+        color: var(--color-noir) !important;
+    }
+}
+
+/* === PRINT STYLES === */
+
+@media print {
+    .gradient-hero,
+    .legal-hero,
+    .partner-hero,
+    .policy-hero {
+        background: white;
+        color: black;
+        min-height: auto;
+        padding: 2rem;
+    }
+    
+    .gradient-hero::before,
+    .gradient-hero::after,
+    .legal-hero::before,
+    .legal-hero::after {
+        display: none;
+    }
+    
+    .gradient-hero h1,
+    .legal-hero h1 {
+        -webkit-text-fill-color: black;
+        background: none;
+    }
+}

@@ -44,6 +44,7 @@
     <link rel="stylesheet" href="/css/clean-layout-fix.css">
     <link rel="stylesheet" href="/css/urgent-fixes.css">
     <link rel="stylesheet" href="/css/legal-pages-fix.css">
+    <link rel="stylesheet" href="/css/gradient-hero-styles.css">
 </head>
 
 <body style="background: var(--color-noir); color: var(--color-ivory);">
@@ -201,49 +202,39 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-<div class="container" style="max-width: 600px; padding: 100px 0;">
-        <h1 class="editorial-title" style="color: var(--color-gold); font-size: 2.5rem; margin-bottom: 20px;">Partner
-            Application</h1>
-        <p style="opacity: 0.7; margin-bottom: 40px; line-height: 1.8;">
-            Heavy Drops is a curated discovery network. We only partner with jewellers who maintain the highest
-            standards of craft and transparency. Apply to list your collection.
-        </p>
-
-        <form id="sellerRegisterForm"
-            style="background: var(--color-gray-dark); padding: 40px; border-radius: var(--radius-sm);">
-            <div style="margin-bottom: 25px;">
-                <label
-                    style="display: block; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px; opacity: 0.6;">Business
-                    Name</label>
-                <input type="text" id="businessName" placeholder="e.g., Royal Artisans" required
-                    style="width: 100%; background: transparent; border: 1px solid rgba(255,255,255,0.1); color: white; padding: 15px; border-radius: 4px;">
-            </div>
-            <div style="margin-bottom: 25px;">
-                <label
-                    style="display: block; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px; opacity: 0.6;">Corporate
-                    Email</label>
-                <input type="email" id="email" placeholder="contact@business.com" required
-                    style="width: 100%; background: transparent; border: 1px solid rgba(255,255,255,0.1); color: white; padding: 15px; border-radius: 4px;">
-            </div>
-            <div style="margin-bottom: 25px;">
-                <label
-                    style="display: block; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px; opacity: 0.6;">Service
-                    City</label>
-                <input type="text" id="city" placeholder="e.g., Chennai" required
-                    style="width: 100%; background: transparent; border: 1px solid rgba(255,255,255,0.1); color: white; padding: 15px; border-radius: 4px;">
-            </div>
-            <div style="margin-bottom: 35px;">
-                <label
-                    style="display: block; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px; opacity: 0.6;">Brand
-                    Story (Curation Summary)</label>
-                <textarea id="brandStory" placeholder="Describe your heritage and quality standards..."
-                    style="width: 100%; background: transparent; border: 1px solid rgba(255,255,255,0.1); color: white; padding: 15px; border-radius: 4px; height: 100px; font-family: inherit;"></textarea>
-            </div>
-
-            <button type="submit" class="btn-primary"
-                style="width: 100%; background: var(--color-gold); color: var(--color-noir);">Submit for Audit</button>
-        </form>
+<div class="partner-hero">
+    <div class="partner-hero-content animate-fade-in">
+        <span class="partner-tag">PARTNERSHIP PROGRAM</span>
+        <h1>Partner Application</h1>
+        <p>Heavy Drops is a curated discovery network. We only partner with jewellers who maintain the highest standards of craft and transparency. Apply to list your collection.</p>
     </div>
+</div>
+
+<div class="dark-form-container">
+    <form id="sellerRegisterForm" class="dark-form">
+        <div>
+            <label for="businessName">Business Name</label>
+            <input type="text" id="businessName" placeholder="e.g., Royal Artisans" required>
+        </div>
+        
+        <div>
+            <label for="email">Corporate Email</label>
+            <input type="email" id="email" placeholder="contact@business.com" required>
+        </div>
+        
+        <div>
+            <label for="city">Service City</label>
+            <input type="text" id="city" placeholder="e.g., Chennai" required>
+        </div>
+        
+        <div>
+            <label for="brandStory">Brand Story (Curation Summary)</label>
+            <textarea id="brandStory" placeholder="Describe your heritage and quality standards..." required></textarea>
+        </div>
+
+        <button type="submit">Submit for Audit</button>
+    </form>
+</div>
 
     
         
